@@ -27,7 +27,7 @@ function ProductAdTable(props: Props) {
                     <tr key={product._id}>
                         <td>{index + 1}</td>
                         <td>{product.name}</td>
-                        <td className = "text-end">{product.price}</td>
+                        <td className = "text-end">{product.price},000</td>
                         <td>{product.unit}</td>
                         <td>{product.origin}</td>
                         <td>{product.material}</td>

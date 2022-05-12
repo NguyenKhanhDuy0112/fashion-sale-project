@@ -146,6 +146,7 @@ function CouponAdModal(props: ModalShow) {
                         err={formik.touched.name && formik.errors.name}
                         errMessage={formik.errors.name}
                         input={true}
+                        type = "date"
                     />
                     <InputAdmin
                         placeholder="Giảm giá..."
