@@ -1,0 +1,300 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Roboto", "Aprial", sans-serif;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+.container-admin {
+    padding: 0 0.8rem;
+
+    @include responsive(md-screen) {
+        padding: 0 1.2rem;
+    }
+
+    @include responsive(lg-screen) {
+        padding: 0 1.5rem;
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    bottom: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transition: all ease 0.3s;
+    &.active {
+        opacity: 1;
+        display: block;
+
+        @include responsive(lg-screen) {
+            display: none;
+            opacity: 0;
+        }
+    }
+}
+
+.overlay-client {
+    @include position(fixed, 0, 0, 0, 0);
+    display: none;
+    bottom: 0;
+    z-index: 15;
+    background-color: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transition: all ease 0.3s;
+    &.active {
+        opacity: 1;
+        display: block;
+    }
+}
+.overlay-input {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    bottom: 0;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transition: all ease 0.3s;
+    &.active {
+        opacity: 1;
+        display: block;
+    }
+}
+
+.admin__body {
+    margin-top: 80px;
+    margin-bottom: 1.5rem;
+    min-height: 100vh;
+    background-color: #fbfbfb;
+    transition: all ease-in-out 0.3s;
+    margin-left: 0;
+
+    @include responsive(lg-screen) {
+        margin-left: 5rem;
+    }
+
+    &.active {
+        margin-left: 0;
+
+        @include responsive(lg-screen) {
+            margin-left: 16rem;
+        }
+    }
+}
+
+.client__body {
+    background-color: $bg-container;
+}
+
+.border-radius-20 {
+    border-radius: 20px;
+}
+
+.container-client {
+    padding: 0 0.5rem;
+
+    &.none {
+        padding: 0;
+    }
+
+    @include responsive(md-screen) {
+        padding: 0 1rem;
+
+        &.none {
+            padding: 0rem;
+        }
+    }
+
+    @include responsive(xxl-screen) {
+        padding: 0 7rem;
+
+        &.none {
+            padding: 0 7rem;
+        }
+    }
+}
+
+.border-ad-b {
+    border-bottom: 1px solid $ad-border;
+}
+
+.title-admin {
+    padding: 1.5rem 0;
+    font-weight: 600;
+}
+
+.bg-ad-primary {
+    background-color: $ad-primary;
+}
+
+.text-ad {
+    color: $ad-primary;
+}
+.btn-add {
+    border: none;
+    outline: none;
+    height: 100%;
+    background-color: $ad-primary;
+    width: 100%;
+    color: white;
+    font-size: 0.94rem;
+    border-radius: 7px;
+
+    &:hover {
+        color: white;
+        background-color: #ed4313;
+    }
+}
+.btn-edit {
+    opacity: 0.5;
+    transition: all ease-in-out 0.2s;
+    &:hover {
+        opacity: 1;
+        color: green;
+    }
+}
+.btn-delete {
+    opacity: 0.5;
+    transition: all ease-in-out 0.2s;
+    &:hover {
+        opacity: 1;
+        color: red;
+    }
+}
+.btn-ad-primary {
+    background-color: $ad-primary;
+
+    &:disabled {
+        opacity: 0.7;
+        background-color: $ad-primary !important;
+    }
+
+    &:active {
+        color: white !important;
+        background-color: #ed4313 !important;
+    }
+    &:focus {
+        color: white !important;
+        background-color: #ed4313 !important;
+    }
+    &:hover {
+        color: white !important;
+        background-color: #ed4313 !important;
+    }
+}
+
+.border-radius-4 {
+    border-radius: 4px;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+.modal__text-head {
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+.modal__text-sub {
+    font-size: 0.9rem;
+}
+.modal__btn-cancel {
+    background-color: #e5e7eb;
+    font-size: 0.9rem;
+}
+.modal__btn-delete {
+    font-size: 0.9rem;
+}
+.modal__body-ad {
+
+}
+
+input[type="date"]::before {
+    color: #999;
+    content: attr(placeholder) ": ";
+}
+input[type="date"]:focus::before {
+    content: "" !important;
+}
+
+.react-tag-input {
+    background-color: #f4f5f7 !important;
+    padding: 0.3rem 0.5rem !important;
+    border: 1px solid #e5e7eb !important;
+    width: 100% !important;
+    outline: none !important;
+    line-height: 1.25rem !important;
+    border-radius: 0.375rem !important; 
+
+    &:focus{
+        background-color: #fff;
+    }
+}
+
+.react-tag-input__input {
+
+
+    &::placeholder{
+        font-size: 0.87rem;
+        color: rgb(160,174,192);
+    }
+
+}
+
+.productAdModal__detail{
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    &-close{
+        position: absolute;
+        @include flex-center();
+        background-color: $ad-primary-sub;
+        top: -5%;
+        color: $ad-primary;
+        right: -1%;
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: all ease .3s;
+
+        &:hover{
+            background-color: $ad-primary;
+            color: white;
+        }
+
+    }
+
+}
+
+

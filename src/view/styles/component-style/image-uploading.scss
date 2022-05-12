@@ -1,0 +1,42 @@
+.imageUploading{
+
+    &__image{
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    &__add{
+        background-color: $ad-primary;
+        border-radius: 50%;
+        border: none;
+        outline: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        max-height: 25px;
+        max-width: 25px;
+    }
+
+    &__delete{
+        @include position (absolute, -5%, -5%, none, none);
+        @include flex-center();
+        border: none;
+        outline: none;
+        border-radius: 50%;
+        font-weight: 600;
+        color: #000;
+        background-color: #ccc;
+        max-height: 25px;
+        max-width: 25px;
+        padding: 5px;
+        transition: all ease-in .3s;
+        &:hover{
+            background-color: rgb(177, 168, 168);
+        }
+        
+        
+    }
+}

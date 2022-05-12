@@ -1,0 +1,41 @@
+.footerClient {
+    background-color: white;
+    padding: 20px 0;
+
+    &__title {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+    }
+    &__list {
+        margin: 0;
+        padding: 0;
+    }
+    &__top{
+        padding-bottom: 10px;
+        border-bottom: 1px solid $color-border;
+    }
+    &__bottom{
+        padding-top: 10px;
+
+        &-text{
+            color: $color-sub;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+        }
+    }
+    &__item {
+        margin: 5px 0;
+        &-link {
+            font-size: 0.8rem;
+            color: $color-sub;
+            &:hover {
+                color: $color-sub;
+            }
+        }
+        &:hover{
+            color: $color-sub;
+            text-decoration: underline;
+        }
+        
+    }
+}

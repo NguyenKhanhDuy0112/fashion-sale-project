@@ -1,0 +1,160 @@
+.productSale {
+    border: none;
+    border-radius: 0px !important;
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    &__swiper{
+
+        & > .swiper-button-next{
+
+
+            &::after{
+                font-size: 0.8rem;
+                color: #000;
+                font-weight: 600;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0,0,0 ,0.1);
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                @include flex-center();
+            }
+        }
+        & > .swiper-button-prev{
+            
+            &::after{
+                font-size: 0.8rem;
+                color: #000;
+                font-weight: 600;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0,0,0 ,0.1);
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                @include flex-center();
+            }
+        }
+    }
+    
+
+    &__body {
+        padding: 0;
+    }
+
+    &__img{
+        object-fit: cover;
+    }
+
+    &__img-sub{
+        width: 100%;
+        border: 1px solid transparent;
+
+        &.active{
+            border: 1px solid rgb(253, 130, 10);
+        }
+    }
+
+    &__title {
+        position: relative;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-height: 40px;
+        margin: 0px;
+        width: 100%;
+        color: rgb(36, 36, 36);
+        font-size: 0.8rem;
+        font-weight: 400;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        text-align: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-break: break-word;
+    }
+
+    &__price-current {
+        font-size: 1rem;
+        line-height: 24px;
+        font-weight: 500;
+        color: $color-red;
+        margin-top: 2px;
+    }
+
+    &__discount {
+        padding: 0px 2px;
+        line-height: 14px;
+        font-size: 0.7rem;
+        font-weight: 400;
+        margin-left: 8px;
+        margin-bottom: 0;
+        height: 80%;
+        @include flex-center();
+        border: 1px solid $color-red;
+        border-radius: 2px;
+        background-color: $color-pink-sub;
+        color: $color-red;
+    }
+
+    &__border-distance {
+        width: 1px;
+        height: 10px;
+        background-color: rgb(199, 199, 199);
+        margin-left: 6px;
+        margin-right: 6px;
+    }
+
+    &__sold {
+        font-size: 11px;
+        color: rgb(120, 120, 120);
+       
+    }
+
+    &__price-old {
+        font-size: 0.78rem;
+        line-height: 16px;
+        color: $color-sub;
+        text-decoration: line-through;
+    }
+
+    &__progress {
+        background-color: $color-red-sub;
+        height: 20px;
+        position: relative;
+        border-radius: 10px;
+
+        &-percent {
+            @include position(absolute, 0, none, none, 0);
+            height: 20px;
+            background-color: $color-red;
+            min-width: 20px;
+            border-radius: 10px;
+            height: 20px;
+            z-index: 1;
+        }
+        &-data {
+            @include position(absolute, 0, 0, 0, 0);
+            font-size: 0.72rem;
+            height: 100%;
+            z-index: 3;
+            margin: 0;
+            color: white;
+            @include flex-center();
+        }
+
+        &-fire {
+            z-index: 10;
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            bottom: 4px;
+            left: 5px;
+        }
+    }
+}

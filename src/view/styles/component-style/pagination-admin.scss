@@ -1,0 +1,32 @@
+.paginationAdmin{
+    background-color: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 0 0 10px 10px;
+    &__text{
+        font-size: 0.8rem;
+        font-weight: 600;
+        opacity: 0.9;
+    }
+    &__list{
+        &-item{
+            &-btn{
+                border: none;
+                outline: none;
+                display: inline-block;
+                background-color: transparent;
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+                border-radius: 5px;
+                color: $ad-color-text;
+                &:hover{
+                    background-color: #f1f2f7;
+                }
+                &.active{
+                    background-color: $ad-primary;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

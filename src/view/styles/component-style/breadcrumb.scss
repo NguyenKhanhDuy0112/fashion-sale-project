@@ -1,0 +1,26 @@
+.breadcrumb{
+
+    &__list{
+        display: flex;
+        align-items: center;
+        &-item{
+
+            &-link{
+                color: $color-sub;
+                font-weight: 300;
+                font-size: 0.95rem;
+
+                &:hover{
+                    text-decoration: underline;
+                    color: $color-sub;
+                }
+
+                &.active{
+                    text-decoration: none;
+                    color: $color-sub;
+                    cursor: default;
+                }
+            }
+        }
+    }
+}

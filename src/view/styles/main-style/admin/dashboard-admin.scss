@@ -1,0 +1,24 @@
+.dashboardAdmin{
+
+    &__general{
+        border-radius: 1.75rem;
+        background-color: #fff;
+        padding: 1.5rem;
+        box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
+
+        &-data{
+
+            &-text{
+                color: $ad-text-head;
+            }
+        }
+
+        &-icon{
+            @include flex-center();
+            border-radius: 20px;
+            padding: 1.2rem;
+            background-color: $ad-primary;
+            color: white;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "_id": "pro_001",
+    "name": "Áo thun nam",
+    "price": 1200,
+    "origin": "America",
+    "material": "Cotton",
+    "category": "627909f9f35e6c9893a13780",
+    "productDetail":[
+        {
+            "_id": "62790cf3603cfaced1f5d9ce",
+            "size": "XL",
+            "color": "Đỏ",
+            "images": [
+                "https://media.istockphoto.com/photos/confident-environmentalists-showing-thumbs-up-picture-id1351440440?b=1&k=20&m=1351440440&s=170667a&w=0&h=sT5tID6Jv6ahSKhfoO2Qi0N5CWOW2V0cu2Sq_i11ZZo=",
+                "https://media.istockphoto.com/photos/portrait-of-smiling-businesswoman-standing-at-entrance-in-office-picture-id1382447248?b=1&k=20&m=1382447248&s=170667a&w=0&h=5i34nM7VOYvlzRlqzPE7ZNy2XH56o0qeW_sZKlyeSTE="
+            ] 
+        },
+        {
+            "_id": "62791506ca8a3578b6a8f7c4",
+            "size": "M",
+            "color": "Đỏ",
+            "images": [
+                "https://media.istockphoto.com/photos/confident-environmentalists-showing-thumbs-up-picture-id1351440440?b=1&k=20&m=1351440440&s=170667a&w=0&h=sT5tID6Jv6ahSKhfoO2Qi0N5CWOW2V0cu2Sq_i11ZZo=",
+                "https://media.istockphoto.com/photos/portrait-of-smiling-businesswoman-standing-at-entrance-in-office-picture-id1382447248?b=1&k=20&m=1382447248&s=170667a&w=0&h=5i34nM7VOYvlzRlqzPE7ZNy2XH56o0qeW_sZKlyeSTE="
+            ] 
+        }
+    ]
+}

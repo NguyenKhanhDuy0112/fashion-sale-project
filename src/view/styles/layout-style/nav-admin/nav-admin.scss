@@ -1,0 +1,73 @@
+.navAdmin {
+    background-color: white;
+    width: 300px;
+    z-index: 15;
+    transform: translateX(-100%);
+    box-shadow: 0 1.25rem 1.875rem 0 rgb(0, 0, 0, 0.02);
+    transition: all ease-in-out 0.3s;
+    @include position(fixed, 0, auto, 0, 0);
+
+    @include responsive(lg-screen) {
+        width: 5rem;
+        transform: translate(0);
+    }
+
+    &:hover {
+        width: 300px;
+
+        @include responsive(lg-screen) {
+            width: 16rem;
+        }
+    }
+
+    &:hover &__head-text {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0) scale(1);
+    }
+
+    &:hover .linkAdmin__item-text{
+        opacity: 1;
+        visibility: visible;
+        transform: translate(0) scale(1);
+    }
+
+    &.active {
+        transform: translateX(0);
+
+        @include responsive(lg-screen) {
+            width: 16rem;
+        }
+    }
+
+    &__head {
+        height: 80px;
+
+        &.active {
+            width: 300px;
+
+            @include responsive(lg-screen) {
+                width: 16rem;
+            }
+        }
+
+        &-icon {
+            background-color: $ad-primary;
+            border-radius: 17px;
+        }
+        &-text {
+            visibility: hidden;
+            opacity: 0;
+            transform: translateX(-90%) scale(0);
+            transition: all ease-in-out 0.3s;
+
+            &.active {
+                visibility: visible;
+                opacity: 1;
+               
+                transform: translateX(0) scale(1);
+                transition: all ease-in-out 0.3s;
+            }
+        }
+    }
+}

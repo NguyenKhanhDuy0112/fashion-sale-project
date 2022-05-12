@@ -1,0 +1,33 @@
+.shop {
+    background-color: #fff;
+    
+    &__sidebar {
+        &-title {
+            margin: 0px;
+            line-height: 20px;
+            display: block;
+            color: rgb(36, 36, 36);
+            font-size: 13px;
+            padding: 14px 0px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        &-address {
+            text-decoration: underline;
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &-change {
+                color: $color-blue;
+                font-size: 13px;
+                line-height: 20px;
+                font-weight: 500;
+                flex-shrink: 0;
+                cursor: pointer;
+            }
+        }
+    }
+}

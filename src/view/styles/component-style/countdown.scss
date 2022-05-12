@@ -1,0 +1,28 @@
+.countdown {
+    @include flex-center();
+
+    &__number {
+        font-size: 0.96rem;
+        font-weight: 500;
+        line-height: 1.6;
+        margin: 0px 4px;
+        padding: 0px 3px;
+        min-width: 18px;
+        @include flex-center();
+        background-color: $color-red;
+        border-radius: 4px;
+        color: white;
+        min-height: 12px;
+
+        @include responsive (xxl-screen){
+            min-width: 25px;
+        }
+    }
+    &__distance {
+        color: $color-sub;
+        font-size: 0.96rem;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+    }
+}

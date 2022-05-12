@@ -1,0 +1,42 @@
+//reset bootstrap
+.form-control:focus {
+    box-shadow: none !important;
+}
+.btn{
+	border:none !important;
+}
+.btn:focus{
+    box-shadow: none !important;
+}
+.btn-close{
+	border:none !important;
+
+    &:focus{
+        box-shadow: none !important;
+    }
+}
+
+.dropdown{
+
+    &-toggle{
+        &::after{
+            display: none !important;
+        }
+    }
+    &-menu{
+        display: block;
+        visibility: hidden;
+        padding: 0;
+        opacity: 0;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 0 3.125rem 0 rgba(82, 63, 105, 0.15);
+        transition: all ease-in-out .3s;
+
+        &.show{
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}
