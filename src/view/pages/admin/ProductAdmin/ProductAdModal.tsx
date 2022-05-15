@@ -1,18 +1,21 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import { FiTrash2 } from "react-icons/fi";
-import * as Yup from "yup"
+import * as Yup from "yup";
 import ImageUploading from "../../../../shared/components/ImageUploading";
 import InputAdmin from "../../../../shared/components/InputAdmin";
 import { Category, Product, ProductDetail } from "../../../../shared/interfaces";
-import { toast } from "react-toastify"
 import productsService from "../../../../services/productService";
 import { handleCreateImage } from "../../../../shared/helpers";
 import categoriesService from "../../../../services/categoriesService";
 import ReactTagInput from "@pathofdev/react-tag-input";
 import { IoMdClose } from "react-icons/io";
-
+import Editor from "../../../../shared/components/Editor";
+import { BsPencil } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { showToast } from "../../../../modules/toast/toastSlice";
+import productDetailsService from "../../../../services/productDetailsService";
 
 interface ModalShow {
     show: boolean,
@@ -26,6 +29,9 @@ interface ModalShow {
 function ProductAdModal(props: ModalShow) {
     const { show, handleClose, product, onLoadData, onModalDelete, showModalDelete } = props
     const [categories, setCategories] = useState<Category[]>()
+    const [showToolbar, setShowToolbar] = useState(false)
+    const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         handleLoadCategories()
@@ -33,7 +39,7 @@ function ProductAdModal(props: ModalShow) {
 
     const handleLoadCategories = async () => {
         const categoriesData = await categoriesService.list()
-        setCategories(categoriesData)
+        setCategories(categoriesData.data)
     }
 
     useEffect(() => {
@@ -46,37 +52,18 @@ function ProductAdModal(props: ModalShow) {
                 origin: '',
                 unit: '',
                 category: undefined,
-                price: undefined,
-                productDetails: [{
-                    _id: '',
-                    color: '',
-                    size: [],
-                    images: [],
-                }]
+                price: 0,
+                productDetails: []
             })
+
         }
         else {
-            formik.setValues({
-                _id: '',
-                description: '',
-                material: '',
-                name: '',
-                origin: '',
-                unit: '',
-                category: undefined,
-                price: undefined,
-                productDetails: [{
-                    _id: '',
-                    color: '',
-                    size: [],
-                    images: [],
-                }]
-            })
+            formik.resetForm()
+            formik.setFieldValue('productDetails', [])
+
         }
+        setShowToolbar(false)
     }, [product])
-
-
-
 
     const formik = useFormik<Product>({
         initialValues: {
@@ -87,19 +74,14 @@ function ProductAdModal(props: ModalShow) {
             origin: '',
             unit: '',
             rating: 0,
-            category: undefined,
-            price: undefined,
-            productDetails: [{
-                _id: '',
-                color: '',
-                size: [],
-                images: [],
-            }]
+            category: '',
+            price: 0,
+            productDetails: []
         },
         validationSchema: Yup.object({
             _id: Yup.string(),
             name: Yup.string().required("Tên không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
-            description: Yup.string().required("Mô tả không được để trống."),
+            description: Yup.string().required('Mô tả không được để trống.'),
             material: Yup.string().required("Chất liệu không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             origin: Yup.string().required("Xuất xứ không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             unit: Yup.string().required("Đơn vị không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
@@ -112,65 +94,110 @@ function ProductAdModal(props: ModalShow) {
     })
 
     const handleSubmitForm = async (value: any) => {
-        const images: string[] = []
-        value.image.forEach(async (img: any, index: number) => {
-            if (img.file) {
-                const imageURL = await handleCreateImage(value.image[0].file)
-                if (imageURL) images.push(imageURL.data.url)
-            }
-            else {
-                images.push(img.dataURL)
-            }
+        setIsLoading(true)
+        const proDetail: any = []
+        const { _id, productDetails, rating, ...others } = value
+        if (value._id === '') {
+            try {
+                const pro = await productsService.add({ ...others, })
+                if (pro) {
+                    await value.productDetails.forEach(async (proDe: any, indexParent: number) => {
+                        const imageSub: any = []
+                        await proDe.images.forEach(async (img: any, index: Number) => {
+                            const image = await handleCreateImage(img.file)
+                            await imageSub.push(image.data.url)
 
-            if (index === value.image.length - 1) {
-
-                const { _id, ...others } = value
-
-                if (value._id) {
-                    try {
-                        await productsService.update(_id, { ...others })
-                        toast.success('Cập nhật sản phẩm thành công!')
-                        onLoadData()
-                    } catch (err) {
-                        toast.error('Cập nhật sản phẩm thất bại!')
-                    }
+                            if (index === proDe.images.length - 1) {
+                                await proDe.size.forEach(async (size: string, idx: number) => {
+                                    const [thumnail, ...imageOther] = imageSub
+                                    proDetail.push({ product: pro._id, color: proDe.color, image: thumnail, 'images-sub': [...imageOther], size: size })
+                                    if (idx === proDe.size.length - 1 && indexParent === value.productDetails.length - 1) {
+                                        console.log("ProductDetail: ", proDetail)
+                                        await productDetailsService.add(proDetail)
+                                        await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
+                                        await setIsLoading(false)
+                                        handleClose()
+                                    }
+                                });
+                            }
+                        });
+                    });
+                    await onLoadData()
                 }
-                else {
-                    try {
-                        await productsService.add(others)
-                        toast.success('Thêm sản phẩm thành công!')
-                        onLoadData()
-                    } catch (err) {
-                        toast.error('Thêm sản phẩm thất bại!')
-                    }
+
+            }
+            catch (err) {
+                dispatch(showToast({ show: true, text: "Thêm sản phẩm thất bại", type: "error", delay: 1500 }))
+                setIsLoading(false)
+                handleClose()
+            }
+        }
+        else {
+            try {
+                const pro = await productsService.update(value._id, { ...others, })
+                if (pro) {
+                    await value.productDetails.forEach(async (proDe: any, indexParent: number) => {
+                        const imageSub: any = []
+                        await proDe.images.forEach(async (img: any, index: Number) => {
+                            if (img.file) {
+                                const image = await handleCreateImage(img.file)
+                                await imageSub.push(image.data.url)
+                            }
+                            else {
+                                await imageSub.push(img.dataURL)
+                            }
+
+                            if (index === proDe.images.length - 1) {
+                                await proDe.size.forEach(async (size: string, idx: number) => {
+                                    const [thumnail, ...imageOther] = imageSub
+                                    proDetail.push({ ...proDe, product: pro._id, color: proDe.color, image: thumnail, 'images-sub': [...imageOther], size: size })
+                                    if (idx === proDe.size.length - 1 && indexParent === value.productDetails.length - 1) {
+                                    
+                                        await productDetailsService.update(proDetail)
+                                        await dispatch(showToast({ show: true, text: "Cập nhật sản phẩm thành công", type: "success", delay: 1500 }))
+                                        await setIsLoading(false)
+                                        handleClose()
+                                    }
+                                });
+                            }
+                        });
+                    });
+                    await onLoadData()
+                    
                 }
             }
-        });
-
-        handleClose()
+            catch (err) {
+                dispatch(showToast({ show: true, text: "Cập nhật sản phẩm thất bại", type: "error", delay: 1500 }))
+                setIsLoading(false)
+                handleClose()
+            }
+        }
+       
 
     }
 
-    const handleDeleteCategory = async () => {
+    const handleDeleteProduct = async () => {
         if (product?._id) {
             try {
                 await productsService.delete(product._id)
-                toast.success('Xóa danh mục thành công')
+                dispatch(showToast({ show: true, text: "Xóa sản phẩm thành công", type: "success", delay: 1500 }))
                 onLoadData()
             }
             catch (err) {
-                toast.error('Xóa danh mục thất bại')
+                dispatch(showToast({ show: true, text: "Xóa sản phẩm thất bại", type: "error", delay: 1500 }))
             }
         }
         onModalDelete()
     }
+
+    const handleLoading = () => {}
 
     return (
         <>
             <Modal
                 size="lg"
                 show={show}
-                onHide={handleClose}
+                onHide={isLoading  ? handleLoading : handleClose}
                 backdrop="static"
                 keyboard={false}
             >
@@ -201,9 +228,7 @@ function ProductAdModal(props: ModalShow) {
                                                 <ImageUploading
                                                     onChangeImage={(image) => {
                                                         const details = formik.getFieldProps('productDetails').value
-                                                        const images = details[index].images
-                                                        images.push(image)
-                                                        details[index].images = images
+                                                        details[index].images = image
                                                         return formik.setValues(prev => ({ ...prev, productDetails: details }))
                                                     }}
                                                     max={50}
@@ -300,30 +325,36 @@ function ProductAdModal(props: ModalShow) {
                     />
 
                     <InputAdmin
-                        placeholder="--Chọn danh mục--"
+                        placeholder="Danh mục..."
                         label="Danh mục"
-                        id="productMaterial"
+                        id="productCategory"
                         labelClass="col-md-3 col-lg-2"
                         frmField={formik.getFieldProps('category')}
                         err={formik.touched.category && formik.errors.category}
                         errMessage={formik.errors.category}
-                        options={categories ? categories.map(cate => ({ name: cate.name, value: cate._id })) : []}
+                        options={categories && categories.map(cate => ({ value: cate._id, name: cate.name }))}
                     />
 
-                    <InputAdmin
-                        placeholder="Mô tả..."
-                        label="Mô tả"
-                        id="Mô tả"
-                        labelClass="col-md-3 col-lg-2"
-                        frmField={formik.getFieldProps('description')}
-                        err={formik.touched.description && formik.errors.description}
-                        errMessage={formik.errors.description}
-                        rows={6}
-                    />
+                    <div className="row g-1 align-items-center">
+                        <div className="col">
+                            <div className="d-flex align-items-center mb-3">
+                                <p onClick={() => setShowToolbar(!showToolbar)} className="d-inline-block mb-0 bg-ad-primary cursor-pointer text-white p-2 border-radius-4">
+                                    <BsPencil color="#fff" />
+                                    <small className="ms-1">Viết mô tả</small>
+                                </p>
+                            </div>
+                            {showToolbar &&
+                                <Editor
+                                text={formik.values.description}
+                                onChangeText={(text) => formik.setFieldValue('description', text)}
+                            />
+                            }
+                        </div>
+                    </div>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={isLoading ? handleLoading :handleClose}>
                         Đóng
                     </Button>
                     <Button
@@ -331,7 +362,7 @@ function ProductAdModal(props: ModalShow) {
                         onClick={() => formik.handleSubmit()}
                         className="bg-ad-primary btn-ad-primary"
                     >
-                        Lưu
+                        {isLoading ? <Spinner size = "sm" animation="border" variant="light" /> : 'Lưu'}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -353,7 +384,7 @@ function ProductAdModal(props: ModalShow) {
                         <button
                             type="button"
                             className="btn btn-ad-primary modal__btn-delete ms-1 text-white"
-                            onClick={handleDeleteCategory}
+                            onClick={handleDeleteProduct}
                         >
                             Xóa
                         </button>

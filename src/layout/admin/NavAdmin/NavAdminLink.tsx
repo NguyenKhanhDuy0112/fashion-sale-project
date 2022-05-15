@@ -3,7 +3,7 @@ import { MdDashboard } from "react-icons/md"
 import { AiOutlineBars, AiOutlineGift } from "react-icons/ai";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { BiCompass, BiImport } from "react-icons/bi";
-import { FiSettings, FiUsers } from "react-icons/fi";
+import { FiUsers } from "react-icons/fi";
 import { ImUserTie } from "react-icons/im"
 import useToggleNav from "../../../shared/hooks/useToggleNav";
 import { BsBarChart } from "react-icons/bs";

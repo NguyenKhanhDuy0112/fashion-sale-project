@@ -8,8 +8,8 @@ export interface Product{
     slug?: string,
     price?: number,
     rating? : number,
-    category?: Category,
-    productDetails: ProductDetail[]
+    category?: any,
+    productDetails?: ProductDetail[]
 }
 
 export interface ProductDetail{
@@ -79,4 +79,17 @@ export interface Coupon{
     minimumAmount: number,
     isActive: false | true,
     bill? :Bill
+}
+
+export interface Pagination {
+    totalDocs: number,
+    limit: number,
+    totalPages: number,
+    page: number,
+    pagingCounter: number,
+    hasPrevPage: boolean,
+    hasNextPage: boolean,
+    prevPage: number,
+    nextPage :number,
+
 }

@@ -1,0 +1,60 @@
+.toastCustom{
+    background-color: transparent;
+    display: none;
+    animation: fadeIn ease-in .3s;
+
+    &.active{
+        display: block;
+    }
+
+    &__success{
+        @include flex-center();
+        flex-direction: column;
+        @include position(fixed, 50%, none, none, 50%);
+        z-index: 100;
+        width: 300px;
+        background-color: $bg-primary-sub;
+        transform: translate(-50%, -50%);
+        border-radius: 20px;
+        animation: fadeIn ease-in .3s;
+
+        & > &-icon{
+            @include flex-center();
+            background-color: rgb(26, 160, 26);
+            
+            color: white;
+            border-radius: 50%;
+        }
+
+        & > &-text{
+            text-align: center;
+            color: rgb(13, 113, 13);
+            font-size: 0.9rem;
+        }
+    }
+    &__error{
+        @include flex-center();
+        flex-direction: column;
+        @include position(fixed, 50%, none, none, 50%);
+        z-index: 100;
+        width: 300px;
+        background-color: $bg-primary-sub;
+        transform: translate(-50%, -50%);
+        border-radius: 20px;
+        animation: fadeIn ease-in .3s;
+
+        & > &-icon{
+            @include flex-center();
+            background-color: red;
+            
+            color: white;
+            border-radius: 50%;
+        }
+
+        & > &-text{
+            text-align: center;
+            color: rgb(193, 3, 3);
+            font-size: 0.9rem;
+        }
+    }
+}

@@ -2,63 +2,76 @@ import { useEffect, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
 import productsService from "../../../../services/productService"
 import InputSearch from "../../../../shared/components/InputSearch"
-import { Product, ProductDetail } from "../../../../shared/interfaces"
-import initialProduct from "./initialProduct"
+import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx"
+import { Pagination, Product, ProductDetail } from "../../../../shared/interfaces"
 import ProductAdModal from "./ProductAdModal"
 import ProductAdTable from "./ProductAdTable";
 
+
+
 function ProductAdmin() {
     const [products, setProducts] = useState<Product[]>([])
-    const [product, setProduct] = useState<Product>(initialProduct)
+    const [isLoading, setIsLoading] = useState(true)
+    const [product, setProduct] = useState<Product>()
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
+    const [pagination, setPagination] = useState<Pagination>()
 
     useEffect(() => {
-        handleLoadData()
+        handleLoadData(1)
     }, [])
 
-    const handleLoadData = async () => {
-        const data = await productsService.list()
-        setProducts(data)
+    const handleLoadData = async (page: number) => {
+        productsService.listPagination(page, 8).then(res => {
+            const { data, ...others } = res
+            setProducts(data)
+            setPagination({ ...others })
+            setIsLoading(false)
+        })
     }
 
     const handleModalShow = async (id: string) => {
-    
-        if (id) {
+
+        if (id !== '') {
             const findProduct = await productsService.findById(id)
-            const proData:any = findProduct
+            const proData: any = findProduct
             let color = ''
-            const detail:ProductDetail[] = []
+            const detail: ProductDetail[] = []
             proData.productDetails.forEach((item: any) => {
-                if(color.toLowerCase() !== item.color.color.toLowerCase()){
-                    const images = [{dataURL:item.images[0].image}]
-                    item.images[0].imagesSub.forEach((item:any) => {
-                        images.push({dataURL: item})
-                    })
+                if (color.toLowerCase() !== item.color.color.toLowerCase()) {
+                    const images: any = []
+                    if (item.images.length > 0 && item.images[0].imagesSub) {
+                        images.push({ dataURL: item.images[0].image })
+                    }
+                    if (item.images.length > 0 && item.images[0].imagesSub) {
+                        item.images[0].imagesSub.forEach((item: string, index: number) => {
+                            images.push({ dataURL: item })
+                        })
+                    }
+
                     color = item.color.color
-                    detail.push({...item, color: item.color.color, size: [item.size.size], images})
+                    detail.push({ ...item, color: item.color.color, size: [item.size.size], images })
                 }
-                else{
+                else {
                     const tempProduct = detail[detail.length - 1]
                     tempProduct.size.push(item.size.size)
                     detail.splice(detail.length - 1, 1, tempProduct)
                 }
-                
             });
-            
+
             proData.productDetails = detail
             setProduct(proData)
         }
         else {
             setProduct({
-                _id: '', 
-                description: '', 
-                material: '', 
-                name: '', 
-                price: undefined,
+                _id: '',
+                description: '',
+                material: '',
+                name: '',
+                price: 0,
                 category: undefined,
-                origin: '', 
-                productDetails: [{_id: '', color: '', size: '', images: []}], 
+                origin: '',
+                productDetails: [],
                 unit: ''
             })
         }
@@ -67,10 +80,7 @@ function ProductAdmin() {
 
 
     const handleModalDeleteShow = (id: string) => {
-        setProduct({
-            ...initialProduct,
-            _id: id
-        })
+        setProduct({ _id: id, description: '', material: '', name: '', origin: '', unit: '', productDetails: [] })
         setShowModalDelete(true)
     }
 
@@ -80,6 +90,7 @@ function ProductAdmin() {
 
     return (
         <article>
+            
             <h5 className="title-admin mb-0">Sản phẩm</h5>
             <div className="d-flex align-items-center tableCustom__filter px-3 py-4 mb-3">
                 <div className="row w-100 g-3">
@@ -96,19 +107,35 @@ function ProductAdmin() {
             </div>
 
             <ProductAdTable
+                isLoading={isLoading}
                 onEditProduct={(id) => handleModalShow(id)}
                 onDeleteProduct={(id) => handleModalDeleteShow(id)}
                 data={products}
             />
 
             <ProductAdModal
-                onLoadData={handleLoadData}
+                onLoadData={() => handleLoadData(1)}
                 show={showModal}
                 handleClose={handleModalClose}
                 showModalDelete={showModalDelete}
                 onModalDelete={handleModalDeleteClose}
                 product={product}
             />
+
+            {pagination &&
+                <PagninationAdmin
+                    totalPages={pagination?.totalPages}
+                    hasNextPage={pagination?.hasNextPage}
+                    hasPrevPage={pagination?.hasPrevPage}
+                    nextPage={pagination?.nextPage}
+                    prevPage={pagination?.prevPage}
+                    pageIndex={pagination?.page}
+                    gotoPage={(page) => {
+                        setIsLoading(true)
+                        handleLoadData(page)
+                    }}
+                />
+            }
         </article>
     );
 }

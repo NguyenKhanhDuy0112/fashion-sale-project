@@ -7,6 +7,7 @@ const url = {
     users : '/users',
     bills: "/bills",
     billDetail: "/bill-detail",
+    productDetails: "/product-details",
     coupons: "/coupon",
 }
 

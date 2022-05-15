@@ -19,7 +19,7 @@ function InputAdmin(props: InputField) {
     const classInput = `form-control inputSearch ${props.err ? "is-invalid" : ""}`
     return (
         <>
-            <div className={`row align-items-center ${!props.noneLabel && 'mb-3 g-3'}`}>
+            <div className={`row align-items-center ${!props.noneLabel && 'mb-3 g-1'}`}>
                 {!props.noneLabel &&
                     <div className={props.labelClass}>
                         <label htmlFor={props.id} className="mb-0 fs-6">{props?.label}</label>
@@ -50,7 +50,7 @@ function InputAdmin(props: InputField) {
                     {props?.options &&
                         <select
                             id={props.id}
-                            className={classInput}
+                            className={`${classInput} form-select`}
                             {...props.frmField}
                         >
                             <option value="" hidden>{props.placeholder}</option>

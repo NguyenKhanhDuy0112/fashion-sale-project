@@ -5,6 +5,10 @@ const list = () => {
     return api.get(api.url.products).then(res => res.data)
 }
 
+const listPagination = (page: number, limit: number) => {
+    return api.get(`${api.url.products}?page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const get = (field: string) => {
     return api.get(api.url.products+'/search/?search='+field).then(res => res.data)
 }
@@ -36,6 +40,7 @@ const productsService = {
     update,
     findById,
     findBySlug,
+    listPagination,
     add
 }
 

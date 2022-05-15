@@ -3,10 +3,9 @@ import { Category } from "../../../../shared/interfaces";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import categoriesService from "../../../../services/categoriesService";
-import { toast } from "react-toastify";
+
 import { handleCreateImage } from "../../../../shared/helpers";
 import { Button, Modal } from "react-bootstrap";
-import ImageUploading from "../../../../shared/components/ImageUploading";
 import InputAdmin from "../../../../shared/components/InputAdmin";
 import { FiTrash2 } from "react-icons/fi";
 
@@ -66,19 +65,19 @@ function CouponAdModal(props: ModalShow) {
                 if (value._id) {
                     try {
                         await categoriesService.update(_id, { ...others, image: images[0] })
-                        toast.success('Cập nhật danh mục thành công!')
+                        
                         onLoadData()
                     } catch (err) {
-                        toast.error('Cập nhật danh mục thất bại!')
+                        
                     }
                 }
                 else {
                     try {
                         await categoriesService.add({ image: images[0], ...others })
-                        toast.success('Thêm danh mục thành công!')
+                        
                         onLoadData()
                     } catch (err) {
-                        toast.error('Thêm danh mục thất bại!')
+                        
                     }
                 }
             }
@@ -92,11 +91,11 @@ function CouponAdModal(props: ModalShow) {
         if (coupon?._id) {
             try {
                 await categoriesService.delete(coupon._id)
-                toast.success('Xóa danh mục thành công')
+                
                 onLoadData()
             }
             catch (err) {
-                toast.error('Xóa danh mục thất bại')
+                
             }
         }
         onModalDelete()

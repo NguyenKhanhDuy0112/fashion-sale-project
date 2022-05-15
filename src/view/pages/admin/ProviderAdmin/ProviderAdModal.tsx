@@ -6,7 +6,6 @@ import InputAdmin from "../../../../shared/components/InputAdmin";
 import { User } from "../../../../shared/interfaces";
 import * as Yup from "yup";
 import usersService from "../../../../services/usersService";
-import { toast } from "react-toastify";
 import { handleCreateImage } from "../../../../shared/helpers";
 import { useFormik } from "formik";
 
@@ -74,20 +73,20 @@ function ProviderAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
                 if (value._id) {
                     try {
                         await usersService.update(_id, { avatar : images[0],...others })
-                        toast.success('Cập nhật nhà cung cấp thành công!')
+                        
                         onLoadData()
                     } catch (err) {
-                        toast.error('Cập nhật nhà cung cấp thất bại!')
+                        
                     }
                   
                 }
                 else {
                     try {
                         await usersService.add({avatar: images[0], ...others})
-                        toast.success('Thêm nhà cung cấp thành công!')
+                        
                         onLoadData()
                     } catch (err) {
-                        toast.error('Thêm nhà cung cấp thất bại!')
+                        
                     }
                 }
             }
@@ -101,11 +100,11 @@ function ProviderAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
         if (user?._id) {
             try {
                 await usersService.delete(user._id)
-                toast.success('Xóa khách hàng thành công')
+
                 onLoadData()
             }
             catch (err) {
-                toast.error('Xóa khách hàng thất bại')
+
             }
         }
         onModalDelete()

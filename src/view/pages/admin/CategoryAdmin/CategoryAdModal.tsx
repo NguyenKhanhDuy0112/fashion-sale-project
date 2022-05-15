@@ -1,14 +1,15 @@
 import { useFormik } from "formik";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import InputAdmin from "../../../../shared/components/InputAdmin";
 import * as Yup from "yup";
-import { toast } from "react-toastify"
 import ImageUploading from "../../../../shared/components/ImageUploading";
 import { Category } from "../../../../shared/interfaces";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { handleCreateImage } from "../../../../shared/helpers";
 import categoriesService from "../../../../services/categoriesService";
 import { FiTrash2 } from "react-icons/fi"
+import { useDispatch } from "react-redux";
+import { showToast } from "../../../../modules/toast/toastSlice";
 
 interface ModalShow {
     show: boolean,
@@ -21,6 +22,8 @@ interface ModalShow {
 
 function CategoryAdModal(props: ModalShow) {
     const { show, handleClose, category, onLoadData, onModalDelete, showModalDelete  } = props
+    const [isLoading, setIsLoading] = useState(false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (category?._id) {
@@ -48,6 +51,7 @@ function CategoryAdModal(props: ModalShow) {
     })
 
     const handleSubmitForm = async (value: any) => {
+        setIsLoading(true)
         const images: string[] = []
         value.image.forEach(async (img: any, index: number) => {
             if (img.file) {
@@ -66,25 +70,32 @@ function CategoryAdModal(props: ModalShow) {
                 if (value._id) {
                     try {
                         await categoriesService.update(_id, { ...others, image: images[0] })
-                        toast.success('Cập nhật danh mục thành công!')
+                        dispatch(showToast({ show: true, text: "Cập nhật danh mục thành công", type: "success", delay: 1500 }))
                         onLoadData()
+                        setIsLoading(false)
+                        handleClose()
                     } catch (err) {
-                        toast.error('Cập nhật danh mục thất bại!')
+                        dispatch(showToast({ show: true, text: "Cập nhật danh mục thất bại", type: "error", delay: 1500 }))
+                        setIsLoading(false)
+                        handleClose()
                     }
                 }
                 else {
                     try {
                         await categoriesService.add({image: images[0],...others})
-                        toast.success('Thêm danh mục thành công!')
+                        dispatch(showToast({ show: true, text: "Thêm danh mục thành công", type: "success", delay: 1500 }))
                         onLoadData()
+                        setIsLoading(false)
+                        handleClose()
                     } catch (err) {
-                        toast.error('Thêm danh mục thất bại!')
+                        dispatch(showToast({ show: true, text: "Thêm danh mục thành công", type: "error", delay: 1500 }))
+                        setIsLoading(false)
+                        handleClose()
                     }
                 }
             }
         });
 
-        handleClose()
 
     }
 
@@ -92,11 +103,11 @@ function CategoryAdModal(props: ModalShow) {
         if (category?._id) {
             try {
                 await categoriesService.delete(category._id)
-                toast.success('Xóa danh mục thành công')
+                dispatch(showToast({ show: true, text: "Xóa sản phẩm thành công", type: "success", delay: 1500 }))
                 onLoadData()
             }
             catch (err) {
-                toast.error('Xóa danh mục thất bại')
+                dispatch(showToast({ show: true, text: "Xóa sản phẩm thất bại", type: "error", delay: 1500 }))
             }
         }
         onModalDelete()
@@ -150,7 +161,7 @@ function CategoryAdModal(props: ModalShow) {
                         onClick={() => formik.handleSubmit()}
                         className="bg-ad-primary btn-ad-primary"
                     >
-                        Lưu
+                        {isLoading ? <Spinner size = "sm" animation="border" variant="light" /> : 'Lưu'}
                     </Button>
                 </Modal.Footer>
             </Modal>

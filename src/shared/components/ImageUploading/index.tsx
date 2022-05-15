@@ -18,7 +18,6 @@ function ImageUploading(props: Image) {
     },[imageData])
     
     const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
-        console.log(imageList)
         onChangeImage(imageList)
         setImages(imageList as never[]);
     };
@@ -54,14 +53,14 @@ function ImageUploading(props: Image) {
                         ))}
                     </div>
 
-                    <button
+                    {images.length < max && <button
                         style={isDragging ? { color: "red" } : undefined}
                         onClick={onImageUpload}
                         className="imageUploading__add ms-2"
                         {...dragProps}
                     >
                         <AiOutlinePlus />
-                    </button>
+                    </button>}
                 </div>
             )}
         </ReactImageUploading>
