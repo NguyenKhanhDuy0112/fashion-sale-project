@@ -1,3 +1,4 @@
+import HeaderClient from '../../../../layout/client/HeaderClient';
 import HomeBanner from './HomeBanner';
 import HomeBannerSub from './HomeBannerSub';
 import HomeCategory from './HomeCategory';
@@ -9,14 +10,15 @@ import HomeSuggest from './HomeSuggest';
 function Home() {
     return (
         <>
-            <div className="">
-                <HomeBanner/>
-                <HomeDealHot/>
-                <HomeBannerSub/>
-                <HomeService/>
-                <HomeCategory/>
-                <HomeSuggest/>
-                <HomeProduct/>
+            <HeaderClient />
+            <div className="py-3 bg-outside-client">
+                <HomeBanner />
+                <HomeDealHot />
+                <HomeBannerSub />
+                <HomeService />
+                <HomeCategory />
+                <HomeSuggest />
+                <HomeProduct />
             </div>
         </>
     );

@@ -4,28 +4,29 @@ interface Star{
     stars: number,
     size: number,
     color: string,
+    colorSub?: string,
     distance: number,
 }
 function Rating(props: Star) {
-    const { stars, size, color, distance } = props
+    const { stars, size, color, distance, colorSub } = props
 
     return ( 
         <div className="rating d-flex">
             {Array.from({ length : 5}).map((item,index) => (
                 index < stars 
                 ? 
-                    <span 
+                    <span
                         key={index} 
-                        className = {`${index === stars ? 'me-0' : 'me-'+distance}`}
+                        className = {`${index === 4 ? 'me-0' : 'me-'+distance}`}
                     >
                         <BsFillStarFill size={size} color={color}/>
                     </span> 
                 : 
                     <span 
                         key={index} 
-                        className = {`${index === stars ? 'me-0' : 'me-'+distance}`}
+                        className = {`${index === 4 ? 'me-0' : 'me-'+distance}`}
                     >
-                        <BsStar size={size} color={color}/>
+                        <BsFillStarFill size={size} color={colorSub ? colorSub: '#B8B8B8'}/>
                     </span>
             ))}
         </div>

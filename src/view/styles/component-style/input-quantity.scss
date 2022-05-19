@@ -1,0 +1,37 @@
+.inputQuantity {
+    display: flex;
+    align-items: center;
+    &-btn {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        @include flex-center();
+        color: $color-sub;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(236, 236, 236);
+
+        &:hover{
+            background-color: $color-border;
+        }
+        &-plus {
+            border-left: none;
+            border-radius: 0px 4px 4px 0px;
+            padding: 4px;
+        }
+        &-minus {
+            border-right: none;
+            border-radius: 4px 0px 0px 4px;
+            padding: 4px;
+        }
+    }
+    &__input {
+        width: 40px;
+        border: 1px solid rgb(236, 236, 236);
+        height: 30px;
+        color: rgb(36, 36, 36);
+        font-size: 14px;
+        text-align: center;
+        outline: none;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    }
+}

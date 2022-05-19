@@ -1,22 +1,30 @@
+import HeaderClient from "../../../../layout/client/HeaderClient";
+import HeaderClientMobile from "../../../../layout/client/HeaderClient/HeaderClientMobile";
 import Breadcrumb from "../../../../shared/components/Breadcrumb";
-import ShopProduct from "./ShopProduct";
+import ShopMain from "./ShopMain";
 import ShopSidebar from "./ShopSidebar";
 
 function Shop() {
     return (
-        <section className="shop">
-            <div className="container-client">
-                <Breadcrumb />
+        <>
+            <div className="d-xl-none d-block">
+                <HeaderClientMobile />
             </div>
-            <div className="row">
-                <div className="col-4">
-                    <ShopSidebar/>
-                </div>
-                <div className="col">
-                    <ShopProduct/>
-                </div>
+            <div className="d-xl-block d-none">
+                <HeaderClient />
             </div>
-        </section>
+            <section className="shop bg-outside-client mt-2 pb-3">
+                <div className="container-client">
+                    <Breadcrumb />
+                </div>
+                <div className="container-client none">
+                    <div className="bg-white border-radius-4 d-flex">
+                        <ShopSidebar />
+                        <ShopMain />
+                    </div>
+                </div>
+            </section>
+        </>
     );
 }
 

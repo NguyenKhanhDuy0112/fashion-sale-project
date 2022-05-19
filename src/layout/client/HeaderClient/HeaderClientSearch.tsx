@@ -3,19 +3,17 @@ import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import HistorySearch from "../../../shared/components/HistorySearch";
 import ModalCustom from "../../../shared/components/ModalCustom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
 
-function HeaderClientSearch(props: { show: boolean,onShowNavAccount: () => void ,setShow: (value: boolean) => void }) {
+function HeaderClientSearch(props: { show: boolean,onShowNavAccount?: () => void ,setShow: (value: boolean) => void }) {
     const { show, setShow, onShowNavAccount } = props
 
     const [showModalFull, setShowModalFull] = useState(false)
-   
     const [size, setSize] = useState<number>(window.innerWidth)
-
-    
+    const inputSearch = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         const handleResize = () => {
@@ -25,19 +23,22 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount: () => void 
         return () => window.removeEventListener('resize', handleResize)
     }, [size])
 
-
     const handleToggle = () => {
         if (size <= 1200) {
+           
             setShowModalFull(!showModalFull)
+            setShow(false)
         }
         else {
             setShow(!show)
         }
+        inputSearch.current?.focus()
 
     }
 
     const handleModalShow = () => {
         if (size <= 1200) {
+            
             setShowModalFull(true)
             setShow(false)
         }
@@ -45,6 +46,7 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount: () => void 
             setShow(true)
             setShowModalFull(false)
         }
+        inputSearch.current?.focus()
     }
 
 
@@ -52,12 +54,20 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount: () => void 
         <>
             <div className="position-relative">
                 <div
-                    className="headerClient__search position-relative bg-white px-xl-0 px-2 border-radius-4"
+                    className="headerClient__search position-relative bg-white px-xl-0 border-radius-4"
                 >
-                    <span className="d-xl-none d-flex justify-content-center align-items-center opacity-50">
+                    {/* <span className="d-xl-none d-flex justify-content-center align-items-center opacity-50">
                         <BiSearchAlt size={22} />
-                    </span>
-                    <input onClick={handleModalShow} className="headerClient__search-input" placeholder="Bạn tìm gì hôm nay?" />
+                    </span> */}
+                    {/* <input onClick={handleModalShow} className="headerClient__search-input" placeholder="Bạn tìm gì hôm nay?" /> */}
+                    <div
+                        className="headerClient__search position-relative h-100 bg-white px-xl-0 px-2 border-radius-4"
+                    >
+                        <span className="d-xl-none d-flex justify-content-center align-items-center opacity-50">
+                            <BiSearchAlt size={17} />
+                        </span>
+                        <input onClick={handleModalShow} className="headerClient__search-input py-2" placeholder="Bạn đang tìm kiếm gì?" />
+                    </div>
 
                     <button className="headerClient__search-btn d-xl-block d-none">
                         <BiSearchAlt size={22} />
@@ -115,7 +125,7 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount: () => void 
                         <span className="d-xl-none d-flex justify-content-center align-items-center opacity-50">
                             <BiSearchAlt size={17} />
                         </span>
-                        <input className="headerClient__search-input py-2" placeholder="Bạn đang tìm kiếm gì?" />
+                        <input ref = {inputSearch} className="headerClient__search-input py-2" placeholder="Bạn đang tìm kiếm gì?" />
                     </div>
 
                     <Link to="/" className="p-2">

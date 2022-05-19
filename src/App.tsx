@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useLocation } from 'react-router';
 import Admin from './view/container/admin';
 import Client from './view/container/client';
 import LoginAdmin from './view/pages/admin/LoginAdmin';
 
 function App() {
+
   return (
     <>
        <BrowserRouter>

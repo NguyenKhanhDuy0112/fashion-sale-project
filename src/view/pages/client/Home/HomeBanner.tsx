@@ -6,7 +6,7 @@ function HomeBanner() {
     return (
         <div className='container-client'>
             <div className="row g-2">
-                <div className='col-lg-8 col-12'>
+                <div className='col-xl-8 col-12'>
                     <Swiper
                         // install Swiper modules
                         modules={[Navigation, Pagination, Autoplay]}

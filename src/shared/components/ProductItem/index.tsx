@@ -4,59 +4,67 @@ import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../Rating";
 
+interface Props {
+    hideImageSub?: boolean,
+}
+
 const image = [
-    "https://salt.tikicdn.com/cache/100x100/ts/product/96/09/5a/2fec33bc62c2a56c060b7f83dfc633c5.jpg.webp",
-    "https://salt.tikicdn.com/cache/100x100/ts/product/76/40/99/3e0f366602bcc73f5c7e49cd878fe510.jpg.webp",
-    "https://salt.tikicdn.com/cache/100x100/ts/product/98/ef/09/395fe7e81e5eb683cc828cfe5dbe2609.jpg.webp",
-    "https://salt.tikicdn.com/cache/100x100/ts/product/6c/a1/ef/b276cae2cce7f5894fdf68e8a59b070e.jpg.webp"
+    "https://salt.tikicdn.com/cache/400x400/ts/product/0e/dd/71/3f47941e097f814c16cdeafd37300f2c.jpg.webp",
+    "https://salt.tikicdn.com/cache/100x100/ts/product/7a/80/7e/299783cc085da51ad65ed7b542151e52.jpg.webp",
+    "https://salt.tikicdn.com/cache/100x100/ts/product/a5/47/05/5ad82d5bc1a8c3feb94a937603d08dca.jpg.webp",
+    "https://salt.tikicdn.com/cache/100x100/ts/review/c3/5b/c1/0786b8c7971d48563f2dbc0098a0a340.jpg.webp"
 ]
 
-function ProductItem() {
+function ProductItem(props: Props) {
+    const { hideImageSub } = props
 
-    const [imgCurrent, setimgCurrent] = useState("https://salt.tikicdn.com/cache/100x100/ts/product/96/09/5a/2fec33bc62c2a56c060b7f83dfc633c5.jpg.webp")
+    const [imgCurrent, setimgCurrent] = useState("https://salt.tikicdn.com/cache/400x400/ts/product/0e/dd/71/3f47941e097f814c16cdeafd37300f2c.jpg.webp")
 
     return (
-        <Link to = "/" className="card productSale p-xl-3 p-1">
+        <Link to="/products/ao-thun-nam" className="card productSale p-xl-3 p-1">
             <img className="productSale__img" src={imgCurrent} alt="" />
             <div className="card-body productSale__body mt-xl-1 mt-0 p-xl-0 p-2">
-                <Swiper
-                    modules={[Navigation]}
-                    navigation
-                    className="productSale__swiper d-xl-block d-none"
-                    breakpoints={{
-                        0: {
-                            slidesPerView: 2,
-                            spaceBetween: 10
-                        },
-                        768: {
-                            slidesPerView: 3,
-                            spaceBetween: 10
-                        },
-                        1028: {
-                            slidesPerView: 4,
-                            spaceBetween: 10
-                        }
+                {!hideImageSub && <div className="d-xl-block d-none">
+                    <Swiper
+                        modules={[Navigation]}
+                        navigation
+                        className="productSale__swiper d-xl-block d-none"
+                        breakpoints={{
+                            0: {
+                                slidesPerView: 2,
+                                spaceBetween: 10
+                            },
+                            768: {
+                                slidesPerView: 3,
+                                spaceBetween: 10
+                            },
+                            1028: {
+                                slidesPerView: 4,
+                                spaceBetween: 10
+                            }
 
-                    }}
-                    scrollbar={{ draggable: true }}
+                        }}
+                        scrollbar={{ draggable: true }}
 
-                >
-                    {image.map(img => (
-                        <SwiperSlide key={img}>
-                            <img  
-                                onMouseEnter={() => setimgCurrent(img)}
-                                className={`productSale__img-sub cursor-pointer ${img === imgCurrent ? 'active' : ''}`} 
-                                src={img} 
-                                alt = "" 
-                            />
-                        </SwiperSlide>
-                    ))}
+                    >
+                        {image.map(img => (
+                            <SwiperSlide key={img}>
+                                <img
+                                    onMouseEnter={() => setimgCurrent(img)}
+                                    className={`productSale__img-sub cursor-pointer ${img === imgCurrent ? 'active' : ''}`}
+                                    src={img}
+                                    alt=""
+                                />
+                            </SwiperSlide>
+                        ))}
 
-                </Swiper>
-                <h5 className="card-title productSale__title mb-1 mt-1">
+                    </Swiper>
+                </div>
+                }
+                <h5 className="card-title productSale__title mt-1">
                     Áo thun nam ngắn tay Polo
                 </h5>
-                <div className="d-flex align-items-center mb-1">
+                <div className="d-flex align-items-center">
                     <Rating distance={1} size={12} color="#FDDA40" stars={4} />
                     <div className="productSale__border-distance"></div>
                     <p className="productSale__sold mb-0">Đã bán 40</p>

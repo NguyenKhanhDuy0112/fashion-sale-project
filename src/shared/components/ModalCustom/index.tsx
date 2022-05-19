@@ -8,14 +8,15 @@ interface Modal{
     children: ReactNode | ReactChild | ReactComponentElement<any>,
     close?:boolean,
     className?: string,
+    zIndexOverlay? : number,
 }
 
 function ModalCustom(props: Modal) {
-    const { position, show, onHandleShow, children, close, className } = props
+    const { position, show, onHandleShow, children, close, className, zIndexOverlay } = props
 
     return (
         <>
-            <div onClick={() => onHandleShow(false)} className={`overlay-client ${show && position !== "full" ? 'active' : ''}`}></div>
+            <div style={{zIndex: zIndexOverlay ? zIndexOverlay: '15'}} onClick={() => onHandleShow(false)} className={`overlay-client ${show && position !== "full" ? 'active' : ''}`}></div>
             <div className={`modalCustom__${position} ${show ? 'active' : ''} ${className}`}>
                 {children}
 

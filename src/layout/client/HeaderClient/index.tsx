@@ -27,7 +27,11 @@ function HeaderClient() {
                             </Link>
                         </div>
                         <div className="col-xl col-12 order-xl-3 order-5">
-                            <HeaderClientSearch onShowNavAccount={() => setShowNavAccount(!showNavAccount)} setShow={(value) => setShowHistory(value)} show={showHistory} />
+                            <HeaderClientSearch 
+                                onShowNavAccount={() => setShowNavAccount(!showNavAccount)} 
+                                setShow={(value) => setShowHistory(value)} 
+                                show={showHistory} 
+                            />
                         </div>
                         <div className="col-auto d-xl-block d-none order-4">
                             <HeaderClientAuth />

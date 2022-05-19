@@ -74,6 +74,7 @@ li {
         display: block;
     }
 }
+
 .overlay-input {
     position: fixed;
     top: 0;
@@ -262,6 +263,10 @@ input[type="date"]:focus::before {
     }
 }
 
+.bg-outside-client{
+    background-color: $bg-container;
+}
+
 .react-tag-input__input {
 
 
@@ -307,4 +312,18 @@ input[type="date"]:focus::before {
     }
 }
 
+.border-b-f7{
+    border-bottom: 1px solid #f7f7f7;
+
+    &.responsive-border{
+        border-bottom: 1px solid #f7f7f7;
+        @include responsive(xxl-screen){
+            border-bottom: 0px solid transparent;
+        }
+    }
+}
+
+.border-r-f7{
+    border-right: 1px solid #f7f7f7;
+}
 

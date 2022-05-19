@@ -1,9 +1,12 @@
 import LogoAdminText from "./LogoAdminText"
 import LogoAdminIcon from "./LogoAdminIcon"
+import CheckItem from "./CheckItem";
+
 
 const images = {
     LogoAdminIcon,
-    LogoAdminText
+    LogoAdminText,
+    CheckItem,
 }
 
 export default images

@@ -112,7 +112,6 @@ function ProductAdModal(props: ModalShow) {
                                     const [thumnail, ...imageOther] = imageSub
                                     proDetail.push({ product: pro._id, color: proDe.color, image: thumnail, 'images-sub': [...imageOther], size: size })
                                     if (idx === proDe.size.length - 1 && indexParent === value.productDetails.length - 1) {
-                                        console.log("ProductDetail: ", proDetail)
                                         await productDetailsService.add(proDetail)
                                         await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
                                         await setIsLoading(false)
@@ -172,7 +171,6 @@ function ProductAdModal(props: ModalShow) {
                 handleClose()
             }
         }
-       
 
     }
 

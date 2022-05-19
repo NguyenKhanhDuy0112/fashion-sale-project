@@ -11,16 +11,20 @@ function ProviderAdmin() {
     const [provider, setProvider] = useState<User>()
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        handleLoadData()
+        handleLoadData(1)
     }, [])
 
-    const handleLoadData = async () => {
-        const data = await usersService.findProviders()
-        setProviders(data)
+    const handleLoadData = (page: number) => {
+        usersService.findProviders().then(res => {
+            const { data, ...others } = res
+            setProviders(data)
+            // setPagination({ ...others })
+            setIsLoading(false)
+        })
     }
-
     const handleModalShow = async (id: string) => {
         if (id) {
             const findCustomer = await usersService.findById(id)
@@ -60,13 +64,17 @@ function ProviderAdmin() {
             </div>
 
             <ProviderAdTable
+                isLoading = {isLoading}
                 onEditUser={(id) => handleModalShow(id)}
                 onDeleteUser={(id) => handleModalDeleteShow(id)}
                 data={providers}
             />
 
             <ProviderAdModal
-                onLoadData={handleLoadData}
+                onLoadData={() => {
+                    setIsLoading(true)
+                    handleLoadData(1)
+                }}
                 show={showModal}
                 handleClose={handleModalClose}
                 showModalDelete={showModalDelete}

@@ -11,14 +11,20 @@ function CustomerAdmin() {
     const [customer, setCustomer] = useState<User>()
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        handleLoadData()
+        handleLoadData(1)
     }, [])
 
-    const handleLoadData = async () => {
-        const data = await usersService.findCustomers()
-        setCustomers(data)
+
+    const handleLoadData = (page: number) => {
+        usersService.findCustomers().then(res => {
+            const { data, ...others } = res
+            setCustomers(data)
+            // setPagination({ ...others })
+            setIsLoading(false)
+        })
     }
 
     const handleModalShow = async (id: string) => {
@@ -27,14 +33,14 @@ function CustomerAdmin() {
             setCustomer(findCustomer)
         }
         else {
-            setCustomer({_id: '',name: '',password: '', phone: '',avatar: '', address: '', email: ''})
+            setCustomer({ _id: '', name: '', password: '', phone: '', avatar: '', address: '', email: '' })
         }
         setShowModal(true)
     }
 
 
-    const handleModalDeleteShow = (id:string) => {
-        setCustomer({name: '',password: '', phone: '',avatar: '', address: '', email: '', _id: id})
+    const handleModalDeleteShow = (id: string) => {
+        setCustomer({ name: '', password: '', phone: '', avatar: '', address: '', email: '', _id: id })
         setShowModalDelete(true)
     }
 
@@ -42,7 +48,7 @@ function CustomerAdmin() {
 
     const handleModalClose = () => setShowModal(false)
 
-    return ( 
+    return (
         <article>
             <h5 className="title-admin mb-0" >Khách hàng</h5>
             <div className="d-flex align-items-center tableCustom__filter px-3 py-4 mb-3">
@@ -60,21 +66,25 @@ function CustomerAdmin() {
             </div>
 
             <CustomerAdTable
+                isLoading={isLoading}
                 onEditUser={(id) => handleModalShow(id)}
-                onDeleteUser = {(id) => handleModalDeleteShow(id)}
+                onDeleteUser={(id) => handleModalDeleteShow(id)}
                 data={customers}
             />
 
             <CustomerAdModal
-                onLoadData={handleLoadData}
+                onLoadData={() => {
+                    setIsLoading(true)
+                    handleLoadData(1)
+                }}
                 show={showModal}
                 handleClose={handleModalClose}
-                showModalDelete = {showModalDelete}
-                onModalDelete = {handleModalDeleteClose}
+                showModalDelete={showModalDelete}
+                onModalDelete={handleModalDeleteClose}
                 user={customer}
             />
         </article>
-     );
+    );
 }
 
 export default CustomerAdmin;

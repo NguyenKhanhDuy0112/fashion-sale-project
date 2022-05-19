@@ -1,9 +1,25 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide, } from 'swiper/react';
+import productsService from '../../../../services/productService';
 import Rating from '../../../../shared/components/Rating';
 import TableCustom from '../../../../shared/components/TableCustom';
+import { Product } from '../../../../shared/interfaces';
 
 function ProductAdDetail() {
+    const { slug } = useParams()
+    const [product, setProduct] = useState<Product>()
+
+    useEffect(() => {
+        handleLoadProduct()
+    },[])
+
+    const handleLoadProduct = async () => {
+        const product = await productsService.findBySlug(String(slug))
+        if(product){
+            console.log(product)
+        }
+    }
     return (
         <article className="productAdDetail">
             <h5 className="title-admin mb-0">Sản phẩm chi tiết</h5>

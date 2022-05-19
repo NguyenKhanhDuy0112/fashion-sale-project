@@ -1,9 +1,17 @@
+import ProductItem from "../../../../shared/components/ProductItem";
+
 function ShopProduct() {
-    return ( 
+    return (
         <article className="shop__product">
-            
+            <div className="row row-cols-xl-4 row-cols-md-3 row-cols-2 g-0">
+                {Array.from({ length: 20 }).map((item, index) => (
+                    <div className="col" key={index}>
+                        <ProductItem />
+                    </div>
+                ))}
+            </div>
         </article>
-     );
+    );
 }
 
 export default ShopProduct;
