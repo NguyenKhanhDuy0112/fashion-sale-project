@@ -10,7 +10,13 @@ const initialState: Orders = {
         {
             id: 1,
             title: 'Đặt hàng 1',
-            products: []
+            products: [{
+                id: "#001",
+                name: "Áo thun nữ",
+                amount : 180000,
+                price: 10000,
+                quantity: 1,
+            }]
         },
     ]
 };

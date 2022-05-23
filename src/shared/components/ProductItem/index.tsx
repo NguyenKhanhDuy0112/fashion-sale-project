@@ -22,7 +22,7 @@ function ProductItem(props: Props) {
 
     return (
         <Link to="/products/ao-thun-nam" className="card productSale p-xl-3 p-1">
-            <img className="productSale__img" src={imgCurrent} alt="" />
+            <div className="productSale__img" style={{backgroundImage: `url(${imgCurrent})`}}></div>
             <div className="card-body productSale__body mt-xl-1 mt-0 p-xl-0 p-2">
                 {!hideImageSub && <div className="d-xl-block d-none">
                     <Swiper

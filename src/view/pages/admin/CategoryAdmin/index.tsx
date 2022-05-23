@@ -5,7 +5,6 @@ import InputSearch from "../../../../shared/components/InputSearch";
 import CategoryAdModal from "./CategoryAdModal";
 import { Category, Pagination } from "../../../../shared/interfaces";
 import categoriesService from "../../../../services/categoriesService";
-import { useDispatch } from "react-redux";
 import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx";
 
 function CategoryAdmin() {

@@ -148,16 +148,6 @@ function CouponAdModal(props: ModalShow) {
                         type = "date"
                     />
                     <InputAdmin
-                        placeholder="Giảm giá..."
-                        label="Giảm giá"
-                        id="couponDiscount"
-                        labelClass="col-md-3 col-lg-2"
-                        frmField={formik.getFieldProps('name')}
-                        err={formik.touched.name && formik.errors.name}
-                        errMessage={formik.errors.name}
-                        input={true}
-                    />
-                    <InputAdmin
                         placeholder="Số tiền tối thiểu..."
                         label="Số tiền tối thiểu"
                         id="couponMinimumAmount"

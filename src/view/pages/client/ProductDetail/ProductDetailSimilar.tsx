@@ -4,8 +4,8 @@ import ProductItem from '../../../../shared/components/ProductItem';
 
 function ProductDetailSimilar() {
     return (
-        <article className="productDetailSimilar mt-3">
-            <div className='container-client'>
+        <article className="productDetailSimilar mt-xl-3 mt-2">
+            <div className='container-client none'>
                 <div className='bg-white p-3 border-radius-4'>
                     <h4 className='productDetail__title'>Sản phẩm tương tự</h4>
                     <Swiper
@@ -14,7 +14,7 @@ function ProductDetailSimilar() {
                         className="homeDealHot__swiper ps-xl-0 ps-1"
                         breakpoints={{
                             0: {
-                                slidesPerView: 2.56,
+                                slidesPerView: 2.23,
                                 spaceBetween: 0
                             },
                             768: {

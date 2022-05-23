@@ -24,7 +24,7 @@ function ProductSale(props: ProductDeal) {
 
     return (
         <Link to = {url} className="card productSale h-100 p-lg-3 p-1">
-            <img className="card-img-top productSale__img" src={image} alt="" />
+            <div className="productSale__img" style={{backgroundImage: `url(${image})`}}></div>
             <div className="card-body productSale__body p-xl-0 p-1">
                {!intro &&  <h5 className="card-title productSale__title mb-1">{title}</h5>}
                 <div className="d-flex align-items-center mb-1">

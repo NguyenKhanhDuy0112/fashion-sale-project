@@ -17,7 +17,7 @@ function OrderAdTable(props: Props) {
 
     return (
         <>
-            <TableCustom headers={["#", "Ngày tạo", "Số điện thoại", "HTTT", "Tổng tiền", "Trạng thái", "", "Hóa đơn"]}>
+            <TableCustom headers={["#", "Ngày tạo", "Số điện thoại", "HTTT", "Tổng tiền", "Trạng thái", "Hóa đơn"]}>
                 {bills && bills.map((bill, index) => {
                     const dateJoin = bill.date ? new Date(bill?.date) : new Date()
                     return (
@@ -27,7 +27,7 @@ function OrderAdTable(props: Props) {
                             <td>{bill.user?.phone}</td>
                             <td>COD</td>
                             <td>200,000</td>
-                            <td>Đang giao</td>
+                           
                             <td>
                                 <select
                                     className="form-control inputSearch"

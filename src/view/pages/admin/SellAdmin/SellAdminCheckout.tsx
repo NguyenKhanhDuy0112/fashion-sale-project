@@ -27,7 +27,7 @@ function SaleAdminCheckout() {
                             </p>
                         </div>
                         <div className="col-auto">
-                            <p className="mb-0 sellAdmin__content-calc-price">12,000</p>
+                            <p className="mb-0 sellAdmin__content-calc-price">10,000</p>
                         </div>
                     </div>
                     <div className="row mb-3">
@@ -67,7 +67,7 @@ function SaleAdminCheckout() {
                             </p>
                         </div>
                         <div className="col-5">
-                            <h4 className="mb-0 text-end text-danger">22,000</h4>
+                            <h4 className="mb-0 text-end text-danger">20,000</h4>
                         </div>
                     </div>
                     <div className="row mb-3">

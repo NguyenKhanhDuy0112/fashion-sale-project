@@ -26,7 +26,7 @@ function OrderAdDetail() {
                 </div>
                 <div className="row g-3 mb-3">
                     <div className="col-md">
-                        <h6 className="invoiceAdmin__title">DATE</h6>
+                        <h6 className="invoiceAdmin__title">Ngày</h6>
                         <p className="invoiceAdmin__text">1/1/2022</p>
                     </div>
                     <div className="col-xl-3 col-lg-5 col-md-4 text-md-end text-start">

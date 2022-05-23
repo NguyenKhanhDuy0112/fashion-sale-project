@@ -1,11 +1,119 @@
 .productDetail {
     &__title {
-        font-weight: 400;
+        font-weight: 500;
         text-transform: capitalize;
-        font-size: 1.15rem;
+        font-size: 1rem;
+
+        @include responsive(xxl-screen) {
+            font-size: 1.15rem;
+            font-weight: 400;
+        }
     }
     &__info {
         &-image {
+            &-swiper > .swiper-pagination-fraction{
+                background-color: rgba(0,0,0,0.4);
+                color: white;
+                margin-left: 90%;
+                width: auto;
+                border-radius: 4px;
+                padding: 5px;
+                font-size: 0.75rem;
+            }   
+            &-modal{
+                @include position (fixed, 0,0,0,0);
+                z-index: 50;
+                display: none;
+                background-color: rgba(255,255,255,1);
+
+                @include responsive(xxl-screen){
+                    background-color: rgba(0,0,0,0.8);
+                }
+
+                &.active{
+                    display: block;
+                }
+
+                &-close{
+                    cursor: pointer;
+                    position: absolute;
+                    opacity: 0.8;
+                    z-index: 100;
+                    top: 2%;
+                    right: 2%;
+                    &:hover{
+                        opacity: 1;
+                    }
+                    &-icon{
+                        color: $color-sub;
+                        font-weight: 700;
+
+                        @include responsive(xxl-screen){
+                            color: white;
+                        }
+                    }
+                    &-text{
+                        font-size: 0.9rem;
+                        color: white;
+                        font-weight: 600;
+                    }
+                }
+
+                &-swiper{
+                    
+                    width: auto !important;
+
+                    @include responsive(xxl-screen){
+                        width: 1000px !important;
+                    }
+                    & > .swiper-button-prev{
+                       border: 2px solid #fff;
+                       border-radius: 50%;
+                       padding: 30px;
+                       display: none;
+
+                       @include responsive(xxl-screen){
+                           display: flex;
+                       }
+
+                       &::after{
+                           color: #fff;
+                           font-size: 2rem;
+                           font-weight: 900;
+                       }
+                    }
+
+                    & > .swiper-button-next{
+                        border: 2px solid #fff;
+                        border-radius: 50%;
+                        padding: 30px;
+
+                        display: none;
+
+                        @include responsive(xxl-screen){
+                            display: flex;
+                        }
+ 
+                        &::after{
+                            color: #fff;
+                            font-size: 2rem;
+                            font-weight: 900;
+                        }
+                    }
+                    &-slide{
+                        padding: 200px 0;
+                        height: 100%;
+                        width: 100%;
+
+                        @include responsive(xxl-screen){
+                            padding: 5px 220px 150px;
+                            height: 100%;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
             &-thumnail {
             }
 
@@ -13,6 +121,16 @@
                 &-item {
                     border-radius: 4px;
                     width: 100%;
+
+                    &-shadow{
+                        border-radius: 4px;
+                        color: white;
+                        cursor: pointer;
+                        font-size: 0.7rem;
+                        @include flex-center();
+                        @include position(absolute, 0, 0,0,0);
+                        background-color: rgba(0,0,0,0.8);
+                    }
 
                     &.active {
                         border: 1px solid $color-blue;
@@ -35,8 +153,12 @@
                 &-current {
                     color: $color-red;
                     font-weight: 500;
-                    font-size: 2rem;
+                    font-size: 1.5rem;
                     line-height: 40px;
+
+                    @include responsive(xxl-screen) {
+                        font-size: 2rem;
+                    }
                 }
                 &-old {
                     color: $color-sub;
@@ -57,8 +179,16 @@
                 }
             }
             &-title {
-                font-weight: 300;
+                font-weight: 400;
+                font-size: 1.02rem;
+                line-height: 24px;
                 word-break: break-word;
+
+                @include responsive(xxl-screen) {
+                    font-weight: 300;
+                    line-height: 32px;
+                    font-size: 1.36rem;
+                }
             }
             &-brand {
                 font-size: 0.9rem;
@@ -77,10 +207,9 @@
                 align-items: center;
                 -webkit-box-pack: center;
                 justify-content: center;
-                min-width: 190px;
                 width: 100%;
-                max-width: 300px;
-                height: 48px;
+                height: 100%;
+                max-width: auto;
                 font-size: 15px;
                 line-height: 24px;
                 font-weight: 500;
@@ -90,15 +219,24 @@
                 outline: none;
                 transition: all ease 0.3s;
 
+                @include responsive(xxl-screen) {
+                    min-width: 190px;
+                    width: 100%;
+                    height: 48px;
+                    max-width: 300px;
+                }
+
                 &:hover {
                     opacity: 0.8;
                 }
             }
             &-chat {
-                width: 48px;
-                height: 48px;
+                width: 40px;
+                height: 100%;
                 background: rgb(255, 255, 255);
                 display: flex;
+                font-size: 0.74rem;
+                font-weight: 500;
                 flex-shrink: 0;
                 flex-direction: column;
                 -webkit-box-pack: center;
@@ -108,6 +246,12 @@
                 border: 1px solid rgb(13, 92, 182);
                 border-radius: 4px;
                 cursor: pointer;
+
+                @include responsive(xxl-screen) {
+                    width: 48px;
+                    height: 48px;
+                    font-size: 1rem;
+                }
 
                 &-icon {
                     color: $color-blue;
@@ -120,6 +264,7 @@
             }
             &-rating {
                 &-comment {
+                    font-size: 0.8em;
                     color: $color-sub;
 
                     &:hover {
@@ -133,6 +278,7 @@
                 }
                 &-selled {
                     color: $color-sub;
+                    font-size: 0.8rem;
                 }
             }
         }
@@ -181,8 +327,8 @@
                         display: block;
                     }
                     &-img {
-                        width: 40%;
-                        height: 100%;
+                        width: 60px;
+                        height: 60px;
                     }
                     &-text {
                         width: 60%;
@@ -196,6 +342,57 @@
                     }
                 }
             }
+
+            &-mobile {
+                border: 1px solid rgb(224, 224, 224);
+                border-radius: 4px;
+                &-img {
+                    width: 40px;
+                    height: 40px;
+                }
+                &-bg {
+                    width: 100%;
+                    height: 100%;
+                    padding-top: 100%;
+                    background-size: cover;
+                    position: relative;
+                }
+                &-content {
+                    &-title {
+                        font-size: 0.86rem;
+                        color: $color-sub;
+                    }
+                    &-text {
+                        font-size: 0.86rem;
+                        font-weight: 500;
+                    }
+                }
+
+                &-card {
+                    &-img {
+                        background-size: cover;
+
+                        min-width: 104px;
+                        height: 114px;
+                    }
+                    &-title {
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        overflow: hidden;
+                        font-weight: 400;
+                        line-height: 20px;
+                        text-overflow: ellipsis;
+                        font-size: 0.85rem;
+                    }
+                }
+            }
+        }
+    }
+    &__nav {
+        &-buy {
+            padding: 12px 16px;
+            height: 66px;
         }
     }
     &__infoDt {
@@ -205,19 +402,28 @@
                 & tr {
                     &:nth-child(even) {
                         & > td {
-                            background-color: #fafafa;
+                            background-color: #fafafa !important;
+
+                            @include responsive (xxl-screen){
+                                background-color: #fafafa;
+                            }
                         }
                     }
                     font-size: 0.8rem;
 
                     & td:first-child {
-                        width: 220px;
+                        width: auto;
                         vertical-align: top;
                         color: rgb(79, 79, 79);
                         font-size: 13px;
                         font-weight: 500;
-                        background: rgb(239, 239, 239);
+                        background: #fff;
                         padding: 0.6rem 0.8rem;
+
+                        @include responsive(xxl-screen){
+                            background: rgb(239, 239, 239);
+                            width: 220px;
+                        }
                     }
 
                     & td:last-child {
@@ -246,6 +452,18 @@
                 user-select: none;
             }
         }
+
+        &-btn{
+            &-more{
+                border: 1px solid $bg-primary;
+                color: $bg-primary;
+                border-radius: 4px;
+                width: 100%;
+                font-size: 0.9rem;
+                padding: 10px 12px;
+                background-color: #fff;
+            }
+        }
     }
 
     &__description {
@@ -254,8 +472,12 @@
             overflow: auto;
 
             &.active {
-                height: 500px;
+                height: 170px;
                 overflow: hidden;
+
+                @include responsive(xxl-screen){
+                    height: 500px;
+                }
             }
         }
         &-gradient {
@@ -274,27 +496,43 @@
 
         &-title {
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.76rem;
             font-weight: 500;
+
+            @include responsive(xxl-screen){
+                font-size: 0.9rem;
+            }
         }
 
         &-content {
             font-size: 0.9rem;
+            font-size: 0.76rem;
+
+            @include responsive(xxl-screen){
+                font-size: 0.9rem;
+            }
         }
         &-btn {
             cursor: pointer;
             @include flex-center();
-            font-size: 0.9rem;
+            font-size: 1rem;
             margin: 10px auto 0px;
-            color: rgb(24, 158, 255);
-            font-size: 13px;
+            color: $color-blue;
+            font-size: 0.9rem;
             text-transform: capitalize;
-            font-weight: 400;
+            font-weight: 500;
             text-align: center;
             background-color: #fff;
-            border: 1px solid rgb(24, 158, 255);
+            border: 1px solid transparent;
             border-radius: 4px;
             transition: all ease 0.3s;
+
+            @include responsive(xxl-screen){
+                border: 1px solid rgb(24, 158, 255);
+                color: rgb(24, 158, 255);
+                font-size: 13px;
+                font-weight: 400;
+            }
 
             &:hover {
                 background-color: $bg-primary;

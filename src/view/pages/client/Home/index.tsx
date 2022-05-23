@@ -1,4 +1,6 @@
+import FooterClient from '../../../../layout/client/FooterClient';
 import HeaderClient from '../../../../layout/client/HeaderClient';
+import NavClient from '../../../../layout/client/NavClient';
 import HomeBanner from './HomeBanner';
 import HomeBannerSub from './HomeBannerSub';
 import HomeCategory from './HomeCategory';
@@ -20,6 +22,8 @@ function Home() {
                 <HomeSuggest />
                 <HomeProduct />
             </div>
+            <NavClient/>
+            <FooterClient/>
         </>
     );
 }

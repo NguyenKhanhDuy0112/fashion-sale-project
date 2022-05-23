@@ -4,10 +4,19 @@
         align-items: center;
         &-average {
             font-weight: 800;
+            font-size: 2rem;
+
+            @include responsive(xxl-screen){
+                font-size: 1.7rem;
+            }
         }
         &-number {
             color: $color-sub;
-            font-size: 0.9rem;
+            font-size: 1rem;
+
+            @include responsive(xxl-screen){
+                font-size: 0.9rem;
+            }
         }
     }
 

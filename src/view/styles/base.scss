@@ -312,6 +312,15 @@ input[type="date"]:focus::before {
     }
 }
 
+@keyframes fadeOut {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
 .border-b-f7{
     border-bottom: 1px solid #f7f7f7;
 

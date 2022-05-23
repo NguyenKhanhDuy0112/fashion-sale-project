@@ -38,13 +38,13 @@ function ProductAdDetail() {
 
                         >
                             <SwiperSlide>
-                                <img className='w-100 productAdDetail__image-child cursor-pointer active' src="https://salt.tikicdn.com/cache/100x100/ts/product/1a/2a/00/a1edb633e7aa8f6266e382359400b5fc.jpg.webp" alt="" />
+                                <img className='w-100 productAdDetail__image-child cursor-pointer active' src="https://salt.tikicdn.com/cache/100x100/ts/product/7b/af/e3/60e6673d1ac9337b9431cd2656b1f0c8.jpg.webp" alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
-                                <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/54/85/b7/31cc53a37b7e08dbde5cdfec428b8bdc.jpg.webp" alt="" />
+                                <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/07/3e/fe/14172fb51417d6d9a33f832770304ec7.jpg.webp" alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
-                                <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/54/85/b7/31cc53a37b7e08dbde5cdfec428b8bdc.jpg.webp" alt="" />
+                                <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/a5/7b/9a/4f86ae55da63d641cc1f3911770a9069.jpg.webp" alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
                                 <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/54/85/b7/31cc53a37b7e08dbde5cdfec428b8bdc.jpg.webp" alt="" />

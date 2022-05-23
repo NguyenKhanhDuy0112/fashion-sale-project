@@ -1,3 +1,4 @@
+import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderClient from "../../../../layout/client/HeaderClient";
 import HeaderClientMobile from "../../../../layout/client/HeaderClient/HeaderClientMobile";
 import Breadcrumb from "../../../../shared/components/Breadcrumb";
@@ -24,6 +25,9 @@ function Shop() {
                     </div>
                 </div>
             </section>
+            <div className="d-xl-block d-none">
+                <FooterClient/>
+            </div>
         </>
     );
 }

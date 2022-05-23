@@ -5,6 +5,7 @@ import { FiTrash2 } from "react-icons/fi";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 import TableCustom from "../../../../shared/components/TableCustom";
+import { formatCashVND } from "../../../../shared/helpers";
 import { Product } from "../../../../shared/interfaces";
 
 interface Props {
@@ -35,7 +36,7 @@ function ProductAdTable(props: Props) {
                         <tr key={product._id}>
                             <td>{index + 1}</td>
                             <td>{product.name}</td>
-                            <td className="text-end">{product.price}</td>
+                            <td className="text-end">{formatCashVND(product.price+"", ".")}</td>
                             <td>{product.unit}</td>
                             <td>{product.origin}</td>
                             <td>{product.material}</td>

@@ -1,0 +1,22 @@
+.snackbar{
+    @include position(fixed, none, none, 10%, 50%);
+    background-color: rgba(0, 0, 0, 0.77);
+    border-radius: 8px;
+    max-width: calc(100% - 16px);
+    padding: 10px 15px;
+    display: none;
+    z-index: 30;
+    transform: translateX(-50%);
+    animation: fadeOut ease .2s;
+
+    &.active{
+        display: block;
+        animation: fadeIn ease .2s;
+    }
+
+    &__text{
+        color: white;
+        font-size: 0.85rem;
+    }
+
+}

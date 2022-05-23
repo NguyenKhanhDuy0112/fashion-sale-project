@@ -1,0 +1,42 @@
+.address{
+
+    &__head{
+
+        &-ship{
+            font-size: 1rem;
+            color: $color-sub;
+
+        }
+        &-change{
+            color: $color-blue;
+            font-size: 0.9rem;
+
+            &:hover{
+                color: $color-blue;
+            }
+        }
+    }
+    &__body{
+
+        &-name{
+            font-weight: 600;
+            font-size: 0.9rem;
+
+        }
+        &-separate{
+            width: 1px;
+            height: 12px;
+            background-color: #ccc;
+
+        }
+        &-phone{
+            font-weight: 600;
+            font-size: 0.9rem;
+
+        }
+    }
+    &__text{
+        color: $color-sub;
+        font-size: 0.9rem;
+    }
+}

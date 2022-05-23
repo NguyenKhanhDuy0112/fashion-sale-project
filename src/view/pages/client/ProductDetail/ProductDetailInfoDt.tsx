@@ -1,7 +1,7 @@
 function ProductDetailInfoDt() {
     return ( 
-        <article className="productDetail__infoDt mt-3">
-            <div className="container-client">
+        <article className="productDetail__infoDt mt-xl-3 mt-2">
+            <div className="container-client none">
                 <div className="p-3 bg-white border-radius-4">
                     <h4 className="productDetail__title">Thông tin chi tiết</h4>
                     <table className="productDetail__infoDt-table">
