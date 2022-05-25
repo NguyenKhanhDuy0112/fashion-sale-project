@@ -1,0 +1,43 @@
+.account{
+    
+    &__avatar{
+        &-img{
+            border-radius: 50%;
+            width: 45px;
+        }
+        &-title{
+            font-size: 0.85rem;
+            color: $color-sub;
+        }
+        &-name{
+            
+        }
+    }
+
+    &__list{
+
+    }
+    &__item{
+        &-link{
+            display: block;
+            font-size: 0.9rem;
+            transition: all ease .2s;
+
+            &:hover{
+                background-color: #EBEBF0;
+                color: #000;
+            }
+
+            &.active{
+                background-color: #EBEBF0;
+            }
+            &-icon{
+                color: #9B9B9B;
+            }
+            &-text{
+                font-size: 0.8rem;
+            }
+            
+        }
+    }
+}

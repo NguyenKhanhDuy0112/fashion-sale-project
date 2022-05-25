@@ -12,6 +12,7 @@ import ProviderAdmin from "../view/pages/admin/ProviderAdmin"
 import SellAdmin from "../view/pages/admin/SellAdmin"
 import SettingAdmin from "../view/pages/admin/SettingAdmin"
 import StatisticalAdmin from "../view/pages/admin/Statistical"
+import TrademarkAdmin from "../view/pages/admin/TrademarkAdmin"
 
 interface Route {
     path: string,
@@ -25,6 +26,7 @@ const routeAdmin:Route[] = [
     {path: "/products/:slug", component: <ProductAdDetail/>},
     {path: "/orders/create-order", component: <SellAdmin/>},
     {path: "/orders", component: <OrderAdmin/>},
+    {path: "/trademarks", component: <TrademarkAdmin/>},
     {path: "/imports", component: <ImportAdmin/>},
     {path: "/coupons", component: <CouponAdmin/>},
     {path: "/setting", component: <SettingAdmin/>},

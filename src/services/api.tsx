@@ -6,6 +6,7 @@ const url = {
     products: "/products",
     users : '/users',
     bills: "/bills",
+    trademarks: "/trademarks",
     billDetail: "/bill-detail",
     productDetails: "/product-details",
     coupons: "/coupon",

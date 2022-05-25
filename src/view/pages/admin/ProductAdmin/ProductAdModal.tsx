@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
 import { FiTrash2 } from "react-icons/fi";
 import * as Yup from "yup";
 import ImageUploading from "../../../../shared/components/ImageUploading";
 import InputAdmin from "../../../../shared/components/InputAdmin";
-import { Category, Product, ProductDetail } from "../../../../shared/interfaces";
+import { Category, Product, ProductDetail, Trademark } from "../../../../shared/interfaces";
 import productsService from "../../../../services/productService";
 import { handleCreateImage } from "../../../../shared/helpers";
 import categoriesService from "../../../../services/categoriesService";
@@ -16,6 +16,8 @@ import { BsPencil } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { showToast } from "../../../../modules/toast/toastSlice";
 import productDetailsService from "../../../../services/productDetailsService";
+import trademarksService from "../../../../services/trademarksService";
+import ModalAdDelete from "../../../../shared/components/ModalAdDelete";
 
 interface ModalShow {
     show: boolean,
@@ -27,14 +29,17 @@ interface ModalShow {
 }
 
 function ProductAdModal(props: ModalShow) {
+    const description = useRef<string>(' ')
     const { show, handleClose, product, onLoadData, onModalDelete, showModalDelete } = props
     const [categories, setCategories] = useState<Category[]>()
+    const [trademarks, setTrademarks] = useState<Trademark[]>()
     const [showToolbar, setShowToolbar] = useState(false)
     const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         handleLoadCategories()
+        handleLoadTrademarks()
     }, [])
 
     const handleLoadCategories = async () => {
@@ -42,7 +47,15 @@ function ProductAdModal(props: ModalShow) {
         setCategories(categoriesData.data)
     }
 
+    const handleLoadTrademarks = async () => {
+        const trademarkData = await trademarksService.list()
+        setTrademarks(trademarkData.data)
+    }
+
     useEffect(() => {
+        if (product) {
+            description.current = product.description
+        }
         if (product?._id !== '') {
             formik.setValues(product ? product : {
                 _id: '',
@@ -55,6 +68,7 @@ function ProductAdModal(props: ModalShow) {
                 price: 0,
                 productDetails: []
             })
+
 
         }
         else {
@@ -75,18 +89,19 @@ function ProductAdModal(props: ModalShow) {
             unit: '',
             rating: 0,
             category: '',
+            trademark: '',
             price: 0,
             productDetails: []
         },
         validationSchema: Yup.object({
             _id: Yup.string(),
             name: Yup.string().required("Tên không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
-            description: Yup.string().required('Mô tả không được để trống.'),
             material: Yup.string().required("Chất liệu không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             origin: Yup.string().required("Xuất xứ không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             unit: Yup.string().required("Đơn vị không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             price: Yup.number().required("Giá tiền không được để trống.").typeError('Vui lòng nhập số.').min(1, "Giá tiền phải lớn hơn 0.").max(1000000000, "Giá tiền phải bé hơn 1,000,000,000."),
             category: Yup.string().required('Vui lòng chọn danh mục.'),
+            trademark: Yup.string().required('Vui lòng chọn thương hiệu.'),
         }),
         onSubmit: (values) => {
             handleSubmitForm(values)
@@ -94,12 +109,15 @@ function ProductAdModal(props: ModalShow) {
     })
 
     const handleSubmitForm = async (value: any) => {
+        value.description = description.current
+        console.log("Product Submit", value)
         setIsLoading(true)
         const proDetail: any = []
         const { _id, productDetails, rating, ...others } = value
         if (value._id === '') {
             try {
                 const pro = await productsService.add({ ...others, })
+                
                 if (pro) {
                     await value.productDetails.forEach(async (proDe: any, indexParent: number) => {
                         const imageSub: any = []
@@ -151,7 +169,7 @@ function ProductAdModal(props: ModalShow) {
                                     const [thumnail, ...imageOther] = imageSub
                                     proDetail.push({ ...proDe, product: pro._id, color: proDe.color, image: thumnail, 'images-sub': [...imageOther], size: size })
                                     if (idx === proDe.size.length - 1 && indexParent === value.productDetails.length - 1) {
-                                    
+
                                         await productDetailsService.update(proDetail)
                                         await dispatch(showToast({ show: true, text: "Cập nhật sản phẩm thành công", type: "success", delay: 1500 }))
                                         await setIsLoading(false)
@@ -162,7 +180,7 @@ function ProductAdModal(props: ModalShow) {
                         });
                     });
                     await onLoadData()
-                    
+
                 }
             }
             catch (err) {
@@ -175,27 +193,30 @@ function ProductAdModal(props: ModalShow) {
     }
 
     const handleDeleteProduct = async () => {
+        setIsLoading(true)
         if (product?._id) {
             try {
                 await productsService.delete(product._id)
                 dispatch(showToast({ show: true, text: "Xóa sản phẩm thành công", type: "success", delay: 1500 }))
+                setIsLoading(false)
                 onLoadData()
             }
             catch (err) {
+                setIsLoading(false)
                 dispatch(showToast({ show: true, text: "Xóa sản phẩm thất bại", type: "error", delay: 1500 }))
             }
         }
         onModalDelete()
     }
 
-    const handleLoading = () => {}
+    const handleLoading = () => { }
 
     return (
         <>
             <Modal
                 size="lg"
                 show={show}
-                onHide={isLoading  ? handleLoading : handleClose}
+                onHide={isLoading ? handleLoading : handleClose}
                 backdrop="static"
                 keyboard={false}
             >
@@ -333,6 +354,17 @@ function ProductAdModal(props: ModalShow) {
                         options={categories && categories.map(cate => ({ value: cate._id, name: cate.name }))}
                     />
 
+                    <InputAdmin
+                        placeholder="Thương hiệu..."
+                        label="Thương hiệu"
+                        id="productTrademark"
+                        labelClass="col-md-3 col-lg-2"
+                        frmField={formik.getFieldProps('trademark')}
+                        err={formik.touched.trademark && formik.errors.trademark}
+                        errMessage={formik.errors.trademark}
+                        options={trademarks && trademarks.map(tra => ({ value: tra._id, name: tra.name }))}
+                    />
+
                     <div className="row g-1 align-items-center">
                         <div className="col">
                             <div className="d-flex align-items-center mb-3">
@@ -343,16 +375,16 @@ function ProductAdModal(props: ModalShow) {
                             </div>
                             {showToolbar &&
                                 <Editor
-                                text={formik.values.description}
-                                onChangeText={(text) => formik.setFieldValue('description', text)}
-                            />
+                                    text={description.current ? description.current : ' '}
+                                    onChangeText={(text) => description.current = text}
+                                />
                             }
                         </div>
                     </div>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={isLoading ? handleLoading :handleClose}>
+                    <Button variant="secondary" onClick={isLoading ? handleLoading : handleClose}>
                         Đóng
                     </Button>
                     <Button
@@ -360,35 +392,17 @@ function ProductAdModal(props: ModalShow) {
                         onClick={() => formik.handleSubmit()}
                         className="bg-ad-primary btn-ad-primary"
                     >
-                        {isLoading ? <Spinner size = "sm" animation="border" variant="light" /> : 'Lưu'}
+                        {isLoading ? <Spinner size="sm" animation="border" variant="light" /> : 'Lưu'}
                     </Button>
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={showModalDelete} centered onHide={onModalDelete}>
-                <Modal.Body>
-                    <p className="text-center text-danger fs-3"><FiTrash2 /></p>
-                    <h5 className="text-center modal__text-head mb-1">Bạn có chắc là muốn xóa mục này?</h5>
-                    <p className="text-center modal__text-sub mb-0">Bạn có thực sự muốn xóa mục này? Bạn không thể xem mục này trong danh sách của mình nữa nếu bạn xóa!</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="d-flex justify-content-center align-items-center w-100">
-                        <button
-                            className="btn modal__btn-cancel me-1"
-                            onClick={onModalDelete}
-                        >
-                            Đóng
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-ad-primary modal__btn-delete ms-1 text-white"
-                            onClick={handleDeleteProduct}
-                        >
-                            Xóa
-                        </button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
+            <ModalAdDelete
+                show = {showModalDelete}
+                onHide = {onModalDelete}
+                onDelete = {handleDeleteProduct}
+                isLoading = {isLoading}
+            />
         </>
     );
 }

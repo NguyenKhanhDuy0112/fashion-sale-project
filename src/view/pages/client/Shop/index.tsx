@@ -14,7 +14,7 @@ function Shop() {
             <div className="d-xl-block d-none">
                 <HeaderClient />
             </div>
-            <section className="shop bg-outside-client mt-2 pb-3">
+            <section className="shop bg-outside-client mt-xl-0 mt-2 pb-3">
                 <div className="container-client">
                     <Breadcrumb />
                 </div>

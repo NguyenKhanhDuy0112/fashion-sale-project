@@ -1,40 +1,40 @@
-import { useFormik } from "formik";
-import { Button, Modal, Spinner } from "react-bootstrap";
-import InputAdmin from "../../../../shared/components/InputAdmin";
-import * as Yup from "yup";
-import ImageUploading from "../../../../shared/components/ImageUploading";
-import { Category } from "../../../../shared/interfaces";
-import { useEffect, useState } from "react";
-import { handleCreateImage } from "../../../../shared/helpers";
-import categoriesService from "../../../../services/categoriesService";
+import { useEffect, useState } from "react"
+import { Button, Modal, Spinner } from "react-bootstrap"
 import { FiTrash2 } from "react-icons/fi"
-import { useDispatch } from "react-redux";
-import { showToast } from "../../../../modules/toast/toastSlice";
-import ModalAdDelete from "../../../../shared/components/ModalAdDelete";
+import { useDispatch } from "react-redux"
+import { showToast } from "../../../../modules/toast/toastSlice"
+import { Trademark } from "../../../../shared/interfaces"
+import * as Yup from "yup";
+import trademarksService from "../../../../services/trademarksService"
+import { useFormik } from "formik"
+import ImageUploading from "../../../../shared/components/ImageUploading"
+import InputAdmin from "../../../../shared/components/InputAdmin"
+import { handleCreateImage } from "../../../../shared/helpers"
+import ModalAdDelete from "../../../../shared/components/ModalAdDelete"
 
 interface ModalShow {
     show: boolean,
-    showModalDelete: boolean
-    category?: Category,
+    showModalDelete: boolean,
+    trademark?: Trademark,
     handleClose: () => void
     onLoadData: () => void,
     onModalDelete: () => void
 }
 
-function CategoryAdModal(props: ModalShow) {
-    const { show, handleClose, category, onLoadData, onModalDelete, showModalDelete  } = props
+function TrademarkAdModal(props: ModalShow) {
+    const { show, handleClose, trademark, onLoadData, onModalDelete, showModalDelete } = props
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (category?._id) {
-            category.image = [{ dataURL: category.image }]
-            formik.setValues(category)
+        if (trademark?._id) {
+            trademark.image = [{ dataURL: trademark.image }]
+            formik.setValues(trademark)
         }
         else {
             formik.resetForm()
         }
-    }, [category])
+    }, [trademark])
 
     const formik = useFormik({
         initialValues: {
@@ -70,7 +70,7 @@ function CategoryAdModal(props: ModalShow) {
 
                 if (value._id) {
                     try {
-                        await categoriesService.update(_id, { ...others, image: images[0] })
+                        await trademarksService.update(_id, { ...others, image: images[0] })
                         dispatch(showToast({ show: true, text: "Cập nhật danh mục thành công", type: "success", delay: 1500 }))
                         onLoadData()
                         setIsLoading(false)
@@ -83,7 +83,7 @@ function CategoryAdModal(props: ModalShow) {
                 }
                 else {
                     try {
-                        await categoriesService.add({image: images[0],...others})
+                        await trademarksService.add({ image: images[0], ...others })
                         dispatch(showToast({ show: true, text: "Thêm danh mục thành công", type: "success", delay: 1500 }))
                         onLoadData()
                         setIsLoading(false)
@@ -97,14 +97,13 @@ function CategoryAdModal(props: ModalShow) {
             }
         });
 
-
     }
 
-    const handleDeleteCategory = async () => {
+    const handleDeleteTrademark = async () => {
         setIsLoading(true)
-        if (category?._id) {
+        if (trademark?._id) {
             try {
-                await categoriesService.delete(category._id)
+                await trademarksService.delete(trademark._id)
                 dispatch(showToast({ show: true, text: "Xóa sản phẩm thành công", type: "success", delay: 1500 }))
                 setIsLoading(false)
                 onLoadData()
@@ -116,7 +115,6 @@ function CategoryAdModal(props: ModalShow) {
         }
         onModalDelete()
     }
-
     return (
         <>
             <Modal
@@ -127,7 +125,7 @@ function CategoryAdModal(props: ModalShow) {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <h5 className="mb-0">{category?._id === "" ? 'Thêm' : 'Cập Nhật'} Danh Mục</h5>
+                    <h5 className="mb-0">{trademark?._id === "" ? 'Thêm' : 'Cập Nhật'} Thương Hiệu</h5>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row align-items-center mb-3 g-3">
@@ -146,9 +144,9 @@ function CategoryAdModal(props: ModalShow) {
                     </div>
 
                     <InputAdmin
-                        placeholder="Tên danh mục..."
+                        placeholder="Tên thương hiệu..."
                         label="Tên"
-                        id="categoryId"
+                        id="trademarkId"
                         labelClass="col-md-3 col-lg-2"
                         frmField={formik.getFieldProps('name')}
                         err={formik.touched.name && formik.errors.name}
@@ -165,44 +163,19 @@ function CategoryAdModal(props: ModalShow) {
                         onClick={() => formik.handleSubmit()}
                         className="bg-ad-primary btn-ad-primary"
                     >
-                        {isLoading ? <Spinner size = "sm" animation="border" variant="light" /> : 'Lưu'}
+                        {isLoading ? <Spinner size="sm" animation="border" variant="light" /> : 'Lưu'}
                     </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showModalDelete} centered onHide={onModalDelete}>
-                <Modal.Body>
-                    <p className="text-center text-danger fs-3"><FiTrash2 /></p>
-                    <h5 className="text-center modal__text-head mb-1">Bạn có chắc là muốn xóa mục này?</h5>
-                    <p className="text-center modal__text-sub mb-0">Bạn có thực sự muốn xóa mục này? Bạn không thể xem mục này trong danh sách của mình nữa nếu bạn xóa!</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="d-flex justify-content-center align-items-center w-100">
-                        <button
-                            className="btn modal__btn-cancel me-1"
-                            onClick={onModalDelete}
-                        >
-                            Đóng
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-ad-primary modal__btn-delete ms-1 text-white"
-                            onClick={handleDeleteCategory}
-                        >
-                            Xóa
-                        </button>
-                    </div>
                 </Modal.Footer>
             </Modal>
 
             <ModalAdDelete
                 show = {showModalDelete}
                 onHide = {onModalDelete}
-                onDelete = {handleDeleteCategory}
+                onDelete = {handleDeleteTrademark}
                 isLoading = {isLoading}
             />
         </>
     );
 }
 
-export default CategoryAdModal;
+export default TrademarkAdModal;

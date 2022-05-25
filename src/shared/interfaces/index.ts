@@ -6,9 +6,12 @@ export interface Product{
     description: string,
     unit: string,
     slug?: string,
+    trademark?: any,
     price?: number,
     rating? : number,
     category?: any,
+    createdAt?: any,
+    updatedAt?: any,
     productDetails?: ProductDetail[]
 }
 
@@ -20,6 +23,13 @@ export interface ProductDetail{
     size: any,
     color: any,
     images?: any
+}
+
+export interface Trademark{
+    _id: any,
+    name: string,
+    image: any,
+    products? : Product
 }
 
 export interface Category{

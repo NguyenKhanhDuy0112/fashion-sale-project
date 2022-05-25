@@ -34,6 +34,7 @@ function ProductAdmin() {
 
         if (id !== '') {
             const findProduct = await productsService.findById(id)
+            console.log("Product: ", findProduct)
             const proData: any = findProduct
             let color = ''
             const detail: ProductDetail[] = []
@@ -70,6 +71,7 @@ function ProductAdmin() {
                 name: '',
                 price: 0,
                 category: undefined,
+                trademark: undefined,
                 origin: '',
                 productDetails: [],
                 unit: ''

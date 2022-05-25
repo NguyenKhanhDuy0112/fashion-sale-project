@@ -1,6 +1,6 @@
 import LinkAdmin from "../../../shared/components/LinkAdmin";
 import { MdDashboard } from "react-icons/md"
-import { AiOutlineBars, AiOutlineGift } from "react-icons/ai";
+import { AiOutlineBars, AiOutlineGift, AiOutlineTrademark } from "react-icons/ai";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { BiCompass, BiImport } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
@@ -24,6 +24,12 @@ function NavAdminLink() {
                     <AiOutlineBars size={20} />
                 </span>
                 <span className={`linkAdmin__item-text ${isToggleNav ? 'active' : ''}`}>Danh mục</span>
+            </LinkAdmin>
+            <LinkAdmin to="/admin/trademarks">
+                <span className="linkAdmin__item-icon">
+                    <AiOutlineTrademark size={20} />
+                </span>
+                <span className={`linkAdmin__item-text ${isToggleNav ? 'active' : ''}`}>Thương hiệu</span>
             </LinkAdmin>
             <LinkAdmin to="/admin/products">
                 <span className="linkAdmin__item-icon">
@@ -67,12 +73,6 @@ function NavAdminLink() {
                 </span>
                 <span className={`linkAdmin__item-text ${isToggleNav ? 'active' : ''}`}>Thống kê</span>
             </LinkAdmin>
-            {/* <LinkAdmin to="/admin/setting">
-                <span className="linkAdmin__item-icon">
-                    <FiSettings size={20} />
-                </span>
-                <span className={`linkAdmin__item-text ${isToggleNav ? 'active' : ''}`}>Cài đặt</span>
-            </LinkAdmin> */}
         </ul>
     );
 }

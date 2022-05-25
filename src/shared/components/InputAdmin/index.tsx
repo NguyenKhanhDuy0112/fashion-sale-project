@@ -10,6 +10,7 @@ interface InputField {
     labelClass: string,
     frmField: any,
     err: any,
+    gap?: number,
     id: string,
     errMessage: any,
     noneLabel?: boolean
@@ -19,7 +20,7 @@ function InputAdmin(props: InputField) {
     const classInput = `form-control inputSearch ${props.err ? "is-invalid" : ""}`
     return (
         <>
-            <div className={`row align-items-center ${!props.noneLabel && 'mb-3 g-1'}`}>
+            <div className={`row ${props.gap ? `g-${props.gap}` : ''} w-100 align-items-center ${!props.noneLabel && 'mb-3 g-1'}`}>
                 {!props.noneLabel &&
                     <div className={props.labelClass}>
                         <label htmlFor={props.id} className="mb-0 fs-6">{props?.label}</label>
