@@ -5,6 +5,14 @@ const list = () => {
     return api.get(api.url.bills).then(res => res.data)
 }
 
+const listPaginationExports = (page: number, limit: number) => {
+    return api.get(`${api.url.bills}/type/exports?page=${page}&limit=${limit}`).then(res => res.data)
+}
+
+const listPaginationImports = (page: number, limit: number) => {
+    return api.get(`${api.url.bills}/type/imports?page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const findBillImports = () => {
     return api.get(`${api.url.bills}/types/imports`).then(res => res.data)
 }
@@ -41,7 +49,9 @@ const billsService = {
     findBillImports,
     findById,
     update,
-    add
+    add,
+    listPaginationExports,
+    listPaginationImports,
 }
 
 export default billsService;

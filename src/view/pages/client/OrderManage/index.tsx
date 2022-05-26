@@ -1,21 +1,27 @@
+import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderClient from "../../../../layout/client/HeaderClient";
-import Account from "../Account";
-import EditAccountDesk from "./EditAccountDesk";
 import HeaderMobileTitle from "../../../../layout/client/HeaderMobileTitle";
+import OrderItem from "../../../../shared/components/OrderItem";
+import Account from "../Account";
 
-function EditAccount() {
+const orders = ["Tất cả đơn", "Đang xử lý", "Đang vận chuyển", "Đã giao", "Đã hủy"]
+
+function OrderManage() {
+
+    const [tab, setTab] = useState("Tất cả đơn")
+
     return (
         <>
             <div className="d-xl-block d-none">
                 <HeaderClient />
             </div>
             <div className="d-xl-none d-block">
-                <HeaderMobileTitle title="Thông Tin Tài Khoản" />
+                <HeaderMobileTitle title="Đơn Hàng Của Tôi" />
             </div>
-            <section className="editAccount bg-outside-client pb-3">
+            <section className="orderManage bg-outside-client pb-3">
                 <div className="container-client none">
                     <article className="breadcrumbCustom py-2 d-xl-block d-none">
                         <ul className="breadcrumbCustom__list align-items-start">
@@ -29,7 +35,7 @@ function EditAccount() {
                             </li>
                             <li className="breadcrumbCustom__list-item">
                                 <span className="breadcrumbCustom__list-item-link">
-                                    Thông tin tài khoản
+                                    Đơn hàng của tôi
                                 </span>
                             </li>
                         </ul>
@@ -39,11 +45,20 @@ function EditAccount() {
                             <Account />
                         </div>
                         <div className="col">
-                            <EditAccountDesk />
+                            <h5 className="editAccount__title mb-4">Đơn hàng của tôi</h5>
+                            <ul className="orderManage__list p-0 m-0">
+                                {orders.map(item => (
+                                    <li onClick={() => setTab(item)} className={`orderManage__list-item ${item === tab ? 'active' : ''}`}>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                            <OrderItem/>
                         </div>
                     </div>
                 </div>
             </section>
+
             <div className="d-xl-block d-none">
                 <FooterClient />
             </div>
@@ -51,4 +66,4 @@ function EditAccount() {
     );
 }
 
-export default EditAccount;
+export default OrderManage;

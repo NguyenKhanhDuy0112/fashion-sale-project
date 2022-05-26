@@ -1,0 +1,39 @@
+.orderManage {
+    &__list {
+        display: flex;
+        align-items: center;
+        overflow-x: scroll;
+        position: sticky;
+        z-index: 3;
+        background-color: #fff;
+        padding: 0;
+        border-radius: 4px;
+        top: 56px;
+
+        @include responsive(xxl-screen) {
+            top: 0;
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        &-item {
+            width: 30%;
+            text-align: center;
+            cursor: pointer;
+            color: $color-sub;
+            font-size: 0.9rem;
+            padding: 10px 0;
+            border-bottom: 2px solid transparent;
+
+            &.active {
+                color: rgb(13, 92, 182);
+                border-bottom: 2px solid rgb(13, 92, 182);
+            }
+
+            @include responsive(xxl-screen) {
+                width: 20%;
+            }
+        }
+    }
+}

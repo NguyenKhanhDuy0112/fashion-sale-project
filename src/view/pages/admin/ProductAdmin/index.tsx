@@ -34,7 +34,7 @@ function ProductAdmin() {
 
         if (id !== '') {
             const findProduct = await productsService.findById(id)
-            console.log("Product: ", findProduct)
+            console.log("Find Product: ", findProduct)
             const proData: any = findProduct
             let color = ''
             const detail: ProductDetail[] = []
@@ -51,11 +51,11 @@ function ProductAdmin() {
                     }
 
                     color = item.color.color
-                    detail.push({ ...item, color: item.color.color, size: [item.size.size], images })
+                    detail.push({ ...item, color: item.color.color, sizes: [item.size.size], images })
                 }
                 else {
                     const tempProduct = detail[detail.length - 1]
-                    tempProduct.size.push(item.size.size)
+                    tempProduct.sizes.push(item.size.size)
                     detail.splice(detail.length - 1, 1, tempProduct)
                 }
             });

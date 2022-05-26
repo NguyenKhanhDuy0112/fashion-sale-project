@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function HeaderClientCart() {
 
     return (
-        <Link to = "checkout/cart" className="headerClient__cart" >
+        <Link to = "/checkout/cart" className="headerClient__cart" >
             <span className="headerClient__cart-icon">
                 <span className="d-xl-none d-block">
                     <FiShoppingCart size={25} />

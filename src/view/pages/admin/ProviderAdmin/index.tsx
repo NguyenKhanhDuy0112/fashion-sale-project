@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
 import usersService from "../../../../services/usersService"
 import InputSearch from "../../../../shared/components/InputSearch"
-import { User } from "../../../../shared/interfaces"
+import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx"
+import { Pagination, User } from "../../../../shared/interfaces"
 import ProviderAdModal from "./ProviderAdModal"
 import ProviderAdTable from "./ProviderAdTable"
 
@@ -12,19 +13,21 @@ function ProviderAdmin() {
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(true)
+    const [pagination, setPagination] = useState<Pagination>()
 
     useEffect(() => {
         handleLoadData(1)
     }, [])
 
     const handleLoadData = (page: number) => {
-        usersService.findProviders().then(res => {
+        usersService.listPaginationProviders(page, 8).then(res => {
             const { data, ...others } = res
             setProviders(data)
-            // setPagination({ ...others })
+            setPagination({ ...others })
             setIsLoading(false)
         })
     }
+
     const handleModalShow = async (id: string) => {
         if (id) {
             const findCustomer = await usersService.findById(id)
@@ -64,7 +67,7 @@ function ProviderAdmin() {
             </div>
 
             <ProviderAdTable
-                isLoading = {isLoading}
+                isLoading={isLoading}
                 onEditUser={(id) => handleModalShow(id)}
                 onDeleteUser={(id) => handleModalDeleteShow(id)}
                 data={providers}
@@ -81,6 +84,21 @@ function ProviderAdmin() {
                 onModalDelete={handleModalDeleteClose}
                 user={provider}
             />
+
+            {pagination &&
+                <PagninationAdmin
+                    totalPages={pagination?.totalPages}
+                    hasNextPage={pagination?.hasNextPage}
+                    hasPrevPage={pagination?.hasPrevPage}
+                    nextPage={pagination?.nextPage}
+                    prevPage={pagination?.prevPage}
+                    pageIndex={pagination?.page}
+                    gotoPage={(page) => {
+                        setIsLoading(true)
+                        handleLoadData(page)
+                    }}
+                />
+            }
         </article>
     );
 }

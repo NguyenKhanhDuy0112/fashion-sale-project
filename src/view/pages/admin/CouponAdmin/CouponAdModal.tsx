@@ -1,29 +1,32 @@
 import { useFormik } from "formik";
-import { Category } from "../../../../shared/interfaces";
 import * as Yup from "yup";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import categoriesService from "../../../../services/categoriesService";
-
-import { handleCreateImage } from "../../../../shared/helpers";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import InputAdmin from "../../../../shared/components/InputAdmin";
-import { FiTrash2 } from "react-icons/fi";
+import { Coupon } from "../../../../shared/interfaces";
+import couponsService from "../../../../services/couponsService";
+import ModalAdDelete from "../../../../shared/components/ModalAdDelete";
+import { showToast } from "../../../../modules/toast/toastSlice";
+import { useDispatch } from "react-redux";
 
 interface ModalShow {
     show: boolean,
-    showModalDelete: boolean
-    coupon?: Category,
+    showModalDelete: boolean,
+    coupon?: Coupon,
     handleClose: () => void
     onLoadData: () => void,
     onModalDelete: () => void
 }
 
 function CouponAdModal(props: ModalShow) {
-    const { show, handleClose, coupon, onLoadData, onModalDelete, showModalDelete } = props
+    const { show, handleClose, coupon, onModalDelete, showModalDelete, onLoadData } = props
+    const [isLoading, setIsLoading] = useState(false)
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
         if (coupon?._id) {
-            coupon.image = [{ dataURL: coupon.image }]
             formik.setValues(coupon)
         }
         else {
@@ -31,71 +34,79 @@ function CouponAdModal(props: ModalShow) {
         }
     }, [coupon])
 
-    const formik = useFormik({
+    const formik = useFormik<Coupon>({
         initialValues: {
             _id: '',
-            name: '',
-            image: []
+            code: '',
+            dateEnd: '',
+            dateStart: '',
+            discount: 0,
+            isActive: true,
+            minimumAmount: 0,
         },
         validationSchema: Yup.object({
             _id: Yup.string(),
-            name: Yup.string().required("Tên không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
+            code: Yup.string().required("Mã giảm giá không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
+            dateEnd: Yup.date().required("Ngày kết thúc không được để trống").typeError("Vui lòng nhập đúng định dạng dd/MM/yyyy."),
+            dateStart: Yup.date().required("Ngày bắt đầu không được để trống").typeError("Vui lòng nhập đúng định dạng dd/MM/yyyy."),
+            discount: Yup.number().required("Số tiền giảm không được để trống").typeError('Vui lòng nhập số.').min(1, "Số tiền phải lớn hơn 0.").max(1000000000, "Số tiền phải bé hơn 1,000,000,000."),
+            minimumAmount: Yup.number().required("Số tiền tối thiểu không được để trống").typeError('Vui lòng nhập số.').min(1, "Số tiền phải lớn hơn 0.").max(1000000000, "Số tiền phải bé hơn 1,000,000,000."),
         }),
         onSubmit: (values) => {
             handleSubmitForm(values)
         }
     })
 
-    const handleSubmitForm = async (value: any) => {
-        const images: string[] = []
-        value.image.forEach(async (img: any, index: number) => {
-            if (img.file) {
-                const imageURL = await handleCreateImage(value.image[0].file)
-                if (imageURL) images.push(imageURL.data.url)
+    const handleSubmitForm = async (value: Coupon) => {
+        const { _id, ...others } = value
+        if (value._id === '') {
+            try {
+                await couponsService.add({ ...others })
+                dispatch(showToast({ show: true, text: "Thêm mã giảm giá thành công", type: "success", delay: 1500 }))
+                onLoadData()
+                setIsLoading(false)
+                handleClose()
             }
-            else {
-                images.push(img.dataURL)
+            catch {
+                dispatch(showToast({ show: true, text: "Thêm mã giảm giá thất bại", type: "error", delay: 1500 }))
+                setIsLoading(false)
+                handleClose()
+            }
+        }
+        else {
+
+            try {
+                await couponsService.update(_id ? _id: '', value)
+                dispatch(showToast({ show: true, text: "Cập nhật mã giảm giá thành công", type: "success", delay: 1500 }))
+                onLoadData()
+                setIsLoading(false)
+                handleClose()
+            }
+            catch {
+                dispatch(showToast({ show: true, text: "Cập nhật mã giảm giá thất bại", type: "error", delay: 1500 }))
+                setIsLoading(false)
+                handleClose()
             }
 
-
-            if (index === value.image.length - 1) {
-
-                const { _id, image, ...others } = value
-
-                if (value._id) {
-                    try {
-                        await categoriesService.update(_id, { ...others, image: images[0] })
-                        
-                        onLoadData()
-                    } catch (err) {
-                        
-                    }
-                }
-                else {
-                    try {
-                        await categoriesService.add({ image: images[0], ...others })
-                        
-                        onLoadData()
-                    } catch (err) {
-                        
-                    }
-                }
-            }
-        });
+        }
 
         handleClose()
 
     }
 
-    const handleDeleteCategory = async () => {
+
+    const handleDeleteCoupon = async () => {
+        setIsLoading(true)
         if (coupon?._id) {
             try {
-                await categoriesService.delete(coupon._id)
-                
+                await couponsService.delete(coupon._id)
+                dispatch(showToast({ show: true, text: "Xóa mã giảm giá thành công", type: "success", delay: 1500 }))
+                setIsLoading(false)
                 onLoadData()
             }
             catch (err) {
-                
+                dispatch(showToast({ show: true, text: "Xóa mã giảm giá thất bại", type: "error", delay: 1500 }))
+                setIsLoading(false)
             }
         }
         onModalDelete()
@@ -120,9 +131,9 @@ function CouponAdModal(props: ModalShow) {
                         label="Mã giảm giá"
                         id="couponId"
                         labelClass="col-md-3 col-lg-2"
-                        frmField={formik.getFieldProps('name')}
-                        err={formik.touched.name && formik.errors.name}
-                        errMessage={formik.errors.name}
+                        frmField={formik.getFieldProps('code')}
+                        err={formik.touched.code && formik.errors.code}
+                        errMessage={formik.errors.code}
                         input={true}
                     />
                     <InputAdmin
@@ -130,9 +141,9 @@ function CouponAdModal(props: ModalShow) {
                         label="Ngày bắt đầu"
                         id="couponStartDate"
                         labelClass="col-md-3 col-lg-2"
-                        frmField={formik.getFieldProps('name')}
-                        err={formik.touched.name && formik.errors.name}
-                        errMessage={formik.errors.name}
+                        frmField={formik.getFieldProps('dateStart')}
+                        err={formik.touched.dateStart && formik.errors.dateStart}
+                        errMessage={formik.errors.dateStart}
                         input={true}
                         type="date"
                     />
@@ -141,20 +152,30 @@ function CouponAdModal(props: ModalShow) {
                         label="Ngày kết thúc"
                         id="couponEndDate"
                         labelClass="col-md-3 col-lg-2"
-                        frmField={formik.getFieldProps('name')}
-                        err={formik.touched.name && formik.errors.name}
-                        errMessage={formik.errors.name}
+                        frmField={formik.getFieldProps('dateEnd')}
+                        err={formik.touched.dateEnd && formik.errors.dateEnd}
+                        errMessage={formik.errors.dateEnd}
                         input={true}
-                        type = "date"
+                        type="date"
+                    />
+                    <InputAdmin
+                        placeholder="Số tiền giảm..."
+                        label="Số tiền giảm"
+                        id="couponDiscount"
+                        labelClass="col-md-3 col-lg-2"
+                        frmField={formik.getFieldProps('discount')}
+                        err={formik.touched.discount && formik.errors.discount}
+                        errMessage={formik.errors.discount}
+                        input={true}
                     />
                     <InputAdmin
                         placeholder="Số tiền tối thiểu..."
                         label="Số tiền tối thiểu"
                         id="couponMinimumAmount"
                         labelClass="col-md-3 col-lg-2"
-                        frmField={formik.getFieldProps('name')}
-                        err={formik.touched.name && formik.errors.name}
-                        errMessage={formik.errors.name}
+                        frmField={formik.getFieldProps('minimumAmount')}
+                        err={formik.touched.minimumAmount && formik.errors.minimumAmount}
+                        errMessage={formik.errors.minimumAmount}
                         input={true}
                     />
                 </Modal.Body>
@@ -167,35 +188,18 @@ function CouponAdModal(props: ModalShow) {
                         onClick={() => formik.handleSubmit()}
                         className="bg-ad-primary btn-ad-primary"
                     >
-                        Lưu
+                         {isLoading ? <Spinner size="sm" animation="border" variant="light" /> : 'Lưu'}
                     </Button>
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={showModalDelete} centered onHide={onModalDelete}>
-                <Modal.Body>
-                    <p className="text-center text-danger fs-3"><FiTrash2 /></p>
-                    <h5 className="text-center modal__text-head mb-1">Bạn có chắc là muốn xóa mục này?</h5>
-                    <p className="text-center modal__text-sub mb-0">Bạn có thực sự muốn xóa mục này? Bạn không thể xem mục này trong danh sách của mình nữa nếu bạn xóa!</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="d-flex justify-content-center align-items-center w-100">
-                        <button
-                            className="btn modal__btn-cancel me-1"
-                            onClick={onModalDelete}
-                        >
-                            Đóng
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-ad-primary modal__btn-delete ms-1 text-white"
-                            onClick={handleDeleteCategory}
-                        >
-                            Xóa
-                        </button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
+            <ModalAdDelete
+                show={showModalDelete}
+                onHide={onModalDelete}
+                onDelete={handleDeleteCoupon}
+                isLoading={isLoading}
+            />
+
         </>
     );
 }

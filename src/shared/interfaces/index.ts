@@ -20,7 +20,7 @@ export interface ProductDetail{
     quantity?: number,
     status?: number,
     product?: Product,
-    size: any,
+    sizes: any,
     color: any,
     images?: any
 }
@@ -81,13 +81,13 @@ export interface BillDetail{
 }
 
 export interface Coupon{
-    _id: string,
+    _id?: string,
     code: string,
-    percent: number,
-    dateStart?: Date,
-    dateEnd?: Date,
+    discount: number,
+    dateStart: any,
+    dateEnd: any,
     minimumAmount: number,
-    isActive: false | true,
+    isActive: boolean,
     bill? :Bill
 }
 

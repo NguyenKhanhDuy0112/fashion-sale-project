@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
-import { FiTrash2 } from "react-icons/fi";
 import * as Yup from "yup";
 import ImageUploading from "../../../../shared/components/ImageUploading";
 import InputAdmin from "../../../../shared/components/InputAdmin";
@@ -110,15 +109,15 @@ function ProductAdModal(props: ModalShow) {
 
     const handleSubmitForm = async (value: any) => {
         value.description = description.current
-        console.log("Product Submit", value)
         setIsLoading(true)
         const proDetail: any = []
         const { _id, productDetails, rating, ...others } = value
+        console.log("Product: ", { ...others })
         if (value._id === '') {
             try {
                 const pro = await productsService.add({ ...others, })
-                
                 if (pro) {
+
                     await value.productDetails.forEach(async (proDe: any, indexParent: number) => {
                         const imageSub: any = []
                         await proDe.images.forEach(async (img: any, index: Number) => {
@@ -126,18 +125,19 @@ function ProductAdModal(props: ModalShow) {
                             await imageSub.push(image.data.url)
 
                             if (index === proDe.images.length - 1) {
-                                await proDe.size.forEach(async (size: string, idx: number) => {
-                                    const [thumnail, ...imageOther] = imageSub
-                                    proDetail.push({ product: pro._id, color: proDe.color, image: thumnail, 'images-sub': [...imageOther], size: size })
-                                    if (idx === proDe.size.length - 1 && indexParent === value.productDetails.length - 1) {
-                                        await productDetailsService.add(proDetail)
-                                        await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
-                                        await setIsLoading(false)
-                                        handleClose()
-                                    }
-                                });
+                                proDetail.push({ ...proDe, product: pro._id, images: imageSub, })
+                                if (indexParent === value.productDetails.length - 1) {
+
+                                    await productDetailsService.add(proDetail)
+                                    await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
+                                    await setIsLoading(false)
+                                    handleClose()
+                                }
+
                             }
                         });
+
+
                     });
                     await onLoadData()
                 }
@@ -263,11 +263,11 @@ function ProductAdModal(props: ModalShow) {
                                             </div>
                                             <div className="col">
                                                 <ReactTagInput
-                                                    tags={pro.size}
+                                                    tags={pro.sizes}
                                                     placeholder="Kích cỡ"
                                                     onChange={(newTags: string[]) => {
                                                         const details = formik.getFieldProps('productDetails').value
-                                                        details[index].size = newTags
+                                                        details[index].sizes = newTags
                                                         return formik.setValues(prev => ({ ...prev, productDetails: details }))
                                                     }}
                                                 />
@@ -290,7 +290,7 @@ function ProductAdModal(props: ModalShow) {
                                         details.push({
                                             _id: '',
                                             color: '',
-                                            size: [],
+                                            sizes: [],
                                             images: [],
                                         })
                                         return formik.setValues(prev => ({ ...prev, productDetails: details }))
@@ -398,10 +398,10 @@ function ProductAdModal(props: ModalShow) {
             </Modal>
 
             <ModalAdDelete
-                show = {showModalDelete}
-                onHide = {onModalDelete}
-                onDelete = {handleDeleteProduct}
-                isLoading = {isLoading}
+                show={showModalDelete}
+                onHide={onModalDelete}
+                onDelete={handleDeleteProduct}
+                isLoading={isLoading}
             />
         </>
     );

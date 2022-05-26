@@ -10,6 +10,32 @@
         font-size: 0.9rem;
     }
 
+    &__avatar{
+        width: 100%;
+        justify-content: center;
+
+        @include responsive(xxl-screen){
+            width: auto;
+            justify-content: start;
+        }
+    }
+
+    &__btn{
+        &-save{
+            border: none;
+            color: white;
+            background-color: rgb(11,116,229);
+            padding: 10px 30px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            width: 100%;
+
+            @include responsive(xxl-screen){
+                width: auto;
+            }
+        }
+    }
+
     &__btn{
         border: 1px solid $bg-primary;
         border-radius: 5px;

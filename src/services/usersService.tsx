@@ -9,6 +9,14 @@ const findCustomers = () => {
     return api.get(`${api.url.users}/v1/customers`).then(res => res.data)
 }
 
+const listPaginationCustomers = (page: number, limit: number) => {
+    return api.get(`${api.url.users}/v1/customers?page=${page}&limit=${limit}`).then(res => res.data)
+}
+
+const listPaginationProviders = (page: number, limit: number) => {
+    return api.get(`${api.url.users}/v1/providers?page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const findProviders = () => {
     return api.get(`${api.url.users}/v1/providers`).then(res => res.data)
 }
@@ -41,7 +49,9 @@ const usersService = {
     findCustomers,
     findProviders,
     update,
-    add
+    add,
+    listPaginationCustomers,
+    listPaginationProviders
 }
 
 export default usersService;

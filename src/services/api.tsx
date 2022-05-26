@@ -9,7 +9,7 @@ const url = {
     trademarks: "/trademarks",
     billDetail: "/bill-detail",
     productDetails: "/product-details",
-    coupons: "/coupon",
+    coupons: "/coupons",
 }
 
 const instance = axios.create({

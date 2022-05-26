@@ -3,22 +3,28 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useNavigate } from "react-router";
 import billsService from "../../../../services/billsService";
 import InputSearch from "../../../../shared/components/InputSearch";
-import { Bill } from "../../../../shared/interfaces";
+import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx";
+import { Bill, Pagination } from "../../../../shared/interfaces";
 import OrderAdTable from "./OrderAdTable";
 
 function OrderAdmin() {
     const [orders, setOrders] = useState<Bill[]>([])
+    const [pagination, setPagination] = useState<Pagination>()
+    const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
 
     useEffect(() => {
-        handleLoadData()
+        handleLoadData(1)
     }, [])
 
-    const handleLoadData = async () => {
-        const data = await billsService.findBillExports()
-        setOrders(data)
+    const handleLoadData = async (page: number) => {
+        billsService.listPaginationExports(page, 8).then(res => {
+            const { data, ...others } = res
+            setOrders(data)
+            setPagination({ ...others })
+            setIsLoading(false)
+        })
     }
-
 
     return (
         <article>
@@ -35,16 +41,33 @@ function OrderAdmin() {
                         <input type="date" placeholder="Đến ngày" className="form-control inputSearch" />
                     </div>
                     <div className="col-md-2">
-                        <button onClick = {() => navigate('/admin/orders/create-order')} className="btn text-center btn-add">
+                        <button onClick={() => navigate('/admin/orders/create-order')} className="btn text-center btn-add">
                             <span className="me-1"><AiOutlinePlus /></span>
                             Đặt hàng
                         </button>
                     </div>
                 </div>
             </div>
+
             <OrderAdTable
                 data={orders}
+                loading = {isLoading}
             />
+
+            {pagination &&
+                <PagninationAdmin
+                    totalPages={pagination?.totalPages}
+                    hasNextPage={pagination?.hasNextPage}
+                    hasPrevPage={pagination?.hasPrevPage}
+                    nextPage={pagination?.nextPage}
+                    prevPage={pagination?.prevPage}
+                    pageIndex={pagination?.page}
+                    gotoPage={(page) => {
+                        setIsLoading(true)
+                        handleLoadData(page)
+                    }}
+                />
+            }
 
         </article>
     );

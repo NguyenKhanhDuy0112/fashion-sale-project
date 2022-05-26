@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
 import usersService from "../../../../services/usersService"
 import InputSearch from "../../../../shared/components/InputSearch"
-import { User } from "../../../../shared/interfaces"
+import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx"
+import { Pagination, User } from "../../../../shared/interfaces"
 import CustomerAdModal from "./CustomerAdModal"
 import CustomerAdTable from "./CustomerAdTable"
 
@@ -12,6 +13,7 @@ function CustomerAdmin() {
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(true)
+    const [pagination, setPagination] = useState<Pagination>()
 
     useEffect(() => {
         handleLoadData(1)
@@ -19,10 +21,10 @@ function CustomerAdmin() {
 
 
     const handleLoadData = (page: number) => {
-        usersService.findCustomers().then(res => {
+        usersService.listPaginationCustomers(page, 8).then(res => {
             const { data, ...others } = res
             setCustomers(data)
-            // setPagination({ ...others })
+            setPagination({ ...others })
             setIsLoading(false)
         })
     }
@@ -83,6 +85,21 @@ function CustomerAdmin() {
                 onModalDelete={handleModalDeleteClose}
                 user={customer}
             />
+
+            {pagination &&
+                <PagninationAdmin
+                    totalPages={pagination?.totalPages}
+                    hasNextPage={pagination?.hasNextPage}
+                    hasPrevPage={pagination?.hasPrevPage}
+                    nextPage={pagination?.nextPage}
+                    prevPage={pagination?.prevPage}
+                    pageIndex={pagination?.page}
+                    gotoPage={(page) => {
+                        setIsLoading(true)
+                        handleLoadData(page)
+                    }}
+                />
+            }
         </article>
     );
 }

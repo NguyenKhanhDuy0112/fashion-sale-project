@@ -63,7 +63,6 @@ function CategoryAdModal(props: ModalShow) {
                 images.push(img.dataURL)
             }
 
-
             if (index === value.image.length - 1) {
 
                 const { _id, image, ...others } = value
