@@ -21,6 +21,17 @@ function ProductAdmin() {
         handleLoadData(1)
     }, [])
 
+    const handleSearchProduct = async (value:string, page: number) => {
+        setIsLoading(true)
+        productsService.search(value, page, 8)
+                    .then(res => {
+                        const { data, ...others } = res
+                        setProducts(data)
+                        setPagination({...others})
+                        setIsLoading(false)
+                    })
+    }
+
     const handleLoadData = async (page: number) => {
         productsService.listPagination(page, 8).then(res => {
             const { data, ...others } = res
@@ -30,38 +41,39 @@ function ProductAdmin() {
         })
     }
 
-    const handleModalShow = async (id: string) => {
-
+    const handleModalShow = (id: string) => {
         if (id !== '') {
-            const findProduct = await productsService.findById(id)
-            console.log("Find Product: ", findProduct)
-            const proData: any = findProduct
-            let color = ''
-            const detail: ProductDetail[] = []
-            proData.productDetails.forEach((item: any) => {
-                if (color.toLowerCase() !== item.color.color.toLowerCase()) {
-                    const images: any = []
-                    if (item.images.length > 0 && item.images[0].imagesSub) {
-                        images.push({ dataURL: item.images[0].image })
-                    }
-                    if (item.images.length > 0 && item.images[0].imagesSub) {
-                        item.images[0].imagesSub.forEach((item: string, index: number) => {
-                            images.push({ dataURL: item })
-                        })
-                    }
+            productsService.findById(id)
+                .then(res => {
+                    const proData: any = res
+                    let color = ''
+                    const detail: ProductDetail[] = []
 
-                    color = item.color.color
-                    detail.push({ ...item, color: item.color.color, sizes: [item.size.size], images })
-                }
-                else {
-                    const tempProduct = detail[detail.length - 1]
-                    tempProduct.sizes.push(item.size.size)
-                    detail.splice(detail.length - 1, 1, tempProduct)
-                }
-            });
-
-            proData.productDetails = detail
-            setProduct(proData)
+                    proData.productDetails.forEach((item: any) => {
+                        if (color.toLowerCase() !== item.color.color.toLowerCase()) {
+                            const images: any = []
+                            if (item.images.length > 0 && item.images[0].imagesSub) {
+                                images.push({ dataURL: item.images[0].image })
+                            }
+                            if (item.images.length > 0 && item.images[0].imagesSub) {
+                                item.images[0].imagesSub.forEach((item: string, index: number) => {
+                                    images.push({ dataURL: item })
+                                })
+                            }
+        
+                            color = item.color.color
+                            detail.push({ ...item, color: item.color.color, sizes: [item.size.size], images })
+                        }
+                        else {
+                            const tempProduct = detail[detail.length - 1]
+                            tempProduct.sizes.push(item.size.size)
+                            detail.splice(detail.length - 1, 1, tempProduct)
+                        }
+                    });
+        
+                    proData.productDetails = detail
+                    setProduct(proData)
+                })
         }
         else {
             setProduct({
@@ -97,7 +109,7 @@ function ProductAdmin() {
             <div className="d-flex align-items-center tableCustom__filter px-3 py-4 mb-3">
                 <div className="row w-100 g-3">
                     <div className="col-xl-9 col-md-7 col-12">
-                        <InputSearch />
+                        <InputSearch valueInput="" onChangeValue={(value) => handleSearchProduct(value, 1)}/>
                     </div>
                     <div className="col-xl-3 col-md-5 col-12">
                         <button className="btn text-center btn-add" onClick={() => handleModalShow('')}>

@@ -110,37 +110,32 @@ function ProductAdModal(props: ModalShow) {
     const handleSubmitForm = async (value: any) => {
         value.description = description.current
         setIsLoading(true)
-        const proDetail: any = []
         const { _id, productDetails, rating, ...others } = value
-        console.log("Product: ", { ...others })
+
         if (value._id === '') {
             try {
                 const pro = await productsService.add({ ...others, })
-                if (pro) {
+                const proDetail: any = []
+                await value.productDetails.forEach(async (proDe: ProductDetail, idx: number) => {
+                    const { _id, ...otherProDe } = proDe
+                    const images: string[] = []
+                    await proDe.images.forEach(async (img: any, index: number) => {
+                        const image = await handleCreateImage(img.file)
+                        await images.push(image.data.url)
+                        if (await index === proDe.images.length - 1) {
 
-                    await value.productDetails.forEach(async (proDe: any, indexParent: number) => {
-                        const imageSub: any = []
-                        await proDe.images.forEach(async (img: any, index: Number) => {
-                            const image = await handleCreateImage(img.file)
-                            await imageSub.push(image.data.url)
+                            await proDetail.push({ ...otherProDe, product: pro._id, images: images })
 
-                            if (index === proDe.images.length - 1) {
-                                proDetail.push({ ...proDe, product: pro._id, images: imageSub, })
-                                if (indexParent === value.productDetails.length - 1) {
-
-                                    await productDetailsService.add(proDetail)
-                                    await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
-                                    await setIsLoading(false)
-                                    handleClose()
-                                }
-
+                            if (value.productDetails.length === await proDetail.length) {
+                                await productDetailsService.add(proDetail)
+                                await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
+                                setIsLoading(false)
+                                onLoadData()
+                                handleClose()
                             }
-                        });
-
-
-                    });
-                    await onLoadData()
-                }
+                        }
+                    })
+                });
 
             }
             catch (err) {
@@ -151,37 +146,35 @@ function ProductAdModal(props: ModalShow) {
         }
         else {
             try {
-                const pro = await productsService.update(value._id, { ...others, })
-                if (pro) {
-                    await value.productDetails.forEach(async (proDe: any, indexParent: number) => {
-                        const imageSub: any = []
-                        await proDe.images.forEach(async (img: any, index: Number) => {
-                            if (img.file) {
-                                const image = await handleCreateImage(img.file)
-                                await imageSub.push(image.data.url)
-                            }
-                            else {
-                                await imageSub.push(img.dataURL)
-                            }
+                await productsService.update({_id, ...others}, _id)
 
-                            if (index === proDe.images.length - 1) {
-                                await proDe.size.forEach(async (size: string, idx: number) => {
-                                    const [thumnail, ...imageOther] = imageSub
-                                    proDetail.push({ ...proDe, product: pro._id, color: proDe.color, image: thumnail, 'images-sub': [...imageOther], size: size })
-                                    if (idx === proDe.size.length - 1 && indexParent === value.productDetails.length - 1) {
+                const proDetail: any = []
+                await value.productDetails.forEach(async (proDe: ProductDetail, idx: number) => {
+                    const images: string[] = []
+                    await proDe.images.forEach(async (img: any, index: number) => {
+                        if(await img.file){
+                            const image = await handleCreateImage(img.file)
+                            await images.push(image.data.url)
+                        }
+                        else{
+                            await images.push(img.dataURL)
+                        }
+                        
+                        if (await index === proDe.images.length - 1) {
 
-                                        await productDetailsService.update(proDetail)
-                                        await dispatch(showToast({ show: true, text: "Cập nhật sản phẩm thành công", type: "success", delay: 1500 }))
-                                        await setIsLoading(false)
-                                        handleClose()
-                                    }
-                                });
+                            await proDetail.push({ ...proDe, product: value._id, images: images })
+
+                            if (value.productDetails.length === await proDetail.length) {
+                                await productDetailsService.update(proDetail, value._id)
+                                await dispatch(showToast({ show: true, text: "Cập nhật sản phẩm thành công", type: "success", delay: 1500 }))
+                                setIsLoading(false)
+                                onLoadData()
+                                handleClose()
                             }
-                        });
-                    });
-                    await onLoadData()
+                        }
+                    })
+                });
 
-                }
             }
             catch (err) {
                 dispatch(showToast({ show: true, text: "Cập nhật sản phẩm thất bại", type: "error", delay: 1500 }))

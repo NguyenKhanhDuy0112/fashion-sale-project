@@ -17,8 +17,8 @@ const remove = (id: string) => {
     return api.delete(api.url.productDetails+'/'+id).then(res => res.data)
 }
 
-const update = (data: ProductDetail[]) => {
-    return api.put(api.url.productDetails, data).then(res => res.data)
+const update = (data: ProductDetail[], id: string) => {
+    return api.put(`${api.url.productDetails}/${id}`, data).then(res => res.data)
 }
 
 const add = (data: ProductDetail[]) => {

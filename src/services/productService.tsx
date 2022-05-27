@@ -13,6 +13,10 @@ const get = (field: string) => {
     return api.get(api.url.products+'/search/?search='+field).then(res => res.data)
 }
 
+const search = (value: string, page:number, limit: number) => {
+    return api.get(`${api.url.products}/find?q=${value}&page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const findById = (id: string) => {
     return api.get(api.url.products+'/'+id).then(res => res.data)
 }
@@ -25,7 +29,7 @@ const remove = (id: string) => {
     return api.delete(api.url.products+'/'+id).then(res => res.data)
 }
 
-const update = (id:string ,data: Product) => {
+const update = (data: Product, id: string) => {
     return api.put(api.url.products+'/'+id, data).then(res => res.data)
 }
 
@@ -41,7 +45,8 @@ const productsService = {
     findById,
     findBySlug,
     listPagination,
-    add
+    add,
+    search
 }
 
 export default productsService;

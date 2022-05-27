@@ -5,7 +5,6 @@ import SellAdminCheckout from "./SellAdminCheckout"
 import SellAdminTable from "./SellAdminTable";
 
 function SellAdmin() {
-
     const orders = useOrders()
 
     return (

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
-import categoriesService from "../../../../services/categoriesService"
 import trademarksService from "../../../../services/trademarksService"
 import InputSearch from "../../../../shared/components/InputSearch"
 import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx"
@@ -50,6 +49,11 @@ function TrademarkAdmin() {
     const handleModalDeleteClose = () => setShowModalDelete(false)
 
     const handleModalClose = () => setShowModal(false)
+
+    
+    const handleSearchTrademark = (value: string, page: number) => {
+
+    }
     
     return ( 
         <article>
@@ -59,7 +63,7 @@ function TrademarkAdmin() {
             <div className="d-flex align-items-center tableCustom__filter px-3 py-4 mb-3">
                 <div className="row g-3 w-100">
                     <div className="col-xl-9 col-md-7 col-12">
-                        <InputSearch />
+                        <InputSearch valueInput="" onChangeValue={(value) => handleSearchTrademark(value, 1) }/>
                     </div>
                     <div className="col-xl-3 col-md-5 col-12">
                         <button 

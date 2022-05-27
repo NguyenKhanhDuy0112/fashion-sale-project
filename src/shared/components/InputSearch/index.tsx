@@ -1,23 +1,29 @@
 import { useEffect, useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
 
+interface Props{
+    valueInput: string,
+    onChangeValue: (value: string) => void 
+}
 
-function InputSearch() {
-    const [value, setValue] = useState( '')
-    // const debounce = useDebounce<string>(value, 500)
+function InputSearch(props: Props) {
+    const { valueInput, onChangeValue } = props
+    const [value, setValue] = useState<string>(valueInput)
+    const debounce = useDebounce<string>(value, 700)
 
-    // useEffect(() => {
-    //     setFilter(debounce || '')
-    // },[debounce])
+    useEffect(() => {
+        onChangeValue(debounce ? debounce : '')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[debounce])
 
 
-    // const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setValue(e.target.value)
-    // }
+    const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value)
+    }
 
     return ( 
         <>
-            <input className="inputSearch" placeholder="Tìm kiếm tại đây..."/>
+            <input value = {value} onChange= {handleFilter} className="inputSearch" placeholder="Tìm kiếm tại đây..."/>
         </>
      );
 }
