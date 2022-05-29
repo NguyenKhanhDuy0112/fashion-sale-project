@@ -29,7 +29,7 @@ export interface Trademark{
     _id: any,
     name: string,
     image: any,
-    products? : Product
+    products? : Product[]
 }
 
 export interface Category{
@@ -89,6 +89,15 @@ export interface Coupon{
     minimumAmount: number,
     isActive: boolean,
     bill? :Bill
+}
+
+export interface ProductDetailOrder{
+    _id: string,
+    quantity: number,
+    product?: Product,
+    size: string,
+    color: string,
+    images: string[]
 }
 
 export interface Pagination {

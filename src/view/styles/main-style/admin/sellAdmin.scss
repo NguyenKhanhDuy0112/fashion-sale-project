@@ -18,15 +18,25 @@
             width: 100%;
             left: 0;
             top: 100%;
+
+            &::-webkit-scrollbar{
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-thumb{
+                width: 5px;
+                background-color: $ad-primary;
+                border-radius: 5px;
+            }
             &-item{
                 border-radius: 5px;
                 cursor: pointer;
                 transition: all ease .3s;
                 &:hover{
-                    background-color: rgb(212, 238, 212);
+                    background-color: $ad-primary-sub;
                 }
                 &.active{
-                    background-color: rgb(212, 238, 212);
+                    background-color: $ad-primary-sub;
                 }
                 &-customer{
                     display: flex;
@@ -160,6 +170,7 @@
                 }
             }
             &-input-bt{
+                outline: none;
                 border-width: 0 0 2px 0;
                 border-color: transparent transparent #ccc transparent;
                 text-align: right;

@@ -46,7 +46,7 @@ function OrderAdmin() {
                         <input type="date" placeholder="Đến ngày" className="form-control inputSearch" />
                     </div>
                     <div className="col-md-2">
-                        <button onClick={() => navigate('/admin/orders/create-order')} className="btn text-center btn-add">
+                        <button onClick={() => navigate('/admin/orders/create-order?type=export')} className="btn text-center btn-add">
                             <span className="me-1"><AiOutlinePlus /></span>
                             Đặt hàng
                         </button>

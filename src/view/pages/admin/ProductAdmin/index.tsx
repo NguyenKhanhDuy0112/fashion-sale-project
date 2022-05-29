@@ -72,6 +72,7 @@ function ProductAdmin() {
                     });
         
                     proData.productDetails = detail
+                    proData.trademark = res.trademark._id
                     setProduct(proData)
                 })
         }

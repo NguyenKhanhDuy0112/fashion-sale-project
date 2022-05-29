@@ -9,6 +9,14 @@ const findCustomers = () => {
     return api.get(`${api.url.users}/v1/customers`).then(res => res.data)
 }
 
+const searchCustomers = (value: string, page:number, limit: number) => {
+    return api.get(`${api.url.users}/find?q=${value}&auth=customer&page=${page}&limit=${limit}`).then(res => res.data)
+}
+
+const searchProviders = (value: string, page:number, limit: number) => {
+    return api.get(`${api.url.users}/find?q=${value}&auth=provider&page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const listPaginationCustomers = (page: number, limit: number) => {
     return api.get(`${api.url.users}/v1/customers?page=${page}&limit=${limit}`).then(res => res.data)
 }
@@ -51,7 +59,9 @@ const usersService = {
     update,
     add,
     listPaginationCustomers,
-    listPaginationProviders
+    listPaginationProviders,
+    searchCustomers,
+    searchProviders
 }
 
 export default usersService;

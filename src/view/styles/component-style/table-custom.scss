@@ -2,7 +2,13 @@
     width: 100%;
     background-color: #fff;
     border: 1px solid #E5E7EB;
-    
+
+    &__select{
+        outline: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid $color-border;
+    }
 
     & > thead > tr{
         border-bottom: 1px solid #F5F5F5;
@@ -31,6 +37,10 @@
         border-collapse: collapse;
         font-size: 0.85rem;
         font-weight: 400;
+    }
+
+    & tbody tr:hover{
+        background-color: $ad-primary-sub;
     }
 
     &__filter{

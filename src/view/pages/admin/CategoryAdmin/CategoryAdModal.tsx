@@ -34,6 +34,7 @@ function CategoryAdModal(props: ModalShow) {
         else {
             formik.resetForm()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category])
 
     const formik = useFormik({

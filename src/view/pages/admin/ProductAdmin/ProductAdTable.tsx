@@ -69,7 +69,7 @@ function ProductAdTable(props: Props) {
                             ))
                             :
                             <tr>
-                                <td className="text-center" colSpan={7}>
+                                <td className="text-center" colSpan={8}>
                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                         <img style={{ width: "200px", height: "200px" }} src="https://frontend.tikicdn.com/_desktop-next/static/img/account/empty-order.png" alt="" />
                                         <p className="mt-2 mb-0">Không có dữ liệu.</p>

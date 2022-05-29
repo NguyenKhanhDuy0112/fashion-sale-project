@@ -76,6 +76,7 @@ function ProductAdModal(props: ModalShow) {
 
         }
         setShowToolbar(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product])
 
     const formik = useFormik<Product>({
@@ -94,7 +95,7 @@ function ProductAdModal(props: ModalShow) {
         },
         validationSchema: Yup.object({
             _id: Yup.string(),
-            name: Yup.string().required("Tên không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
+            name: Yup.string().required("Tên không được để trống.").max(500, "Độ dài kí tự phải dưới 50"),
             material: Yup.string().required("Chất liệu không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             origin: Yup.string().required("Xuất xứ không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             unit: Yup.string().required("Đơn vị không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
