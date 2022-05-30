@@ -1,4 +1,4 @@
-import { Category } from "../shared/interfaces"
+import { Bill, BillApi, Category } from "../shared/interfaces"
 import api from "./api"
 
 const list = () => {
@@ -37,7 +37,7 @@ const update = (id:string ,data: Category) => {
     return api.put(api.url.bills+'/'+id, data).then(res => res.data)
 }
 
-const add = (data: Category) => {
+const add = (data: BillApi) => {
     return api.post(api.url.bills, data).then(res => res.data)
 }
 

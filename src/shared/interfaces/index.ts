@@ -59,25 +59,48 @@ export interface User{
 }
 
 export interface Bill{
-    _id: string,
+    _id?: string,
     createdAt?: Date,
-    shippedDate?: Date,
+    shippedDate?: any,
     updatedAt?: Date,
     status: number,
     user?: User,
     coupon?: Coupon,
-    date? :Date,
-    type: string,
+    totalPrice: number,
+    date? :any,
+    type?: string,
+    billDetails?: BillDetail[]
+}
+
+export interface BillApi{
+    _id?: string,
+    createdAt?: Date,
+    shippedDate?: any,
+    updatedAt?: Date,
+    status: number,
+    user?: string,
+    coupon?: Coupon,
+    date? :any,
+    type?: string,
     billDetails?: BillDetail[]
 }
 
 export interface BillDetail{
-    _id: string,
+    _id?: string,
     quantity: number,
-    price: number,
+    price?: number,
     discount?: number,
     productDetail: ProductDetail,
     bill: Bill,
+}
+
+export interface BillDetailApi{
+    _id?: string,
+    quantity: number,
+    price?: number,
+    discount?: number,
+    productDetail: string,
+    bill: string,
 }
 
 export interface Coupon{

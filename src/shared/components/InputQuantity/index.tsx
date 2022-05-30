@@ -14,24 +14,12 @@ function InputQuantity(props: Props) {
 
         if(value === ""){
             onQuantity(value)
-            return
         }
-
-        if (Number.isInteger(value) && parseInt(value) > 0) {
-            if (max) {
-                if (parseInt(value) <= max) {
-                    
-                }
-            } else {
-                onQuantity(parseInt(value))
-            }
-
-        } else {
-            onQuantity(1)
+        else{
+            onQuantity(+value)
         }
 
 
-        
     }
 
     const handlePlusQuantity = () => {

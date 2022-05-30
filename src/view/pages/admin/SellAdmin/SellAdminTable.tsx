@@ -42,7 +42,7 @@ function SellAdminTable(props: SellTable) {
 
     return (
         <div style={{ minHeight: "60vh" }}>
-            <TableCustom headers={["#", "Hình", "Tên", "Màu", "Kích cỡ", "Số lượng", "Đơn giá", "Tổng tiền", "Hành động"]}>
+            <TableCustom headers={["STT", "Hình", "Tên", "Màu", "Kích cỡ", "Số lượng", "Đơn giá", "Tổng tiền", ""]}>
                 {products && products.length > 0 && products.map((pro, index) => {
                     let colors: Set<string> = new Set()
                     let sizes: Set<string> = new Set()
@@ -63,7 +63,7 @@ function SellAdminTable(props: SellTable) {
                                     onChange={(e) => onChangeMainProduct(index, e.target.value, pro.mainProduct.size)}
                                     className="tableCustom__select" value={pro.mainProduct.color}
                                 >
-                                    {Array.from(colors).map((color) => <option value={color}>{color.toUpperCase()}</option>)}
+                                    {Array.from(colors).map((color) => <option key = {color} value={color}>{color.toUpperCase()}</option>)}
                                 </select>
                             </td>
                             <td>
@@ -71,7 +71,7 @@ function SellAdminTable(props: SellTable) {
                                     onChange={(e) => onChangeMainProduct(index, pro.mainProduct.color, e.target.value)}
                                     className="tableCustom__select" value={pro.mainProduct.size}
                                 >
-                                    {Array.from(sizes).map((size) => <option value={size}>{size.toUpperCase()}</option>)}
+                                    {Array.from(sizes).map((size) => <option key = {size} value={size}>{size.toUpperCase()}</option>)}
                                 </select>
                             </td>
                             <td className="text-end">

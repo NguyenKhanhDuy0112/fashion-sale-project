@@ -79,13 +79,12 @@ function SellAdmin() {
         const productDetail = product?.productDetails.find(pro => pro.color === color && pro.size === size)
 
         if (product && product.mainProduct) {
-            product.mainProduct = productDetail ? productDetail : { _id: '', color: '', images: [''], quantity: 1, size: '' }
+            product.mainProduct = productDetail ? {...productDetail, quantity: 1} : { _id: '', color: '', images: [''], quantity: 1, size: '' }
         }
 
         if (newOrders[selected].products[indexProduct]) {
             newOrders[selected].products[indexProduct] = product ? product : { _id: '', amount: 0, description: '', mainProduct: { _id: '', color: '', images: [''], quantity: 1, size: '' }, material: '', name: '', origin: '', price: 0, productDetails: [], unit: '' }
         }
-        console.log(newOrders[selected].products)
         setOrders(newOrders)
     }
 
@@ -100,7 +99,7 @@ function SellAdmin() {
         setLoading(!loading)
         const newOrders = orders
         newOrders[selected].products[idx].mainProduct.quantity = quantity
-        console.log(newOrders[selected].products)
+        newOrders[selected].products[idx].amount = quantity * newOrders[selected].products[idx].price
         setOrders(orders)
     }
 

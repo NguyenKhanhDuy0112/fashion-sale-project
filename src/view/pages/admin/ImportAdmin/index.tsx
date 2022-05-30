@@ -17,7 +17,7 @@ function ImportAdmin() {
         handleLoadData(1)
     }, [])
 
-    const handleLoadData = async (page: number) => {
+    const handleLoadData = (page: number) => {
         billsService.listPaginationImports(page, 8).then(res => {
             const { data, ...others } = res
             setOrders(data)
@@ -46,7 +46,7 @@ function ImportAdmin() {
                         <input type="date" placeholder="Đến ngày" className="form-control inputSearch" />
                     </div>
                     <div className="col-md-2">
-                        <button onClick={() => navigate('/admin/orders/create-order?type=import')} className="btn text-center btn-add">
+                        <button onClick={() => navigate('/admin/imports/create-import?type=import')} className="btn text-center btn-add">
                             <span className="me-1"><AiOutlinePlus /></span>
                             Nhập hàng
                         </button>

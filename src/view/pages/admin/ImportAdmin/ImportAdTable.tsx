@@ -3,6 +3,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 import TableCustom from "../../../../shared/components/TableCustom";
+import { formatCashVND, formatDate } from "../../../../shared/helpers"
 import { Bill } from "../../../../shared/interfaces";
 
 interface Props {
@@ -31,15 +32,14 @@ function ImportAdTable(props: Props) {
                     :
                     (bills && bills.length > 0) ?
                         bills && bills.map((bill, index) => {
-                            const dateJoin = bill.date ? new Date(bill?.date) : new Date()
                             return (
                                 <tr key={bill._id}>
                                     <td>{index + 1}</td>
-                                    <td>{bill.date ? `${dateJoin.getDate()}/${dateJoin.getMonth() + 1}/${dateJoin.getFullYear()}` : ''}</td>
+                                    <td>{formatDate(new Date(bill.createdAt ? bill.createdAt : ''), "dd/MM/yyyy")}</td>
                                     <td>{bill.user?.phone}</td>
                                     <td>{bill.user?.address}</td>
                                     <td>Chuyển khoản</td>
-                                    <td>200,000</td>
+                                    <td className="text-end">{formatCashVND(String(bill.totalPrice), ".")}</td>
                                     <td>
                                         <div className="d-flex justify-content-center">
                                             <Link to={`/admin/orders/${bill._id}`} className="cursor-pointer btn-edit">

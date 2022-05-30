@@ -19,21 +19,22 @@ interface Route {
     component: ComponentState
 }
 
-const routeAdmin:Route[] = [
-    {path: "/dashboard", component: <DashboardAdmin/>},
-    {path: "categories", component: <CategoryAdmin/>},
-    {path: "/products", component: <ProductAdmin/>},
-    {path: "/products/:slug", component: <ProductAdDetail/>},
-    {path: "/orders/create-order", component: <SellAdmin/>},
-    {path: "/orders", component: <OrderAdmin/>},
-    {path: "/trademarks", component: <TrademarkAdmin/>},
-    {path: "/imports", component: <ImportAdmin/>},
-    {path: "/coupons", component: <CouponAdmin/>},
-    {path: "/setting", component: <SettingAdmin/>},
-    {path: "/customers", component: <CustomerAdmin />},
-    {path: "/providers", component: <ProviderAdmin/>},
-    {path: "/statistical", component: <StatisticalAdmin/>},
-    {path: "/orders/:id", component: <OrderAdDetail/>}
+const routeAdmin: Route[] = [
+    { path: "/dashboard", component: <DashboardAdmin /> },
+    { path: "categories", component: <CategoryAdmin /> },
+    { path: "/products", component: <ProductAdmin /> },
+    { path: "/products/:slug", component: <ProductAdDetail /> },
+    { path: "/orders/create-order", component: <SellAdmin /> },
+    { path: "/imports/create-import", component: <SellAdmin /> },
+    { path: "/orders", component: <OrderAdmin /> },
+    { path: "/trademarks", component: <TrademarkAdmin /> },
+    { path: "/imports", component: <ImportAdmin /> },
+    { path: "/coupons", component: <CouponAdmin /> },
+    { path: "/setting", component: <SettingAdmin /> },
+    { path: "/customers", component: <CustomerAdmin /> },
+    { path: "/providers", component: <ProviderAdmin /> },
+    { path: "/statistical", component: <StatisticalAdmin /> },
+    { path: "/orders/:id", component: <OrderAdDetail /> }
 ]
 
 export default routeAdmin

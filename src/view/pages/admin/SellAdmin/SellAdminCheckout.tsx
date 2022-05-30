@@ -1,8 +1,13 @@
 
 import { useSearchParams } from "react-router-dom";
-import { formatDate } from "../../../../shared/helpers";
-import { ProductDetailOrder } from "../../../../shared/interfaces";
+import { useState } from "react"
+import { formatDate, formatCashVND } from "../../../../shared/helpers";
+import { ProductDetailOrder, User } from "../../../../shared/interfaces";
 import SearchUser from "./searchUser";
+import billsService from "../../../../services/billsService";
+import { showToast } from "../../../../modules/toast/toastSlice";
+import { useDispatch } from "react-redux";
+import billDetailsService from "../../../../services/billDetailsService";
 
 interface ProductOrder {
     _id: string,
@@ -29,15 +34,39 @@ interface Props {
 function SaleAdminCheckout(props: Props) {
     const { data } = props
     const [searchParams, setSearchParams] = useSearchParams()
+    const [user, setUser] = useState<User>()
+    const dispatch = useDispatch()
+
+    const total = data.reduce((prev, cur) => prev + cur.amount, 0)
+
+    const handleSell = async () => {
+        try {
+            const bill = await billsService.add({status: searchParams.get('type') === 'import' ? 3 : 1, shippedDate: searchParams.get('type') === 'import' ? new Date() : new Date().setDate(new Date().getDate() + 3), user: user ? user._id : ''})
+            if(bill){
+                await data.forEach(async (pro, index) => {
+                    await billDetailsService.add({bill: bill._id, quantity: pro.mainProduct.quantity, productDetail: pro.mainProduct._id})
+                
+                    if(index === data.length - 1){
+                        await dispatch(showToast({ show: true, text: searchParams.get('type') === 'import' ? 'Nhập hàng thành công' : 'Mua hàng thành công', type: 'success', delay: 1500 }))
+                    }
+                })
+            }
+            
+            
+        }
+        catch (err) {
+            dispatch(showToast({ show: true, text: searchParams.get('type') === 'import' ? 'Nhập hàng thất bại' : 'Mua hàng thất bại', type: 'error', delay: 1500 }))
+        }
+    }
 
     return (
         <>
-            <div className="sellAdmin__content-calc p-3 h-100" style={{minHeight: "50vh", maxHeight: "500px"}}>
+            <div className="sellAdmin__content-calc p-3 h-100" style={{ minHeight: "50vh", maxHeight: "500px" }}>
                 <div>
                     <div className="row mb-3 align-items-center">
                         <div className="col">
-                            <div className="position-relative d-flex align-items-center justify-content-center sellAdmin__content-calc-customer">
-                                <SearchUser/>
+                            <div className="position-relative d-flex align-items-center w-100 sellAdmin__content-calc-customer">
+                                <SearchUser onUser={(user) => setUser(user)} />
                             </div>
                         </div>
                         <div className="col-auto">
@@ -48,7 +77,7 @@ function SaleAdminCheckout(props: Props) {
                         <div>
                             <div className="d-flex mb-3 justify-content-between align-items-center">
                                 <p className="mb-0 sellAdmin__content-calc-title">Tạm tính</p>
-                                <p className="mb-0 sellAdmin__content-calc-price">10,000</p>
+                                <p className="mb-0 sellAdmin__content-calc-price">{formatCashVND(total + "", ",")}</p>
                             </div>
                             <div className="mb-3 d-flex justify-content-between align-items-center">
                                 <p className="mb-0 sellAdmin__content-calc-title">Phí vận chuyển</p>
@@ -66,7 +95,7 @@ function SaleAdminCheckout(props: Props) {
                     }
                     <div className="mb-3 d-flex justify-content-between align-items-center">
                         <p className="mb-0 sellAdmin__content-calc-title">Tổng tiền</p>
-                        <h4 className="mb-0 text-end text-danger">20,000</h4>
+                        <h4 className="mb-0 text-end text-danger">{searchParams.get('type') === 'import' ? formatCashVND(total + "", ",") : formatCashVND((total > 0 ? total - 10000 : total) + "", ",")} đ</h4>
                     </div>
                     {searchParams.get('type') === 'export' &&
                         <div className="row mb-3">
@@ -81,7 +110,7 @@ function SaleAdminCheckout(props: Props) {
                     }
                 </div>
                 <div className="d-flex align-items-center">
-                    <button className="btn btn-ad-primary w-100 p-3 me-1">
+                    <button onClick={handleSell} className="btn btn-ad-primary w-100 p-3 me-1">
                         <h6 className="mb-0">{searchParams.get('type') === 'import' ? 'Nhập' : 'Mua'} Hàng</h6>
                     </button>
 
