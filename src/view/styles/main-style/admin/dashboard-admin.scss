@@ -1,24 +1,59 @@
-.dashboardAdmin{
-
-    &__general{
+.dashboardAdmin {
+    &__general {
         border-radius: 1.75rem;
         background-color: #fff;
         padding: 1.5rem;
         box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 
-        &-data{
-
-            &-text{
+        &-data {
+            &-text {
                 color: $ad-text-head;
             }
         }
 
-        &-icon{
+        &-icon {
             @include flex-center();
             border-radius: 20px;
             padding: 1.2rem;
             background-color: $ad-primary;
             color: white;
+        }
+    }
+}
+
+.dashboard {
+    &__container {
+        background-color: #fff;
+        box-shadow: 0 3px 20px 5px rgba(0, 0, 0, 0.03);
+        &-child {
+            background-color: #f9fafb;
+        }
+    }
+    &__body {
+        padding: 10px 10px 10px 10px;
+    }
+
+    &__title {
+        font-size: 1.2rem;
+
+        &-tab{
+            background-color: transparent;
+           
+            font-size: 1rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all ease .4s;
+            &:hover{
+                background-color: #fff;
+                color: $ad-primary;
+            }
+           
+            
+        
+            &.active{
+                background-color: #fff;
+                color: $ad-primary;
+            }
         }
     }
 }

@@ -48,8 +48,15 @@ function CategoryAdmin() {
 
     const handleModalClose = () => setShowModal(false)
 
-    const handleSearchCategory = (value: string, page: number) => {
-
+    const handleSearchCategory = async (value:string, page: number) => {
+        setIsLoading(true)
+        categoriesService.search(value, page, 8)
+                    .then(res => {
+                        const { data, ...others } = res
+                        setCategories(data)
+                        setPagination({...others})
+                        setIsLoading(false)
+                    })
     }
     return (
         <article>

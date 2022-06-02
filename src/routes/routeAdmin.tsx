@@ -4,6 +4,7 @@ import CouponAdmin from "../view/pages/admin/CouponAdmin"
 import CustomerAdmin from "../view/pages/admin/CustomerAdmin"
 import DashboardAdmin from "../view/pages/admin/DashboardAdmin"
 import ImportAdmin from "../view/pages/admin/ImportAdmin"
+import Invoice from "../view/pages/admin/Invoice"
 import OrderAdDetail from "../view/pages/admin/OrderAdDetail"
 import OrderAdmin from "../view/pages/admin/OrderAdmin"
 import ProductAdDetail from "../view/pages/admin/ProductAdDetail"
@@ -29,12 +30,14 @@ const routeAdmin: Route[] = [
     { path: "/orders", component: <OrderAdmin /> },
     { path: "/trademarks", component: <TrademarkAdmin /> },
     { path: "/imports", component: <ImportAdmin /> },
+    { path: "/imports/:id", component: <OrderAdDetail /> },
     { path: "/coupons", component: <CouponAdmin /> },
     { path: "/setting", component: <SettingAdmin /> },
     { path: "/customers", component: <CustomerAdmin /> },
     { path: "/providers", component: <ProviderAdmin /> },
     { path: "/statistical", component: <StatisticalAdmin /> },
-    { path: "/orders/:id", component: <OrderAdDetail /> }
+    { path: "/orders/:id", component: <OrderAdDetail /> },
+    {path: "/invoice", component: <Invoice/>},
 ]
 
 export default routeAdmin

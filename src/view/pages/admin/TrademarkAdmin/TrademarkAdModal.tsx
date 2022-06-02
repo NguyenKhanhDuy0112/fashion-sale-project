@@ -104,12 +104,12 @@ function TrademarkAdModal(props: ModalShow) {
         if (trademark?._id) {
             try {
                 await trademarksService.delete(trademark._id)
-                dispatch(showToast({ show: true, text: "Xóa sản phẩm thành công", type: "success", delay: 1500 }))
+                dispatch(showToast({ show: true, text: "Xóa thương hiệu thành công", type: "success", delay: 1500 }))
                 setIsLoading(false)
                 onLoadData()
             }
             catch (err) {
-                dispatch(showToast({ show: true, text: "Xóa sản phẩm thất bại", type: "error", delay: 1500 }))
+                dispatch(showToast({ show: true, text: "Xóa thương hiệu thất bại", type: "error", delay: 1500 }))
                 setIsLoading(false)
             }
         }

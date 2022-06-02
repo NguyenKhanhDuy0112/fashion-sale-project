@@ -57,6 +57,7 @@ function OrderAdmin() {
             <OrderAdTable
                 data={orders}
                 loading = {isLoading}
+                onLoadData = {() => handleLoadData(1)}
             />
 
             {pagination &&

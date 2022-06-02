@@ -7,8 +7,6 @@ import { Pagination, Product, ProductDetail } from "../../../../shared/interface
 import ProductAdModal from "./ProductAdModal"
 import ProductAdTable from "./ProductAdTable";
 
-
-
 function ProductAdmin() {
     const [products, setProducts] = useState<Product[]>([])
     const [isLoading, setIsLoading] = useState(true)

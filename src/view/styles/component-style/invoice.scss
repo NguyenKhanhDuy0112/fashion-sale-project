@@ -1,0 +1,137 @@
+.invoice{
+    padding: 6px;
+    border: 5px solid #257CB0;
+    position: relative;
+
+    &::after{
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+        border: 2px solid $bg-primary;
+    }
+    &__header{
+
+        &-logo{
+            width: 100px;
+        }
+
+        &-title{
+            color: red;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0;
+            letter-spacing: 1px;
+        }
+        &-date{
+            font-size: 0.95rem;
+        }
+        &-note{
+            font-size: 0.85rem;
+            font-style: italic;
+            color: $color-sub;
+        }
+        &-char{
+            font-size: 0.94rem;
+            min-width: 60px;
+
+            &-child{
+                font-size: 0.94rem;
+                font-weight: 600;
+
+                &.red{
+                    color: red;
+                }
+            }
+        }
+        
+    }
+
+    &__info{
+        &.border-black{
+            border: 2px solid #000;
+        }
+        &-title{
+            font-weight: 400;
+            font-size: 0.85rem;
+            width: 8%;
+
+            &.w-10{
+                width: 11.5%;
+            }
+        }
+        &-separate{
+            color: #000;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        &-text{
+            font-size: 0.85rem;
+
+            &-company{
+                font-size: 1.3rem;
+                text-transform: uppercase; 
+                color: $bg-primary;
+                font-weight: 500;
+            }
+        }
+    }
+
+    &__table{
+        width: 100%;
+
+        & tr td{
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            padding: 5px;
+            font-size: 0.85rem;
+        }
+
+        & tr th{
+            border: 1px solid #000;
+            padding: 5px;
+            font-size: 0.9rem;
+        }
+
+        &-bd{
+            border-top: 2px solid #000;
+        }
+        &-bb{
+            border-bottom: 2px solid #000;
+        }
+    }
+
+    &__sign{
+
+        &-title{
+            font-weight: 600;
+            font-size: 0.82rem;
+        }
+        &-note{
+            font-size: 0.82rem;
+            font-style: italic;
+        }
+
+        &-content{
+            position: relative;
+            border: 1px solid red;
+            padding: 3px;
+            z-index: 1;
+
+            &-text{
+                color: red;
+                font-size: 0.85rem;
+            }
+            &-img{
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                z-index: -1;
+            }
+        }
+    }
+}

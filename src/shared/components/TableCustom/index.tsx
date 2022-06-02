@@ -16,7 +16,7 @@ function TableCustom(props: TableData) {
             <table className="tableCustom">
                 <thead>
                     <tr>
-                        {headers.map((head, index) => <th style={{width: `${head.toLowerCase() === 'hành động' || head.toLowerCase() === '#' ? '5rem': 'auto'}`}} key={index}>{head}</th>)}
+                        {headers.map((head, index) => <th style={{width: `${head.toLowerCase() === 'hành động' || head.toLowerCase() === 'xem chi tiết' || head.toLowerCase() === '#' ? '5rem': 'auto'}`}} key={index}>{head}</th>)}
                     </tr>
                 </thead>
                 <tbody>

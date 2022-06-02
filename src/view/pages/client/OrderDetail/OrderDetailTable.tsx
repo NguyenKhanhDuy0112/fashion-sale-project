@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function OrderDetailTable() {
     return (
         <table className="orderDetail__table">
-            <thead>
+            <thead className="d-xl-block d-none">
                 <tr>
                     <th>Sản phẩm</th>
                     <th>Giá</th>
@@ -22,22 +22,25 @@ function OrderDetailTable() {
                                 <Link to="/" className="orderDetail__table-item-title">
                                     Áo Thun Nam AMES Có Cổ Trơn 5S ( 8 màu), Vải Coolmax Co Giãn Nhẹ, Phối Logo Thêu Trẻ Trung, Phom Cơ Bản  - TRT - XL
                                 </Link>
+                                <div className="d-xl-none d-block">
+                                    189.000 x 1
+                                </div>
                                 <button className="orderDetail__table-item-btn mt-2">
                                     Mua lại
                                 </button>
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td className="d-xl-block d-none">
                         189.000đ
                     </td>
-                    <td>
+                    <td className="d-xl-block d-none">
                         1
                     </td>
-                    <td>
+                    <td className="d-xl-block d-none">
                         0đ
                     </td>
-                    <td>
+                    <td className="d-xl-block d-none">
                         189.000đ
                     </td>
                 </tr>

@@ -9,6 +9,10 @@ const listPagination = (page: number, limit: number) => {
     return api.get(`${api.url.categories}?page=${page}&limit=${limit}`).then(res => res.data)
 }
 
+const search = (value: string, page:number, limit: number) => {
+    return api.get(`${api.url.categories}/find?q=${value}&page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const findById = (id: string) => {
     return api.get(`${api.url.categories}/${id}`).then(res => res.data)
 }
@@ -34,6 +38,7 @@ const categoriesService = {
     get,
     delete: remove,
     listPagination,
+    search,
     findById,
     update,
     add

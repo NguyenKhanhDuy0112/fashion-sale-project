@@ -34,36 +34,35 @@ function OrderDetail() {
                             </li>
                         </ul>
                     </article>
-                    <div className="row">
+                    <div className="row g-xl-3 g-0 mt-xl-0 mt-5 pt-xl-0 pt-3">
                         <div className="col-xl-auto d-xl-block d-none">
                             <Account />
                         </div>
                         <div className="col">
-                            <h5 className="editAccount__title mb-4">Chi tiết đơn hàng</h5>
+                            <h5 className="editAccount__title mb-4">Chi tiết đơn hàng #732470171-Huỷ</h5>
                             <div className="d-flex mb-3 justify-content-end">
                                 <span className="orderDetail__date">
                                     Ngày đặt hàng: 18:59 21/05/2022
                                 </span>
                             </div>
-                            <div className="row">
-                                <div className="col h-100">
+                            <div className="row g-xl-3 g-0 row-cols-xl-3 row-cols-1">
+                                <div className="col">
                                     <p className="mb-2 orderDetail__title">Địa chỉ người nhận</p>
-                                    <div className="orderDetail__info p-2 border-radius-4 h-100">
+                                    <div className="orderDetail__info p-2 border-radius-4">
                                         <p className="mb-0 orderDetail__info-name">Nguyễn Khánh Duy</p>
                                         <p className="mb-0 orderDetail__info-title">Hóc Môn, Thành Phố Hồ Chí Minh</p>
                                         <p className="mb-0 orderDetail__info-title">0798132664</p>
                                     </div>
-
                                 </div>
-                                <div className="col h-100">
-                                    <p className="mb-2 orderDetail__title h-100">Hình thức giao hàng</p>
+                                <div className="col">
+                                    <p className="mb-2 orderDetail__title">Hình thức giao hàng</p>
                                     <div className="orderDetail__info p-2 border-radius-4">
                                         <p className="mb-0 orderDetail__info-title">Giao Tiết Kiệm</p>
                                         <p className="mb-0 orderDetail__info-title">Giao và Thứ Bảy, 28/5</p>
                                         <p className="mb-0 orderDetail__info-title">Miễn phí vận chuyển</p>
                                     </div>
                                 </div>
-                                <div className="col h-100">
+                                <div className="col d-flex flex-column justify-content-between">
                                     <p className="mb-2 orderDetail__title">Hình thức thanh toán</p>
                                     <div className="orderDetail__info p-2 border-radius-4 h-100">
                                         <p className="mb-0 orderDetail__info-title">Thanh toán tiền mặt khi nhận hàng</p>

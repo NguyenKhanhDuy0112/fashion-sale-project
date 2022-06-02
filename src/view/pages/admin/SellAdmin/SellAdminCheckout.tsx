@@ -41,7 +41,7 @@ function SaleAdminCheckout(props: Props) {
 
     const handleSell = async () => {
         try {
-            const bill = await billsService.add({status: searchParams.get('type') === 'import' ? 3 : 1, shippedDate: searchParams.get('type') === 'import' ? new Date() : new Date().setDate(new Date().getDate() + 3), user: user ? user._id : ''})
+            const bill = await billsService.add({feeShip: searchParams.get('type') === 'import' ? 0 : 20000,status: searchParams.get('type') === 'import' ? 3 : 1, shippedDate: searchParams.get('type') === 'import' ? new Date() : new Date().setDate(new Date().getDate() + 3), user: user ? user._id : ''})
             if(bill){
                 await data.forEach(async (pro, index) => {
                     await billDetailsService.add({bill: bill._id, quantity: pro.mainProduct.quantity, productDetail: pro.mainProduct._id})
@@ -51,8 +51,6 @@ function SaleAdminCheckout(props: Props) {
                     }
                 })
             }
-            
-            
         }
         catch (err) {
             dispatch(showToast({ show: true, text: searchParams.get('type') === 'import' ? 'Nhập hàng thất bại' : 'Mua hàng thất bại', type: 'error', delay: 1500 }))
@@ -81,7 +79,7 @@ function SaleAdminCheckout(props: Props) {
                             </div>
                             <div className="mb-3 d-flex justify-content-between align-items-center">
                                 <p className="mb-0 sellAdmin__content-calc-title">Phí vận chuyển</p>
-                                <p className="mb-0 sellAdmin__content-calc-price">10,000</p>
+                                <p className="mb-0 sellAdmin__content-calc-price">20,000</p>
                             </div>
                             <div className="d-flex justify-content-between mb-3 align-items-center">
                                 <p className="mb-0 sellAdmin__content-calc-title">Tiền khách trả</p>
@@ -95,7 +93,7 @@ function SaleAdminCheckout(props: Props) {
                     }
                     <div className="mb-3 d-flex justify-content-between align-items-center">
                         <p className="mb-0 sellAdmin__content-calc-title">Tổng tiền</p>
-                        <h4 className="mb-0 text-end text-danger">{searchParams.get('type') === 'import' ? formatCashVND(total + "", ",") : formatCashVND((total > 0 ? total - 10000 : total) + "", ",")} đ</h4>
+                        <h4 className="mb-0 text-end text-danger">{searchParams.get('type') === 'import' ? formatCashVND(total + "", ",") : formatCashVND((total > 0 ? total - 20000 : total) + "", ",")} đ</h4>
                     </div>
                     {searchParams.get('type') === 'export' &&
                         <div className="row mb-3">

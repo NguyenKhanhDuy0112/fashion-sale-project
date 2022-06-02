@@ -27,7 +27,7 @@ function CategoryAdTable(props: Props) {
                     loading ?
                         Array.from({ length: 8 }).map((ite, index: number) => (
                             <tr key={index}>
-                                {Array.from({length: 8}).map((item:any, index: number) => (
+                                {Array.from({length: 4}).map((item:any, index: number) => (
                                     <td key = {index}><Skeleton/></td>
                                 ))}
                             </tr>

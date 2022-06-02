@@ -42,7 +42,7 @@ function ImportAdTable(props: Props) {
                                     <td className="text-end">{formatCashVND(String(bill.totalPrice), ".")}</td>
                                     <td>
                                         <div className="d-flex justify-content-center">
-                                            <Link to={`/admin/orders/${bill._id}`} className="cursor-pointer btn-edit">
+                                            <Link to={`/admin/imports/${bill._id}`} className="cursor-pointer btn-edit">
                                                 <AiOutlineEye size={20} />
                                             </Link>
                                         </div>

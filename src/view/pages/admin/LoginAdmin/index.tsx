@@ -3,12 +3,12 @@ import { useNavigate } from "react-router";
 
 function LoginAdmin() {
     const navigate = useNavigate()
-   
+
     return (
         <>
             <div className="loginAdmin">
                 <div className="container d-flex justify-content-center">
-                    <div className="card" style={{ width: "23rem" ,maxWidth:"100%"}}>
+                    <div className="card" style={{ width: "23rem", maxWidth: "100%" }}>
                         <div className="card-header" style={{ backgroundColor: "#fff" }}>
                             <h3 className="loginAdmin__title mb-0 text-center p-2">Quản trị</h3>
                         </div>
@@ -35,8 +35,8 @@ function LoginAdmin() {
                                     <input id="remember" className="form-check-input" type="checkbox" />
                                     <label htmlFor="remember" className="d-d-inline-block ms-2">Nhớ mật khẩu</label>
                                 </div>
-                                <div className="col-4">
-                                    <button className="btn btn-primary w-100" onClick={() => navigate("/admin/dashboard")}>Login</button>
+                                <div className="col-auto">
+                                    <button className="btn btn-primary w-100" onClick={() => navigate("/admin/dashboard")}>Đăng Nhập</button>
                                 </div>
                             </div>
                         </div>

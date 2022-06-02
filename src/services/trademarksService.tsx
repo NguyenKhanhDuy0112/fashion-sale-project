@@ -25,6 +25,10 @@ const update = (id:string ,data: Trademark) => {
     return api.put(api.url.trademarks+'/'+id, data).then(res => res.data)
 }
 
+const search = (value: string, page:number, limit: number) => {
+    return api.get(`${api.url.trademarks}/find?q=${value}&page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const add = (data: Trademark) => {
     return api.post(api.url.trademarks, data).then(res => res.data)
 }
@@ -35,6 +39,7 @@ const trademarksService = {
     delete: remove,
     listPagination,
     findById,
+    search,
     update,
     add
 }

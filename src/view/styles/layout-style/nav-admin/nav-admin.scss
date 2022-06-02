@@ -7,6 +7,7 @@
     transition: all ease-in-out 0.3s;
     @include position(fixed, 0, auto, 0, 0);
 
+
     @include responsive(lg-screen) {
         width: 5rem;
         transform: translate(0);

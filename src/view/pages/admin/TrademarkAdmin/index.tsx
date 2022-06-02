@@ -50,9 +50,15 @@ function TrademarkAdmin() {
 
     const handleModalClose = () => setShowModal(false)
 
-    
-    const handleSearchTrademark = (value: string, page: number) => {
-
+    const handleSearchTrademark = async (value:string, page: number) => {
+        setIsLoading(true)
+        trademarksService.search(value, page, 8)
+                    .then(res => {
+                        const { data, ...others } = res
+                        setTrademarks(data)
+                        setPagination({...others})
+                        setIsLoading(false)
+                    })
     }
     
     return ( 

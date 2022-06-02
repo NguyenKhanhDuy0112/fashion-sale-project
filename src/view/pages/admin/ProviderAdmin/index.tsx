@@ -49,10 +49,18 @@ function ProviderAdmin() {
 
     const handleModalClose = () => setShowModal(false)
 
-    
-    const handleSearchProviders = (value: string, page: number) => {
-
+    const handleSearchProviders = async (value: string, page: number) => {
+        setIsLoading(true)
+        usersService.searchProviders(value, page, 8)
+            .then(res => {
+                const { data, ...others } = res
+                setProviders(data)
+                setPagination({ ...others })
+                setIsLoading(false)
+            })
     }
+
+
 
     return (
         <article>
@@ -60,7 +68,7 @@ function ProviderAdmin() {
             <div className="d-flex align-items-center tableCustom__filter px-3 py-4 mb-3">
                 <div className="row g-3 w-100">
                     <div className="col-xl-9 col-md-7 col-12">
-                        <InputSearch valueInput="" onChangeValue={(value) => handleSearchProviders(value, 1)}/>
+                        <InputSearch valueInput="" onChangeValue={(value) => handleSearchProviders(value, 1)} />
                     </div>
                     <div className="col-xl-3 col-md-5 col-12">
                         <button className="btn text-center btn-add" onClick={() => handleModalShow('')}>

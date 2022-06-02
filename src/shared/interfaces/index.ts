@@ -18,6 +18,7 @@ export interface Product{
 export interface ProductDetail{
     _id: string,
     quantity?: number,
+    sku?:string,
     status?: number,
     product?: Product,
     sizes: any,
@@ -65,8 +66,10 @@ export interface Bill{
     updatedAt?: Date,
     status: number,
     user?: User,
+    feeShip?: number,
     coupon?: Coupon,
     totalPrice: number,
+    method?: string,
     date? :any,
     type?: string,
     billDetails?: BillDetail[]
@@ -76,6 +79,7 @@ export interface BillApi{
     _id?: string,
     createdAt?: Date,
     shippedDate?: any,
+    feeShip: number,
     updatedAt?: Date,
     status: number,
     user?: string,
@@ -90,7 +94,7 @@ export interface BillDetail{
     quantity: number,
     price?: number,
     discount?: number,
-    productDetail: ProductDetail,
+    productDetail: ProductDetailOrder,
     bill: Bill,
 }
 
@@ -121,6 +125,23 @@ export interface ProductDetailOrder{
     size: string,
     color: string,
     images: string[]
+}
+
+export interface ProductOrder {
+    _id: string,
+    name: string,
+    material: string,
+    origin: string,
+    description: string,
+    unit: string,
+    slug?: string,
+    trademark?: any,
+    price?: number,
+    rating?: number,
+    category?: any,
+    createdAt?: any,
+    updatedAt?: any,
+    productDetails: ProductDetailOrder[],
 }
 
 export interface Pagination {

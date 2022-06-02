@@ -1,13 +1,16 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import ImageUploading from "../../../../shared/components/ImageUploading";
 import InputAdmin from "../../../../shared/components/InputAdmin";
 import { User } from "../../../../shared/interfaces";
 import * as Yup from "yup"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { handleCreateImage } from "../../../../shared/helpers";
 import usersService from "../../../../services/usersService";
 import { FiTrash2 } from "react-icons/fi";
+import ModalAdDelete from "../../../../shared/components/ModalAdDelete";
+import { useDispatch } from "react-redux";
+import { showToast } from "../../../../modules/toast/toastSlice";
 
 interface ModalShow {
     show: boolean,
@@ -19,6 +22,9 @@ interface ModalShow {
 }
 
 function CustomerAdModal({ show, handleClose, user, onLoadData, onModalDelete, showModalDelete }: ModalShow) {
+
+    const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (user?._id) {
@@ -54,7 +60,7 @@ function CustomerAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
     })
 
     const handleSubmitForm = async (value: any) => {
-        
+        setLoading(true)
         const images: string[] = []
         value.avatar.forEach(async (img: any, index: number) => {
             if (img.file) {
@@ -73,38 +79,48 @@ function CustomerAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
                 if (value._id) {
                     try {
                         await usersService.update(_id, { avatar : images[0],...others })
-
+                        dispatch(showToast({ show: true, text: "Thêm khách hàng thành công", type: "success", delay: 1500 }))
                         onLoadData()
+                        setLoading(false)
+                        handleClose()
                     } catch (err) {
-
+                        dispatch(showToast({ show: true, text: "Thêm khách hàng thất bại", type: "error", delay: 1500 }))
+                        setLoading(false)
+                        handleClose()
                     }
                   
                 }
                 else {
                     try {
                         await usersService.add({avatar: images[0], ...others})
-                        
+                        dispatch(showToast({ show: true, text: "Thêm khách hàng thành công", type: "success", delay: 1500 }))
+                        onLoadData()
+                        setLoading(false)
+                        handleClose()
                         onLoadData()
                     } catch (err) {
-                        
+                        dispatch(showToast({ show: true, text: "Thêm khách hàng thất bại", type: "error", delay: 1500 }))
+                        setLoading(false)
+                        handleClose()
                     }
                 }
             }
         });
 
-        handleClose()
-
     }
 
-    const handleDeleteCategory = async () => {
+    const handleDeleteCustomer = async () => {
         if (user?._id) {
             try {
                 await usersService.delete(user._id)
-
+                dispatch(showToast({ show: true, text: "Xóa khách hàng thành công", type: "success", delay: 1500 }))
+                setLoading(false)
                 onLoadData()
             }
             catch (err) {
-
+                dispatch(showToast({ show: true, text: "Xóa khách hàng thành công", type: "success", delay: 1500 }))
+                setLoading(false)
+                onLoadData()
             }
         }
         onModalDelete()
@@ -192,35 +208,17 @@ function CustomerAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
                         onClick={() => formik.handleSubmit()}
                         className="bg-ad-primary btn-ad-primary"
                     >
-                        Lưu
+                        {loading ? <Spinner size="sm" animation="border" variant="light" /> : 'Lưu'}
                     </Button>
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={showModalDelete} centered onHide={onModalDelete}>
-                <Modal.Body>
-                    <p className="text-center text-danger fs-3"><FiTrash2 /></p>
-                    <h5 className="text-center modal__text-head mb-1">Bạn có chắc là muốn xóa mục này?</h5>
-                    <p className="text-center modal__text-sub mb-0">Bạn có thực sự muốn xóa mục này? Bạn không thể xem mục này trong danh sách của mình nữa nếu bạn xóa!</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="d-flex justify-content-center align-items-center w-100">
-                        <button
-                            className="btn modal__btn-cancel me-1"
-                            onClick={onModalDelete}
-                        >
-                            Đóng
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-ad-primary modal__btn-delete ms-1 text-white"
-                            onClick={handleDeleteCategory}
-                        >
-                            Xóa
-                        </button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
+            <ModalAdDelete
+                isLoading = {loading}
+                onDelete = {handleDeleteCustomer}
+                onHide = {onModalDelete}
+                show = {showModalDelete}
+            />
         </>
     );
 }

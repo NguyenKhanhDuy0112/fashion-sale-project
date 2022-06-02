@@ -1,5 +1,5 @@
 import LinkAdmin from "../../../shared/components/LinkAdmin";
-import { MdDashboard } from "react-icons/md"
+import { MdArrowRight, MdDashboard } from "react-icons/md"
 import { AiOutlineBars, AiOutlineGift, AiOutlineTrademark } from "react-icons/ai";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { BiCompass, BiImport } from "react-icons/bi";
@@ -7,12 +7,19 @@ import { FiUsers } from "react-icons/fi";
 import { ImUserTie } from "react-icons/im"
 import useToggleNav from "../../../shared/hooks/useToggleNav";
 import { BsBarChart } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { CgShapeRhombus } from "react-icons/cg";
+import { Collapse } from "react-bootstrap";
+import { useState } from "react";
+import { useLocation } from "react-router";
 
 function NavAdminLink() {
     const isToggleNav = useToggleNav()
+    const { pathname } = useLocation()
+    const [open, setOpen] = useState(false)
 
     return (
-        <ul>
+        <ul className="navAdminLink">
             <LinkAdmin to="/admin/dashboard">
                 <span className="linkAdmin__item-icon">
                     <MdDashboard size={20} />
@@ -69,10 +76,11 @@ function NavAdminLink() {
             </LinkAdmin>
             <LinkAdmin to="/admin/statistical">
                 <span className="linkAdmin__item-icon">
-                    <BsBarChart size = {20} />
+                    <BsBarChart size={20} />
                 </span>
                 <span className={`linkAdmin__item-text ${isToggleNav ? 'active' : ''}`}>Thống kê</span>
             </LinkAdmin>
+            
         </ul>
     );
 }

@@ -1,25 +1,37 @@
 import { useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import Skeleton from "react-loading-skeleton";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { showToast } from "../../../../modules/toast/toastSlice";
+import billsService from "../../../../services/billsService";
 import TableCustom from "../../../../shared/components/TableCustom";
+import { formatCashVND, formatDate } from "../../../../shared/helpers";
 import { Bill } from "../../../../shared/interfaces";
 
 interface Props {
     data: Bill[],
     loading: boolean,
+    onLoadData: () => void
 }
 function OrderAdTable(props: Props) {
-    const { data, loading } = props
+    const { data, loading, onLoadData } = props
     const [bills, setBills] = useState<Bill[]>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setBills(data)
     }, [data])
 
+    const handleChangeStatus = async (bill: Bill, value: string) => {
+        await billsService.update(bill._id ? bill._id : '', {...bill, status: +value})
+        await dispatch(showToast({ show: true, text: "Cập nhật trạng thái thành công", type: "success", delay: 1500 }))
+        await onLoadData()
+    }
+
     return (
         <>
-            <TableCustom headers={["#", "Ngày tạo", "Số điện thoại", "HTTT", "Tổng tiền", "Trạng thái", "Hóa đơn"]}>
+            <TableCustom headers={["#", "Ngày tạo", "Số điện thoại", "HTTT", "Tổng tiền", "Trạng thái", "Xem chi tiết"]}>
                 {loading
                     ?
                     Array.from({ length: 8 }).map((ite: any, index: number) => (
@@ -32,19 +44,17 @@ function OrderAdTable(props: Props) {
                     :
                     (bills && bills.length > 0) ?
                         bills.map((bill, index) => {
-                            const dateJoin = bill.date ? new Date(bill?.date) : new Date()
                             return (
                                 <tr key={bill._id}>
                                     <td>{index + 1}</td>
-                                    <td>{bill.date ? `${dateJoin.getDate()}/${dateJoin.getMonth() + 1}/${dateJoin.getFullYear()}` : ''}</td>
+                                    <td>{formatDate(bill.createdAt ? new Date(bill.createdAt) : new Date(), "dd/MM/yyyy")}</td>
                                     <td>{bill.user?.phone}</td>
                                     <td>COD</td>
-                                    <td>200,000</td>
-
+                                    <td className="text-end">{formatCashVND(bill.totalPrice+"", ",")}</td>
                                     <td>
                                         <select
-                                            className="form-control inputSearch"
-
+                                            className="tableCustom__select"
+                                            onChange = {(e) => handleChangeStatus(bill, e.target.value)}
                                             value={bill.status}
                                         >
                                             <option hidden>Status</option>

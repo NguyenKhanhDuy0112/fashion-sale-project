@@ -31,16 +31,6 @@ function Account() {
                     </Link>
                 </li>
                 <li className="account__item">
-                    <Link to = "/account/notify" className={`account__item-link px-3 py-2 ${pathname === '/account/notify' ? 'active' : ''}`}>
-                        <span className="account__item-link-icon me-3">
-                            <BsBellFill size={17}/>
-                        </span>
-                        <span className="account__item-link-text">
-                            Thông báo của tôi
-                        </span>
-                    </Link>
-                </li>
-                <li className="account__item">
                     <Link to = "/order/history" className={`account__item-link px-3 py-2 ${pathname === '/order/history' ? 'active' : ''}`}>
                         <span className="account__item-link-icon me-3">
                             <RiBillFill size={17}/>
@@ -50,7 +40,7 @@ function Account() {
                         </span>
                     </Link>
                 </li>
-                <li className="account__item">
+                <li className="account__item d-none">
                     <Link to = "/customer/address" className={`account__item-link px-3 py-2 ${pathname === '/customer/address' ? 'active' : ''}`}>
                         <span className="account__item-link-icon me-3">
                             <MdPlace size={17}/>
@@ -61,7 +51,7 @@ function Account() {
                     </Link>
                 </li>
                 <li className="account__item">
-                    <Link to = "/nhan-xet-san-pham-da-mua" className={`account__item-link px-3 py-2 ${pathname === '/nhan-xet-san-pham-da-mua' ? 'active' : ''}`}>
+                    <Link to = "/customer/nhan-xet-san-pham-da-mua" className={`account__item-link px-3 py-2 ${pathname === '/customer/nhan-xet-san-pham-da-mua' ? 'active' : ''}`}>
                         <span className="account__item-link-icon me-3">
                             <BiNotepad size={17}/>
                         </span>

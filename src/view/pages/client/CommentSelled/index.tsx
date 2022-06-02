@@ -1,18 +1,11 @@
-import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderClient from "../../../../layout/client/HeaderClient";
 import HeaderMobileTitle from "../../../../layout/client/HeaderMobileTitle";
-import OrderItem from "../../../../shared/components/OrderItem";
 import Account from "../Account";
 
-const orders = ["Tất cả đơn", "Đang xử lý", "Đang vận chuyển", "Đã giao", "Đã hủy"]
-
-function OrderManage() {
-
-    const [tab, setTab] = useState("Tất cả đơn")
-
+function CommentSelled() {
     return (
         <>
             <div className="d-xl-block d-none">
@@ -33,9 +26,9 @@ function OrderManage() {
                                     <IoIosArrowForward />
                                 </span>
                             </li>
-                            <li className="breadcrumbCustom__list-item">
+                            <li className="breadcrumbCustom__list-item none">
                                 <span className="breadcrumbCustom__list-item-link">
-                                    Đơn hàng của tôi
+                                    Nhận xét sản phẩm đã mua
                                 </span>
                             </li>
                         </ul>
@@ -45,15 +38,17 @@ function OrderManage() {
                             <Account />
                         </div>
                         <div className="col">
-                            <h5 className="editAccount__title mb-4">Đơn hàng của tôi</h5>
-                            <ul className="orderManage__list p-0 mb-3">
-                                {orders.map(item => (
-                                    <li onClick={() => setTab(item)} className={`orderManage__list-item ${item === tab ? 'active' : ''}`}>
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                            <OrderItem/>
+                            <div className="col">
+                                <h5 className="editAccount__title mb-4">Nhận xét sản phẩm đã mua</h5>
+                                <div className="bg-white border-radius-4 p-3">
+                                    <div className="d-flex justify-content-center ">
+                                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/mascot_fail.svg" alt="" />
+                                    </div>
+                                    <div className="d-flex justify-content-center mt-2">
+                                        <button className="shop__address-modal-body-btn py-2 px-4">Tiếp tục mua sắm</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,4 +61,4 @@ function OrderManage() {
     );
 }
 
-export default OrderManage;
+export default CommentSelled;
