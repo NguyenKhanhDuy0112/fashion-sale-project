@@ -8,6 +8,7 @@ import billsService from "../../../../services/billsService";
 import { showToast } from "../../../../modules/toast/toastSlice";
 import { useDispatch } from "react-redux";
 import billDetailsService from "../../../../services/billDetailsService";
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice";
 
 interface ProductOrder {
     _id: string,
@@ -40,6 +41,7 @@ function SaleAdminCheckout(props: Props) {
     const total = data.reduce((prev, cur) => prev + cur.amount, 0)
 
     const handleSell = async () => {
+        dispatch(showLoading())
         try {
             const bill = await billsService.add({feeShip: searchParams.get('type') === 'import' ? 0 : 20000,status: searchParams.get('type') === 'import' ? 3 : 1, shippedDate: searchParams.get('type') === 'import' ? new Date() : new Date().setDate(new Date().getDate() + 3), user: user ? user._id : ''})
             if(bill){
@@ -47,12 +49,15 @@ function SaleAdminCheckout(props: Props) {
                     await billDetailsService.add({bill: bill._id, quantity: pro.mainProduct.quantity, productDetail: pro.mainProduct._id})
                 
                     if(index === data.length - 1){
+                        dispatch(hideLoading())
                         await dispatch(showToast({ show: true, text: searchParams.get('type') === 'import' ? 'Nhập hàng thành công' : 'Mua hàng thành công', type: 'success', delay: 1500 }))
+                        
                     }
                 })
             }
         }
         catch (err) {
+            dispatch(hideLoading())
             dispatch(showToast({ show: true, text: searchParams.get('type') === 'import' ? 'Nhập hàng thất bại' : 'Mua hàng thất bại', type: 'error', delay: 1500 }))
         }
     }

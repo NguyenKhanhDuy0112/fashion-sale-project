@@ -6,6 +6,8 @@ import CategoryAdModal from "./CategoryAdModal";
 import { Category, Pagination } from "../../../../shared/interfaces";
 import categoriesService from "../../../../services/categoriesService";
 import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice";
 
 function CategoryAdmin() {
     const [categories, setCategories] = useState<Category[]>([])
@@ -14,6 +16,7 @@ function CategoryAdmin() {
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
     const [pagination, setPagination] = useState<Pagination>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         handleLoadData(1)
@@ -30,7 +33,9 @@ function CategoryAdmin() {
 
     const handleModalShow = async (id: string) => {
         if (id) {
+            dispatch(showLoading())
             const findCategory = await categoriesService.findById(id)
+            dispatch(hideLoading())
             setCategory(findCategory)
         }
         else {

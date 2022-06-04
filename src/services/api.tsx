@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { authentication } from "../firebase-config"
 
 const url = {
     baseUrl : "https://fashion-sales-management.herokuapp.com/api",
@@ -28,6 +29,15 @@ const api = {
     delete:instance.delete,
     post:instance.post
 }
+
+instance.interceptors.request.use(async (config:any) => {
+    const currentUser = await authentication.currentUser
+    if(currentUser){
+        const token = await currentUser.getIdToken()
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+})
 
 // instance.interceptors.response.use((response) => {
 //     return response;

@@ -336,3 +336,32 @@ input[type="date"]:focus::before {
     border-right: 1px solid #f7f7f7;
 }
 
+
+.pincode-input-container
+{
+  .pincode-input-text
+  {
+    padding:0 !important;
+    margin:0 5px;
+    text-align:center;
+    border: 1px solid #ccc !important;
+    border-color: transparent transparent #ccc  transparent !important;
+    
+    font-size: 2rem;
+    background: transparent;
+    width: 50px;
+    height: 50px;
+
+    &::placeholder{
+        color: #BDBCBC;
+    }
+  }
+  .pincode-input-text:focus
+  {
+    outline:none;
+    box-shadow:none;
+    border-color:  transparent transparent $color-blue transparent !important;
+  }
+}
+
+

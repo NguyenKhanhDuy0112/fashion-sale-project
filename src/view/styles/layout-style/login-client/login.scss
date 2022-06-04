@@ -1,0 +1,135 @@
+.login{
+    &__account {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        color: white;
+
+        &-img {
+            width: 35px;
+        }
+
+        &-modal {
+            width: 800px;
+            max-width: calc(100% - 32px);
+        }
+
+        &-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        &-content {
+            font-size: 0.8rem;
+            &-action {
+                display: block;
+            }
+            &-text {
+            }
+        }
+
+        &-title {
+            font-size: 1.4rem;
+            font-weight: 500;
+            &-sub {
+                font-size: 0.96rem;
+            }
+        }
+        &-form {
+            &-input {
+                border: none;
+                outline: none;
+                border-bottom: 1px solid #e0e0e0;
+                padding: 10px 0;
+                font-size: 1.3rem;
+                width: 100%;
+                display: block;
+            }
+
+            &-btn {
+                border: none;
+                outline: none;
+                background-color: $color-red;
+                border-radius: 5px;
+                width: 100%;
+                font-size: 1.2rem;
+                color: white;
+                padding: 10px 0;
+                transition: all ease-in-out 0.2s;
+                &:hover {
+                    opacity: 0.85;
+                }
+            }
+
+            &-email {
+                font-size: 0.9rem;
+                text-align: center;
+                display: block;
+                cursor: pointer;
+                color: $color-blue;
+            }
+        }
+
+        &-social {
+            &-text {
+                &::before {
+                    content: "";
+                    @include position(absolute, 50%, 0, 0, 0);
+                    width: 100%;
+                    height: 1px;
+                    z-index: 1;
+                    background-color: $color-border;
+                }
+                &-child {
+                    position: relative;
+                    font-size: 0.9rem;
+                    color: $color-sub;
+                    display: block;
+                    text-align: center;
+
+                    z-index: 2;
+                }
+                &-sub {
+                    font-size: 0.7rem;
+                    color: $color-sub;
+                    text-align: center;
+                    display: block;
+                    & a {
+                        font-size: 0.7rem;
+                        color: $color-sub;
+
+                        &:hover {
+                            color: $color-sub;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+
+            &-icon {
+                width: 58px;
+            }
+        }
+
+        &-ad {
+            background-color: $color-primary-sub;
+            border-radius: 20px;
+            @include flex-center();
+            &-img {
+                max-height: 200px;
+                height: 100%;
+            }
+            &-text {
+                color: #0b74e7;
+                font-weight: 500;
+                font-size: 0.96rem;
+                text-align: center;
+
+                &-sub {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+}

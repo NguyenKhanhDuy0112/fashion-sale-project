@@ -37,7 +37,6 @@ const routeAdmin: Route[] = [
     { path: "/providers", component: <ProviderAdmin /> },
     { path: "/statistical", component: <StatisticalAdmin /> },
     { path: "/orders/:id", component: <OrderAdDetail /> },
-    {path: "/invoice", component: <Invoice/>},
 ]
 
 export default routeAdmin

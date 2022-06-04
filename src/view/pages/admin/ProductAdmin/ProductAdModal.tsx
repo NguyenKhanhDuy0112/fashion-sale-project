@@ -123,12 +123,16 @@ function ProductAdModal(props: ModalShow) {
                     await proDe.images.forEach(async (img: any, index: number) => {
                         const image = await handleCreateImage(img.file)
                         await images.push(image.data.url)
-                        if (await index === proDe.images.length - 1) {
+                        if (index === await proDe.images.length - 1) {
 
                             await proDetail.push({ ...otherProDe, product: pro._id, images: images })
 
                             if (value.productDetails.length === await proDetail.length) {
-                                await productDetailsService.add(proDetail)
+                                const proDetailAdd = await productDetailsService.add(proDetail)
+                                if(proDetailAdd){
+                                    console.log("Product Detail: ", proDetail)
+                                }
+                                
                                 await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
                                 setIsLoading(false)
                                 onLoadData()

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
+import { useDispatch } from "react-redux"
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice"
 import productsService from "../../../../services/productService"
 import InputSearch from "../../../../shared/components/InputSearch"
 import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx"
@@ -14,6 +16,7 @@ function ProductAdmin() {
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
     const [pagination, setPagination] = useState<Pagination>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         handleLoadData(1)
@@ -40,7 +43,9 @@ function ProductAdmin() {
     }
 
     const handleModalShow = (id: string) => {
+        
         if (id !== '') {
+            dispatch(showLoading())
             productsService.findById(id)
                 .then(res => {
                     const proData: any = res
@@ -72,6 +77,8 @@ function ProductAdmin() {
                     proData.productDetails = detail
                     proData.trademark = res.trademark._id
                     setProduct(proData)
+                    dispatch(hideLoading())
+                    setShowModal(true)
                 })
         }
         else {
@@ -88,7 +95,7 @@ function ProductAdmin() {
                 unit: ''
             })
         }
-        setShowModal(true)
+        
     }
 
 

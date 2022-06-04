@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
+import { useDispatch } from "react-redux"
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice"
 import trademarksService from "../../../../services/trademarksService"
 import InputSearch from "../../../../shared/components/InputSearch"
 import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx"
@@ -14,6 +16,7 @@ function TrademarkAdmin() {
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
     const [pagination, setPagination] = useState<Pagination>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         handleLoadData(1)
@@ -30,9 +33,9 @@ function TrademarkAdmin() {
 
     const handleModalShow = async (id: string) => {
         if (id) {
+            dispatch(showLoading())
             const findTrademark = await trademarksService.findById(id)
-        
-            console.log("Trademark: ", findTrademark)
+            dispatch(hideLoading())
             setTrademark(findTrademark.data)
         }
         else {

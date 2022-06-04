@@ -18,7 +18,7 @@ function ProductDetail() {
                 <HeaderClient />
             </div>
             <div className="d-xl-none d-block">
-                <HeaderClientProductItem/>
+                <HeaderClientProductItem />
             </div>
             <article className="productDetail bg-outside-client">
                 <div className="container-client d-xl-block d-none">
@@ -33,7 +33,15 @@ function ProductDetail() {
                                 </span>
                             </li>
                             <li className="breadcrumbCustom__list-item">
+                                <Link to="/" className="breadcrumbCustom__list-item-link">Áo thun nam ngắn tay có cổ</Link>
+                            </li>
+                            <li className="breadcrumbCustom__list-item mx-1">
                                 <span className="breadcrumbCustom__list-item-link">
+                                    <IoIosArrowForward />
+                                </span>
+                            </li>
+                            <li className="breadcrumbCustom__list-item">
+                                <span className="breadcrumbCustom__list-item-link none">
                                     Áo thun nam
                                 </span>
                             </li>
@@ -44,8 +52,8 @@ function ProductDetail() {
                     <ProductDetailInfo />
                     <ProductDetailSimilar />
                     <ProductDetailInfoDt />
-                    <ProductDetailDescription description=""/>
-                    <ProductDetailComment/>
+                    <ProductDetailDescription description="" />
+                    <ProductDetailComment />
                     <ProductDetailMore />
                 </div>
             </article>
@@ -70,7 +78,7 @@ function ProductDetail() {
             </div>
 
             <div className="d-xl-block d-none">
-                <FooterClient/>
+                <FooterClient />
             </div>
         </>
     );

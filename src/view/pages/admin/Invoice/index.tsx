@@ -1,4 +1,12 @@
-function Invoice() {
+import { Bill } from "../../../../shared/interfaces";
+
+interface InvoiceProps {
+    bill: Bill
+}
+
+function Invoice(props: InvoiceProps) {
+    const { bill } = props
+
     return (
         <section className="invoice">
             <div className="invoice__header p-2">
@@ -53,11 +61,13 @@ function Invoice() {
                 <div className="d-flex flex-column p-2">
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title w-10">Họ tên người mua hàng</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span></p>
+                        <p className="mb-0 invoice__info-text">
+                            <span className="ms-1 me-2 invoice__info-separate">:</span>
+                        </p>
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title w-10">Đơn vị mua hàng</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> Nguyễn Khánh Duy</p>
+                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user?.name}</p>
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title w-10">Mã số thuế</p>
@@ -65,15 +75,15 @@ function Invoice() {
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title w-10">Địa chỉ</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> 5D,Đặng Công Bỉnh, Xã Xuân Thới Thượng, Huyện Hóc Môn, Hồ Chí Minh, Việt Nam</p>
+                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user ? bill.user.address : ''}</p>
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title w-10">Điện thoại</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> 0798132664</p>
+                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user?.phone}</p>
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title w-10">Hình thức thanh toán</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> TM/CK</p>
+                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.method}</p>
                     </div>
                 </div>
             </div>
@@ -89,18 +99,25 @@ function Invoice() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className="text-center">1</td>
-                        <td>Áo thun nam</td>
-                        <td>Cái</td>
-                        <td>2</td>
-                        <td className="text-end">10.000</td>
-                        <td className="text-end">20.000</td>
-                    </tr>
+                    {bill.billDetails?.map((bDetail, index: number) => (
+                        <tr>
+                            <td className="text-center">{index + 1}</td>
+                            <td>{bDetail.productDetail.product?.name}</td>
+                            <td>{bDetail.productDetail.product?.unit}</td>
+                            <td>{bDetail.quantity}</td>
+                            <td className="text-end">{bDetail.productDetail.product?.price}</td>
+                            <td className="text-end">{(bDetail.productDetail.product?.price ? bDetail.productDetail.product?.price : 0) * bDetail.quantity}</td>
+                        </tr>
+                    ))}
+
                     <tr className="invoice__table-bd">
                         <td colSpan={4}>Tổng cộng</td>
-                        <td className="text-end">10.000</td>
-                        <td className="text-end">20.000</td>
+                        <td className="text-end">
+                            {bill.billDetails?.reduce((prev, cur) => prev + (cur.price ? cur.price : 0), 0)}
+                        </td>
+                        <td className="text-end">
+                            {bill.totalPrice}
+                        </td>
                     </tr>
                     <tr className="invoice__table-bb">
                         <td colSpan={6}>Số tiền viết bằng chữ: Hai mươi nghìn đồng</td>
@@ -123,7 +140,7 @@ function Invoice() {
                             <p className="invoice__sign-content-text mb-0">Signature Valid</p>
                             <p className="invoice__sign-content-text mb-0">Ký bởi: Công TY TNHH MTV THƯƠNG MẠI TIKI</p>
                             <p className="invoice__sign-content-text mb-0">Ký ngày: 29 tháng 09 năm 2022</p>
-                            <img className="invoice__sign-content-img" src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA4CAYAAACyutuQAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAPQSURBVHja3JppSBVRFMev+TALK4LCQhOJNmiD+tJm2EZoFBUFBVFE0I6W0q5ZWNFGCpFFJZS0SJHQF0uLlg9RWB+LLNrpEWZBUdiq0//geTFcZubNe743c68Hfoze++a+fp2ZO+feMcEwDBFJpNUmCD8jmGvY/bsycejaRXSCgEw2DjnACHQCmXwcskA+shcMaCySgkM5GAPmkgy1BzSVycChCgwF2ZB5F+oLaCgzFoezYBCYApln5n7dhGaCMyAVLIDMffkDOs1yy0AN6AcKIVNj9SFdhFaDk6A7OAGZMrsPqi5ET/FtoAIkgTqwyekE1YV2gH0s9gasQna+6yq0E5Tyzy1gJXgb7iRVhbaC3abfS8ANNyeqKLSRL7NQnAdlbk9WTWg5OMj3DMVTUABadRSaD46bHvbfwFrwMZJBVBGaCE7TesbURpfdnUgHUkFoBDgHepvarkVy36gklMoymaa2JpAHfukmRGVMJRgttW8GL6Id1E+hQ2CW1FbN6xyhm9AansHMQVVAcUcH9kMoh581chR35FLzS2gwlf8gRWq/yhWB0EmoJ8tkSO304CwEbboJ7QJTLdoPgJex+hKvhBZz0SnHA3A0ll/khdBIcMSi/QfYDv7oJNQDHOONDTmoQrgd6y+MtxDtB2RZtDdLCzgthGbb3DcU+0FQJ6H+4DBItuh7xNO30EUokSuBIRZ9tPLcw5se8RFKq02I9RusJTxNW0U9VwUinhkaD6lpMRpvIGcg0aKvRdr8iJsQPaXnQaoMdOvgeHSzp9v00V70vbgLBXMNWiHuBdPBXUhNinKspWChTd9XljW8yBC9iP2AwwowitbzkCoByRGMk86Xml1cAE+8qLH+z3KQahDtO5YpXEjWQWqcy3EowwNs+ugKKPeqApan7QrTumQyqIVUUZhszQGLHPqpxHnuixCy9Fu0v65o5CbaWirly3CCxfl9eOZKshm/mf+ThF8ZCt1PG7gaDkU2Z2uL9PSn0ma4w/j0LvSVr0IsVccLL3P04pmKNgFp64le3q5zGJuyc8rrDQunl8ZUvtAW7QypnbJFrzY+s6RdXPTy3glbyyFLdMnl2VTFfcEwh3G/+JGdsMUppGhyKIjigXgZPFZOiKUu8arTbdCedKXwKdwuH4pAg8vPXuE1j7pCyBLVYuv53nCKvzxVt6qeIZJ6yLs0TkHV9E3hY0S6YqW/5qh26KeldZs2QshSK1cRjRbdVE1fFz5HNHsKTVwhyG/YqlzcY0oKUdySltOf+NkjdBUKlUb1puX1a92FfnJp9J7rNiXinwADAE4w55Whk0mGAAAAAElFTkSuQmCC" alt = ""/>
+                            <img className="invoice__sign-content-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA4CAYAAACyutuQAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAPQSURBVHja3JppSBVRFMev+TALK4LCQhOJNmiD+tJm2EZoFBUFBVFE0I6W0q5ZWNFGCpFFJZS0SJHQF0uLlg9RWB+LLNrpEWZBUdiq0//geTFcZubNe743c68Hfoze++a+fp2ZO+feMcEwDBFJpNUmCD8jmGvY/bsycejaRXSCgEw2DjnACHQCmXwcskA+shcMaCySgkM5GAPmkgy1BzSVycChCgwF2ZB5F+oLaCgzFoezYBCYApln5n7dhGaCMyAVLIDMffkDOs1yy0AN6AcKIVNj9SFdhFaDk6A7OAGZMrsPqi5ET/FtoAIkgTqwyekE1YV2gH0s9gasQna+6yq0E5Tyzy1gJXgb7iRVhbaC3abfS8ANNyeqKLSRL7NQnAdlbk9WTWg5OMj3DMVTUABadRSaD46bHvbfwFrwMZJBVBGaCE7TesbURpfdnUgHUkFoBDgHepvarkVy36gklMoymaa2JpAHfukmRGVMJRgttW8GL6Id1E+hQ2CW1FbN6xyhm9AansHMQVVAcUcH9kMoh581chR35FLzS2gwlf8gRWq/yhWB0EmoJ8tkSO304CwEbboJ7QJTLdoPgJex+hKvhBZz0SnHA3A0ll/khdBIcMSi/QfYDv7oJNQDHOONDTmoQrgd6y+MtxDtB2RZtDdLCzgthGbb3DcU+0FQJ6H+4DBItuh7xNO30EUokSuBIRZ9tPLcw5se8RFKq02I9RusJTxNW0U9VwUinhkaD6lpMRpvIGcg0aKvRdr8iJsQPaXnQaoMdOvgeHSzp9v00V70vbgLBXMNWiHuBdPBXUhNinKspWChTd9XljW8yBC9iP2AwwowitbzkCoByRGMk86Xml1cAE+8qLH+z3KQahDtO5YpXEjWQWqcy3EowwNs+ugKKPeqApan7QrTumQyqIVUUZhszQGLHPqpxHnuixCy9Fu0v65o5CbaWirly3CCxfl9eOZKshm/mf+ThF8ZCt1PG7gaDkU2Z2uL9PSn0ma4w/j0LvSVr0IsVccLL3P04pmKNgFp64le3q5zGJuyc8rrDQunl8ZUvtAW7QypnbJFrzY+s6RdXPTy3glbyyFLdMnl2VTFfcEwh3G/+JGdsMUppGhyKIjigXgZPFZOiKUu8arTbdCedKXwKdwuH4pAg8vPXuE1j7pCyBLVYuv53nCKvzxVt6qeIZJ6yLs0TkHV9E3hY0S6YqW/5qh26KeldZs2QshSK1cRjRbdVE1fFz5HNHsKTVwhyG/YqlzcY0oKUdySltOf+NkjdBUKlUb1puX1a92FfnJp9J7rNiXinwADAE4w55Whk0mGAAAAAElFTkSuQmCC" alt="" />
                         </div>
                     </div>
                 </div>

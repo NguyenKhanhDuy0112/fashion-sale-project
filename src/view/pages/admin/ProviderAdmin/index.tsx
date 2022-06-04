@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
+import { useDispatch } from "react-redux"
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice"
 import usersService from "../../../../services/usersService"
 import InputSearch from "../../../../shared/components/InputSearch"
 import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx"
@@ -14,6 +16,7 @@ function ProviderAdmin() {
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(true)
     const [pagination, setPagination] = useState<Pagination>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         handleLoadData(1)
@@ -30,7 +33,9 @@ function ProviderAdmin() {
 
     const handleModalShow = async (id: string) => {
         if (id) {
+            dispatch(showLoading())
             const findCustomer = await usersService.findById(id)
+            dispatch(hideLoading())
             setProvider(findCustomer)
         }
         else {

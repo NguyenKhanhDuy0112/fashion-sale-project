@@ -1,5 +1,5 @@
 import { BiNotepad } from "react-icons/bi";
-import { BsBellFill, BsFillSuitHeartFill } from "react-icons/bs";
+import { BsFillSuitHeartFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
 import { RiBillFill } from "react-icons/ri";
