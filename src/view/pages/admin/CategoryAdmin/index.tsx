@@ -37,11 +37,13 @@ function CategoryAdmin() {
             const findCategory = await categoriesService.findById(id)
             dispatch(hideLoading())
             setCategory(findCategory)
+            setShowModal(true)
         }
         else {
             setCategory({ _id: '', image: '', name: '' })
+            setShowModal(true)
         }
-        setShowModal(true)
+        
     }
 
     const handleModalDeleteShow = (id: string) => {

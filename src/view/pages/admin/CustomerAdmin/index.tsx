@@ -38,11 +38,13 @@ function CustomerAdmin() {
             const findCustomer = await usersService.findById(id)
             dispatch(hideLoading())
             setCustomer(findCustomer)
+            setShowModal(true)
         }
         else {
             setCustomer({ _id: '', name: '', password: '', phone: '', avatar: '', address: '', email: '' })
+            setShowModal(true)
         }
-        setShowModal(true)
+       
     }
 
 

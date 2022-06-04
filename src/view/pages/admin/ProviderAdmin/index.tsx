@@ -37,11 +37,13 @@ function ProviderAdmin() {
             const findCustomer = await usersService.findById(id)
             dispatch(hideLoading())
             setProvider(findCustomer)
+            setShowModal(true)
         }
         else {
             setProvider({ _id: '', name: '', password: '', phone: '', avatar: '', address: '', email: '' })
+            setShowModal(true)
         }
-        setShowModal(true)
+        
     }
 
 

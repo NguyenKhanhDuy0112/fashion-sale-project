@@ -94,6 +94,7 @@ function ProductAdmin() {
                 productDetails: [],
                 unit: ''
             })
+            setShowModal(true)
         }
         
     }

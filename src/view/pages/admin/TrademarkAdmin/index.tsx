@@ -36,12 +36,15 @@ function TrademarkAdmin() {
             dispatch(showLoading())
             const findTrademark = await trademarksService.findById(id)
             dispatch(hideLoading())
+            
             setTrademark(findTrademark.data)
+            setShowModal(true)
         }
         else {
             setTrademark({ _id: '', image: '', name: '' })
+            setShowModal(true)
         }
-        setShowModal(true)
+        
     }
 
     const handleModalDeleteShow = (id: string) => {

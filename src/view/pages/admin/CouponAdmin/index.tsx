@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice";
 import couponsService from "../../../../services/couponsService";
 import InputSearch from "../../../../shared/components/InputSearch";
 import PagninationAdmin from "../../../../shared/components/PaginationAdmin.tsx";
@@ -14,6 +16,7 @@ function CouponAdmin() {
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(true)
     const [pagination, setPagination] = useState<Pagination>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         handleLoadData(1)
@@ -30,13 +33,17 @@ function CouponAdmin() {
 
     const handleModalShow = async (id: string) => {
         if (id) {
+            dispatch(showLoading())
             const findCoupon = await couponsService.findById(id)
+            dispatch(hideLoading())
             setCoupon(findCoupon)
+            setShowModal(true)
         }
         else {
             setCoupon({ _id: '', code: '',dateEnd: '', dateStart:  '', discount: 0, isActive: false, minimumAmount: 0 })
+            setShowModal(true)
         }
-        setShowModal(true)
+        
     }
 
     const handleModalDeleteShow = (id: string) => {
