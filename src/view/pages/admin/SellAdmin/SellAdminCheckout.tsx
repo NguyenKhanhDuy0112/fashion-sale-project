@@ -86,19 +86,11 @@ function SaleAdminCheckout(props: Props) {
                                 <p className="mb-0 sellAdmin__content-calc-title">Phí vận chuyển</p>
                                 <p className="mb-0 sellAdmin__content-calc-price">20,000</p>
                             </div>
-                            <div className="d-flex justify-content-between mb-3 align-items-center">
-                                <p className="mb-0 sellAdmin__content-calc-title">Tiền khách trả</p>
-                                <input className="sellAdmin__content-calc-input-bt d-inline-block" />
-                            </div>
-                            <div className="mb-3 d-flex justify-content-between align-items-center">
-                                <p className="mb-0 sellAdmin__content-calc-title">Tiền thừa trả khách</p>
-                                <p className="mb-0 text-end sellAdmin__content-calc-price sellAdmin__content-calc-price-primary">0</p>
-                            </div>
                         </div>
                     }
                     <div className="mb-3 d-flex justify-content-between align-items-center">
                         <p className="mb-0 sellAdmin__content-calc-title">Tổng tiền</p>
-                        <h4 className="mb-0 text-end text-danger">{searchParams.get('type') === 'import' ? formatCashVND(total + "", ",") : formatCashVND((total > 0 ? total - 20000 : total) + "", ",")} đ</h4>
+                        <h4 className="mb-0 text-end text-danger">{searchParams.get('type') === 'import' ? formatCashVND(total + "", ",") : formatCashVND((total > 0 ? total + 20000 : total) + "", ",")} đ</h4>
                     </div>
                     {searchParams.get('type') === 'export' &&
                         <div className="row mb-3">

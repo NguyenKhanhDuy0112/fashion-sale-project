@@ -8,6 +8,7 @@ import { hideLoading, showLoading } from "../../../modules/loading/loadingSlice"
 import usersService from "../../../services/usersService";
 import { updateUser } from "../../../modules/user/useSlice";
 import { toggleFormLogin } from "../../../modules/loginForm/loginFormSlice";
+import { showToast } from "../../../modules/toast/toastSlice";
 
 interface Account {
     phoneNumber: string
@@ -90,6 +91,7 @@ function LoginMain(props: ILoginMain) {
                             if (res) {
                                 dispatch(updateUser(res))
                                 dispatch(toggleFormLogin())
+                                dispatch(showToast({ show: true, text: `Chào mừng ${res.name} đã quay trở lại, hãy vui vẻ mua sắm cùng Tiki nhé`, type: 'success', delay: 2500 }))
                             }
                             else {
                                 dispatch(updateUser({

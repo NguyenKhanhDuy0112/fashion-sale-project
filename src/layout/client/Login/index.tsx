@@ -48,12 +48,9 @@ function Login() {
                     dispatch(showToast({ show: true, text: `Chào mừng ${res.name} đã quay trở lại, hãy vui vẻ mua sắm cùng Tiki nhé`, type: 'success', delay: 2500 }))
                 }
                 else {
-                    usersService.add({ id: (authentication.currentUser && authentication.currentUser.uid) ? authentication.currentUser.uid : '', address: '', avatar: '', email: '', name: '', password: '', phone: phoneNumber, isAdmin: 0, isCustomer: 1, isProvider: 0 })
-                        .then(resU => {
-                            setShowCreateAccount(!showCreateAccount)
-                            setShowSms(!showSms)
-                            dispatch(hideLoading())
-                        })
+                    setShowCreateAccount(!showCreateAccount)
+                    setShowSms(!showSms)
+                    dispatch(hideLoading())
                 }
             })
     }
@@ -81,7 +78,7 @@ function Login() {
 
                         {showSocial && <LoginSocialPhone onShowSms={() => setShowSms(!showSms)} onShowSocial={() => setShowSocial(!showSocial)} />}
 
-                        {showCreateAccount && <LoginCreateAccount onShowSms={handleBackSms} />}
+                        {showCreateAccount && <LoginCreateAccount phoneNumber = {phoneNumber} onShowSms={handleBackSms} />}
 
                         {!showSms && !showCreateAccount && !showSocial &&
                             <LoginMain

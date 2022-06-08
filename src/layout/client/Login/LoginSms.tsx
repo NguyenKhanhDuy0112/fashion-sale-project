@@ -4,6 +4,7 @@ import PinInput from "react-pin-input";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../../modules/loading/loadingSlice";
 import { toggleFormLogin } from "../../../modules/loginForm/loginFormSlice";
+import { showToast } from "../../../modules/toast/toastSlice";
 import { updateUser } from "../../../modules/user/useSlice";
 import usersService from "../../../services/usersService";
 import useCurrentUser from "../../../shared/hooks/useCurrentUser";
@@ -48,6 +49,7 @@ function LoginSms(props: ILoginSms) {
                     .then(res => {
                         if (res) {
                             dispatch(updateUser(res))
+                            dispatch(showToast({ show: true, text: `Chào mừng ${res.name} đã đến với Tiki, hãy vui vẻ mua sắm cùng Tiki nhé`, type: 'success', delay: 2500 }))
                         }
                         dispatch(toggleFormLogin())
                         dispatch(hideLoading())
