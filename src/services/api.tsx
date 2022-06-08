@@ -2,7 +2,7 @@ import axios from 'axios';
 import { authentication } from "../firebase-config"
 
 const url = {
-    baseUrl : "https://fashion-sales-management.herokuapp.com/api",
+    baseUrl : process.env.REACT_App_API_URL,
     categories: '/categories',
     products: "/products",
     users : '/users',

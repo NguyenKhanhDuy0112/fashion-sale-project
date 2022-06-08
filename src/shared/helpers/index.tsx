@@ -17,18 +17,26 @@ export const handleCreateImage = async (image: any) => {
 }
 
 //format date dd/MM/yyyy
-export const formatDate = (date: Date, format: "dd/MM/yyyy" | "MM/dd/yyyy" | "yyyy/MM/dd") => {
-    const sliceStr = format.split("/")
+export const formatDate = (date: Date, format: "dd/MM/yyyy" | "MM/dd/yyyy" | "yyyy/MM/dd" | "dd-MM-yyyy" | 'MM-dd-yyyy' | 'yyyy-MM-dd') => {
+    let separate = '/'
+    let sliceStr = format.split('/')
+    if(sliceStr.length < 3){
+        sliceStr = format.split('-')
+        separate = '-'
+    }
     let dateFormat:string = ""
     sliceStr.forEach((item: string, index: number) =>{
+        const day = date.getDate()
+        const month = date.getMonth() + 1
+        const year = date.getFullYear()
         if(item.toLowerCase() === "dd"){
-            dateFormat += `${date.getDate()}${index === sliceStr.length - 1 ? '': '/'}`
+            dateFormat += `${day < 10 ? `0${day}` : day}${index === sliceStr.length - 1 ? '': separate}`
         }
         else if(item.toLowerCase() === 'mm'){
-            dateFormat += `${date.getMonth() + 1}${index === sliceStr.length - 1 ? '': '/'}`
+            dateFormat += `${month < 10 ? `0${month}` : month}${index === sliceStr.length - 1 ? '': separate}`
         }
         else{
-            dateFormat += `${date.getFullYear()}${index === sliceStr.length - 1 ? '': '/'}`
+            dateFormat += `${year}${index === sliceStr.length - 1 ? '': separate}`
         }
     })
     return dateFormat;

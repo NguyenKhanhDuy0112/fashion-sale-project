@@ -8,14 +8,14 @@ import { getAuth } from 'firebase/auth';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBtZDkoQ06h3bDW0vpzYqmI2QM3ew5zNFI",
-  authDomain: "tiki-clone-app-439e7.firebaseapp.com",
-  databaseURL: "https://tiki-clone-app-439e7-default-rtdb.firebaseio.com",
-  projectId: "tiki-clone-app-439e7",
-  storageBucket: "tiki-clone-app-439e7.appspot.com",
-  messagingSenderId: "537854000136",
-  appId: "1:537854000136:web:6bdca53b4fcbc43dc865bd",
-  measurementId: "G-NEJ1Z8T6PZ"
+  apiKey: process.env.REACT_App_API_KEY,
+  authDomain: process.env.REACT_App_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_App_DATABASE_URL,
+  projectId: process.env.REACT_App_PROJECT_ID,
+  storageBucket: process.env.REACT_App_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_App_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_App_APP_ID,
+  measurementId: process.env.REACT_App_MEASUREMENT_ID
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)

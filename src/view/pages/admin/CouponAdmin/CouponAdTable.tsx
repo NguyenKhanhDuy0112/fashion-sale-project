@@ -14,7 +14,6 @@ interface Props {
 }
 
 function CouponAdTable(props: Props) {
-
     const { data, onEditCoupon, onDeleteCoupon, loading } = props
     const [coupons, setCoupons] = useState<Coupon[]>()
 
@@ -48,10 +47,10 @@ function CouponAdTable(props: Props) {
                                 <td className="text-end">{coupon.discount}</td>
                                 <td >
                                     <div className="d-flex justify-content-center">
-                                        <span onClick={() => onEditCoupon('')} className="btn-edit cursor-pointer me-1">
+                                        <span onClick={() => onEditCoupon(coupon._id ? coupon._id : '')} className="btn-edit cursor-pointer me-1">
                                             <BiEdit size={20} />
                                         </span>
-                                        <span onClick={() => onDeleteCoupon('')} className="btn-delete cursor-pointer ms-1">
+                                        <span onClick={() => onDeleteCoupon(coupon._id ? coupon._id  : '')} className="btn-delete cursor-pointer ms-1">
                                             <FiTrash2 size={20} />
                                         </span>
                                     </div>

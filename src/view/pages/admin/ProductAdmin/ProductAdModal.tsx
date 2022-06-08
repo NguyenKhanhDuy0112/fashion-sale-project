@@ -6,7 +6,7 @@ import ImageUploading from "../../../../shared/components/ImageUploading";
 import InputAdmin from "../../../../shared/components/InputAdmin";
 import { Category, Product, ProductDetail, Trademark } from "../../../../shared/interfaces";
 import productsService from "../../../../services/productService";
-import { handleCreateImage } from "../../../../shared/helpers";
+import { formatDate, handleCreateImage } from "../../../../shared/helpers";
 import categoriesService from "../../../../services/categoriesService";
 import ReactTagInput from "@pathofdev/react-tag-input";
 import { IoMdClose } from "react-icons/io";
@@ -55,20 +55,12 @@ function ProductAdModal(props: ModalShow) {
         if (product) {
             description.current = product.description
         }
-        if (product?._id !== '') {
-            formik.setValues(product ? product : {
-                _id: '',
-                description: '',
-                material: '',
-                name: '',
-                origin: '',
-                unit: '',
-                category: undefined,
-                price: 0,
-                productDetails: []
-            })
-
-
+        if (product && product._id !== '') {
+            if (product.endDate) {
+                product.endDate = formatDate(new Date(product.endDate), "yyyy-MM-dd")
+                product.startDate = formatDate(new Date(product.startDate), "yyyy-MM-dd")
+            }
+            formik.setValues(product)
         }
         else {
             formik.resetForm()
@@ -76,7 +68,7 @@ function ProductAdModal(props: ModalShow) {
 
         }
         setShowToolbar(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product])
 
     const formik = useFormik<Product>({
@@ -114,6 +106,8 @@ function ProductAdModal(props: ModalShow) {
         }
     })
 
+
+
     const handleSubmitForm = async (value: any) => {
         value.description = description.current
         setIsLoading(true)
@@ -135,10 +129,10 @@ function ProductAdModal(props: ModalShow) {
 
                             if (value.productDetails.length === await proDetail.length) {
                                 const proDetailAdd = await productDetailsService.add(proDetail)
-                                if(proDetailAdd){
+                                if (proDetailAdd) {
                                     console.log("Product Detail: ", proDetail)
                                 }
-                                
+
                                 await dispatch(showToast({ show: true, text: "Thêm sản phẩm thành công", type: "success", delay: 1500 }))
                                 setIsLoading(false)
                                 onLoadData()
@@ -157,20 +151,20 @@ function ProductAdModal(props: ModalShow) {
         }
         else {
             try {
-                await productsService.update({_id, ...others}, _id)
+                await productsService.update({ _id, ...others }, _id)
 
                 const proDetail: any = []
                 await value.productDetails.forEach(async (proDe: ProductDetail, idx: number) => {
                     const images: string[] = []
                     await proDe.images.forEach(async (img: any, index: number) => {
-                        if(await img.file){
+                        if (await img.file) {
                             const image = await handleCreateImage(img.file)
                             await images.push(image.data.url)
                         }
-                        else{
+                        else {
                             await images.push(img.dataURL)
                         }
-                        
+
                         if (await index === proDe.images.length - 1) {
 
                             await proDetail.push({ ...proDe, product: value._id, images: images })
@@ -214,6 +208,8 @@ function ProductAdModal(props: ModalShow) {
     }
 
     const handleLoading = () => { }
+
+    console.log("Formik values: ", formik.getFieldProps('startDate').value)
 
     return (
         <>
@@ -325,6 +321,7 @@ function ProductAdModal(props: ModalShow) {
                         errMessage={formik.errors.discount}
                         input={true}
                     />
+
                     <InputAdmin
                         placeholder="Ngày bắt đầu"
                         label="Ngày bắt đầu"
@@ -333,8 +330,8 @@ function ProductAdModal(props: ModalShow) {
                         frmField={formik.getFieldProps('startDate')}
                         err={formik.touched.startDate && formik.errors.startDate}
                         errMessage={formik.errors.startDate}
-                        type = "date"
-                        input = {true}
+                        type="date"
+                        input={true}
                     />
                     <InputAdmin
                         placeholder="Ngày kết thúc"
@@ -344,10 +341,10 @@ function ProductAdModal(props: ModalShow) {
                         frmField={formik.getFieldProps('endDate')}
                         err={formik.touched.endDate && formik.errors.endDate}
                         errMessage={formik.errors.endDate}
-                        type = "date"
-                        input = {true}
+                        type="date"
+                        input={true}
                     />
-                   
+
                     <InputAdmin
                         placeholder="Xuất xứ..."
                         label="Xuất xứ"

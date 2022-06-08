@@ -32,7 +32,7 @@ function CouponAdmin() {
     }
 
     const handleModalShow = async (id: string) => {
-        if (id) {
+        if (id !== '') {
             dispatch(showLoading())
             const findCoupon = await couponsService.findById(id)
             dispatch(hideLoading())

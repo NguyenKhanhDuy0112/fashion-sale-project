@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
-import categoriesService from "../../../../services/categoriesService";
 import { Button, Modal, Spinner } from "react-bootstrap";
 import InputAdmin from "../../../../shared/components/InputAdmin";
 import { Coupon } from "../../../../shared/interfaces";
@@ -9,6 +8,7 @@ import couponsService from "../../../../services/couponsService";
 import ModalAdDelete from "../../../../shared/components/ModalAdDelete";
 import { showToast } from "../../../../modules/toast/toastSlice";
 import { useDispatch } from "react-redux";
+import { formatDate } from "../../../../shared/helpers";
 
 interface ModalShow {
     show: boolean,
@@ -24,9 +24,10 @@ function CouponAdModal(props: ModalShow) {
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
 
-
     useEffect(() => {
         if (coupon?._id) {
+            coupon.dateStart = formatDate(new Date(coupon.dateStart), "yyyy-MM-dd")
+            coupon.dateEnd = formatDate(new Date(coupon.dateEnd), "yyyy-MM-dd")
             formik.setValues(coupon)
         }
         else {
@@ -58,6 +59,7 @@ function CouponAdModal(props: ModalShow) {
     })
 
     const handleSubmitForm = async (value: Coupon) => {
+        setIsLoading(true)
         const { _id, ...others } = value
         if (value._id === '') {
             try {
