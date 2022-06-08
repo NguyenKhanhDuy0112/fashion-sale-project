@@ -316,6 +316,39 @@ function ProductAdModal(props: ModalShow) {
                         input={true}
                     />
                     <InputAdmin
+                        placeholder="Giảm giá..."
+                        label="Giảm giá"
+                        id="productDiscount"
+                        labelClass="col-md-3 col-lg-2"
+                        frmField={formik.getFieldProps('discount')}
+                        err={formik.touched.discount && formik.errors.discount}
+                        errMessage={formik.errors.discount}
+                        input={true}
+                    />
+                    <InputAdmin
+                        placeholder="Ngày bắt đầu"
+                        label="Ngày bắt đầu"
+                        id="productStartDate"
+                        labelClass="col-md-3 col-lg-2"
+                        frmField={formik.getFieldProps('startDate')}
+                        err={formik.touched.startDate && formik.errors.startDate}
+                        errMessage={formik.errors.startDate}
+                        type = "date"
+                        input = {true}
+                    />
+                    <InputAdmin
+                        placeholder="Ngày kết thúc"
+                        label="Ngày kết thúc"
+                        id="productEndDate"
+                        labelClass="col-md-3 col-lg-2"
+                        frmField={formik.getFieldProps('endDate')}
+                        err={formik.touched.endDate && formik.errors.endDate}
+                        errMessage={formik.errors.endDate}
+                        type = "date"
+                        input = {true}
+                    />
+                   
+                    <InputAdmin
                         placeholder="Xuất xứ..."
                         label="Xuất xứ"
                         id="productOrigin"
