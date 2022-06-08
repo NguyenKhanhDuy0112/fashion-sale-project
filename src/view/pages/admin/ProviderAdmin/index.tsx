@@ -40,7 +40,7 @@ function ProviderAdmin() {
             setShowModal(true)
         }
         else {
-            setProvider({ _id: '', name: '', password: '', phone: '', avatar: '', address: '', email: '' })
+            setProvider({ _id: '', name: '', id:'',password: '', phone: '', avatar: '', address: '', email: '' })
             setShowModal(true)
         }
         

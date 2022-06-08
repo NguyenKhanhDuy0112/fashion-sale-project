@@ -1,4 +1,4 @@
-import { Bill, BillApi, Category } from "../shared/interfaces"
+import { Bill, BillApi } from "../shared/interfaces"
 import api from "./api"
 
 const list = () => {

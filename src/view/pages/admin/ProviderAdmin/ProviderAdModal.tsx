@@ -25,20 +25,20 @@ function ProviderAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (user?._id) {
+        if (user && user._id !== '') {
             user.avatar = [{ dataURL: user.avatar }]
             formik.setValues(user)
         }
         else {
             formik.resetForm()
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
 
-    const formik = useFormik({
+    const formik = useFormik<User>({
         initialValues: {
             _id: '',
+            id: '',
             name: '',
             phone: '',
             password: '',

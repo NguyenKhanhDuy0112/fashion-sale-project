@@ -4,6 +4,9 @@ export interface Product{
     material: string,
     origin: string,
     description: string,
+    discount?: number,
+    startDate?: any,
+    endDate?:any, 
     unit: string,
     slug?: string,
     trademark?: any,
@@ -42,7 +45,8 @@ export interface Category{
 }
 
 export interface User{
-    _id: string,
+    _id?: string,
+    id?: string,
     name: string,
     phone: string,
     email: string,
@@ -55,7 +59,7 @@ export interface User{
     address: string,
     password: string,
     numberBankAccount?: string,
-    bill?: any,
+    bills?: Bill,
     comments?: any
 }
 

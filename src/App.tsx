@@ -6,37 +6,48 @@ import LoginAdmin from './view/pages/admin/LoginAdmin';
 import { authentication } from "./firebase-config"
 import Loading from "./shared/components/Loading";
 import useLoading from "./shared/hooks/useLoading";
+import { useDispatch } from "react-redux";
+import { signOut, updateUser } from "./modules/user/useSlice";
+import usersService from "./services/usersService";
+import { User } from "./shared/interfaces";
 
 function App() {
   const loading = useLoading()
-
+  const dispatch = useDispatch()
   //handle firebase auth changed
   useEffect(() => {
+    // authentication.signOut()
     const unregisterAuthObserver = authentication.onAuthStateChanged(async (user) => {
-        if(!user){
-          console.log("User id not logged in")
-          //user logs out, handle something here
-          return;
+      if (!user) {
+        dispatch(signOut())
+        console.log("User id not logged in")
+        //user logs out, handle something here
+        return;
+      }
+
+      try {
+        const currentUser: User = await usersService.findByUid(user.uid)
+        if (currentUser) {
+          console.log(currentUser)
+          dispatch(updateUser(currentUser))
         }
-
-        console.log("Logged in user: ", user)
-        const token = await user.getIdToken()
-        console.log("Logged in user token: ", token)
-
+      } catch (err) {
+        console.log("Error login")
+      }
     })
     return () => unregisterAuthObserver()
-  },[])
+  }, [])
 
   return (
     <>
-       <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path = "/admin" element = {<LoginAdmin/>}/>
+          <Route path="/admin" element={<LoginAdmin />} />
           <Route path="/admin/*" element={<Admin />} />
           <Route path="/*" element={<Client />} />
         </Routes>
       </BrowserRouter>
-      <Loading show = {loading} />
+      <Loading show={loading} />
     </>
   );
 }

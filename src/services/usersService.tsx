@@ -1,4 +1,4 @@
-import { Product } from "../shared/interfaces"
+import { User } from "../shared/interfaces"
 import api from "./api"
 
 const list = () => {
@@ -15,6 +15,10 @@ const searchCustomers = (value: string, page:number, limit: number) => {
 
 const searchProviders = (value: string, page:number, limit: number) => {
     return api.get(`${api.url.users}/find?q=${value}&auth=provider&page=${page}&limit=${limit}`).then(res => res.data)
+}
+
+const findByPhoneNumber = (phoneNumber:string) => {
+    return api.get(`${api.url.users}/phones/${phoneNumber}`).then(res => res.data)
 }
 
 const listPaginationCustomers = (page: number, limit: number) => {
@@ -41,12 +45,20 @@ const remove = (id: string) => {
     return api.delete(`${api.url.users}/${id}`).then(res => res.data)
 }
 
-const update = (id:string ,data: Product) => {
+const update = (id:string ,data: User) => {
     return api.put(`${api.url.users}/${id}`, data).then(res => res.data)
 }
 
-const add = (data: Product) => {
+const add = (data: User) => {
     return api.post(api.url.users, data).then(res => res.data)
+}
+
+const findByUid = (uId:string) => {
+    return api.get(`${api.url.users}/user/${uId}`).then(res => res.data) 
+}
+
+const findByEmail = (email: string) => {
+    return api.get(`${api.url.users}/email/${email}`).then(res => res.data)
 }
 
 const usersService = {
@@ -56,12 +68,15 @@ const usersService = {
     delete: remove,
     findCustomers,
     findProviders,
+    findByPhoneNumber,
+    findByUid,
     update,
     add,
     listPaginationCustomers,
     listPaginationProviders,
     searchCustomers,
-    searchProviders
+    searchProviders,
+    findByEmail,
 }
 
 export default usersService;

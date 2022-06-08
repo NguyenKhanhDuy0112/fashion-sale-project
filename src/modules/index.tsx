@@ -5,6 +5,7 @@ import orderAdSlice from './orderAd/orderAdSlice';
 import snackbarSlice from './snackbar/snackbarSlice';
 import toastSlice from './toast/toastSlice';
 import toggleNavSlice from './toggleNav/toggleNavSlice';
+import userSlice from "./user/useSlice";
 
 const rootReducer = combineReducers({
     toggleNav: toggleNavSlice,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     toast: toastSlice,
     snackbar: snackbarSlice,
     loginForm: loginFormSlice,
-    loading: loadingSlice
+    loading: loadingSlice,
+    user: userSlice,
 });
 
 export default rootReducer

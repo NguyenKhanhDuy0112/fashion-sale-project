@@ -37,7 +37,7 @@ function CustomerAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
     }, [user])
 
 
-    const formik = useFormik({
+    const formik = useFormik<User>({
         initialValues: {
             _id: '',
             name: '',
@@ -45,7 +45,10 @@ function CustomerAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
             password: '',
             email: '',
             address: '',
-            avatar: []
+           
+
+            avatar: [],
+
         },
         validationSchema: Yup.object({
             _id: Yup.string(),

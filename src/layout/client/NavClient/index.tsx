@@ -5,9 +5,12 @@ import { AiOutlineFire } from "react-icons/ai";
 import { FaRegComment, FaRegUser } from "react-icons/fa";
 import { useState } from "react";
 import NavCategoryModal from "./NavCategoryModal";
+import { useDispatch } from "react-redux";
+import { toggleFormLogin } from "../../../modules/loginForm/loginFormSlice";
 
 function NavClient() {
     const [showCategory, setShowCategory] = useState(false)
+    const dispatch = useDispatch()
 
 
     return (
@@ -47,12 +50,12 @@ function NavClient() {
                         </Link>
                     </li>
                     <li className="navClient__item">
-                        <Link to="" className="navClient__item-link">
+                        <span onClick={() => dispatch(toggleFormLogin())} className="navClient__item-link">
                             <span className="navClient__item-link-icon">
                                 <FaRegUser size={19} />
                             </span>
                             <span className="navClient__item-link-text">Cá nhân</span>
-                        </Link>
+                        </span>
                     </li>
                 </ul>
             </section>

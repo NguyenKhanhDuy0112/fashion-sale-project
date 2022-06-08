@@ -35,7 +35,7 @@ function CustomerAdmin() {
     const handleModalShow = async (id: string) => {
         if (id) {
             dispatch(showLoading())
-            const findCustomer = await usersService.findById(id)
+            const findCustomer:User = await usersService.findById(id)
             dispatch(hideLoading())
             setCustomer(findCustomer)
             setShowModal(true)
