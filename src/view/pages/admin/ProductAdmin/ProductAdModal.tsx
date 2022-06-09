@@ -57,9 +57,12 @@ function ProductAdModal(props: ModalShow) {
         }
         if (product && product._id !== '') {
             if (product.endDate) {
-                product.endDate = formatDate(new Date(product.endDate), "yyyy-MM-dd")
-                product.startDate = formatDate(new Date(product.startDate), "yyyy-MM-dd")
+                product.endDate = new Date(formatDate(new Date(product.endDate), "yyyy-MM-dd"))
             }
+            if (product.startDate) {
+                product.startDate = new Date(formatDate(new Date(product.startDate), "yyyy-MM-dd"))
+            }
+            console.log(product)
             formik.setValues(product)
         }
         else {
@@ -79,8 +82,6 @@ function ProductAdModal(props: ModalShow) {
             name: '',
             origin: '',
             unit: '',
-            endDate: '',
-            startDate: '',
             discount: 0,
             rating: 0,
             category: '',
@@ -97,14 +98,16 @@ function ProductAdModal(props: ModalShow) {
             price: Yup.number().required("Giá tiền không được để trống.").typeError('Vui lòng nhập số.').min(1, "Giá tiền phải lớn hơn 0.").max(1000000000, "Giá tiền phải bé hơn 1,000,000,000."),
             category: Yup.string().required('Vui lòng chọn danh mục.'),
             discount: Yup.number().typeError('Vui lòng nhập số.').min(1, 'Vui lòng nhập số >= 1.'),
-            endDate: Yup.date().typeError("Vui lòng nhập đúng định dạng dd/MM/yyyy."),
-            startDate: Yup.date().typeError("Vui lòng nhập đúng định dạng dd/MM/yyyy."),
+            endDate: Yup.date().typeError("Vui lòng nhập đúng định dạng MM/dd/yyyy."),
+            startDate: Yup.date().typeError("Vui lòng nhập đúng định dạng MM/dd/yyyy."),
             trademark: Yup.string().required('Vui lòng chọn thương hiệu.'),
         }),
         onSubmit: (values) => {
             handleSubmitForm(values)
         }
     })
+
+    console.log(formik.errors)
 
 
 
@@ -208,7 +211,7 @@ function ProductAdModal(props: ModalShow) {
     }
 
     const handleLoading = () => { }
-    
+
     return (
         <>
             <Modal

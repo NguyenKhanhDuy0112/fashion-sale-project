@@ -9,15 +9,16 @@ import productsService from "../../../../services/productService";
 import Status from "../../../../shared/components/Status";
 import TableCustom from "../../../../shared/components/TableCustom";
 import { formatCashVND, formatDate } from "../../../../shared/helpers";
-import { Bill, BillDetail } from "../../../../shared/interfaces";
+import { Bill } from "../../../../shared/interfaces";
 import { useReactToPrint } from 'react-to-print';
+import Invoice from "../Invoice";
 
 function OrderAdDetail() {
     const { id } = useParams()
     const [bill, setBill] = useState<Bill>()
     const [loading, setLoading] = useState(true)
 
-    const componentRef = useRef<React.LegacyRef<HTMLDivElement> >()
+    const componentRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         handleLoadBill()
@@ -32,24 +33,19 @@ function OrderAdDetail() {
                 const billDetail: any = await []
                 await bill.billDetails?.forEach(async (bd: any, index: number) => {
                     const productDetail = await productDetailsService.findById(bd.productDetail)
-                    console.log("Pro detail: ", productDetail)
                     productDetail.color = await productDetail.color.color
                     productDetail.size = await productDetail.size.size
                     productDetail.images = await [productDetail.images[0].image, ...productDetail.images[0].imagesSub]
 
                     const product = await productsService.findById(productDetail.product)
                     productDetail.product = await product
-                    await billDetail.push({...bd, productDetail})
+                    await billDetail.push({ ...bd, productDetail })
 
                     if (index === await bill.billDetails.length - 1) {
-                        
                         bill.billDetails = await billDetail
-                        
                         await setBill(bill)
-
                         await setLoading(false)
                     }
-
                 })
             }
         }
@@ -59,18 +55,22 @@ function OrderAdDetail() {
 
     }
 
-    // const handlePrint = useReactToPrint({
-    //     content: () => componentRef.current,
-    //     copyStyles: true
-    //   });
-  
-    return (
-        <div className="">
-            <div>
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        copyStyles: true
+    });
 
-            </div>
+    return (
+        <div className="position-relative">
             <h6 className="fw-bold py-4 mb-0 dashboard__title margin-top-3">Hóa Đơn</h6>
             <div className="invoiceAdmin p-3">
+                <div className="invoiceAdmin__invoice">
+                    {bill &&
+                        <div ref={componentRef} className="content-invoice">
+                            <Invoice bill={bill} />
+                        </div>
+                    }
+                </div>
                 <div className="row g-3 mb-3">
                     <div className="col-md">
                         <h5 className="text-uppercase">Hóa Đơn</h5>
@@ -99,7 +99,7 @@ function OrderAdDetail() {
                         </p>
                     </div>
                 </div>
-                <TableCustom headers={["STT", "SKU","Sản phẩm", "Màu sắc", "Kích cỡ", "Số lượng", "Giá tiền", "Giảm giá", "Tổng tiền"]}>
+                <TableCustom headers={["STT", "SKU", "Sản phẩm", "Màu sắc", "Kích cỡ", "Số lượng", "Giá tiền", "Giảm giá", "Tổng tiền"]}>
                     {loading ?
                         Array.from({ length: 2 }).map((tr, index) => (
                             <tr key={index}>
@@ -149,7 +149,7 @@ function OrderAdDetail() {
                 </div>
             </div>
             <div className="mt-5 d-flex justify-content-end">
-                <button className="btn btn-ad-primary text-white" onClick={() => window.print()}>
+                <button className="btn btn-ad-primary text-white" onClick={handlePrint}>
                     In Hóa Đơn <AiOutlinePrinter />
                 </button>
             </div>

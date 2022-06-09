@@ -1,3 +1,4 @@
+import { formatCashVND } from "../../../../shared/helpers";
 import { Bill } from "../../../../shared/interfaces";
 
 interface InvoiceProps {
@@ -104,19 +105,27 @@ function Invoice(props: InvoiceProps) {
                             <td className="text-center">{index + 1}</td>
                             <td>{bDetail.productDetail.product?.name}</td>
                             <td>{bDetail.productDetail.product?.unit}</td>
-                            <td>{bDetail.quantity}</td>
-                            <td className="text-end">{bDetail.productDetail.product?.price}</td>
-                            <td className="text-end">{(bDetail.productDetail.product?.price ? bDetail.productDetail.product?.price : 0) * bDetail.quantity}</td>
+                            <td>{formatCashVND(bDetail.quantity + "", ".")}</td>
+                            <td className="text-end">{formatCashVND(bDetail.productDetail.product?.price + "", ".")}</td>
+                            <td className="text-end">{formatCashVND((bDetail.productDetail.product?.price ? bDetail.productDetail.product?.price : 0) * bDetail.quantity + "", ".")}</td>
                         </tr>
                     ))}
+
+                    {bill ?
+                        <tr>
+                            <td>{bill.billDetails?.length}</td>
+                        </tr>
+                        :
+                        ''
+                    }
 
                     <tr className="invoice__table-bd">
                         <td colSpan={4}>Tổng cộng</td>
                         <td className="text-end">
-                            {bill.billDetails?.reduce((prev, cur) => prev + (cur.price ? cur.price : 0), 0)}
+                            {formatCashVND(bill.billDetails?.reduce((prev, cur) => prev + ((cur.productDetail.product && cur.productDetail.product.price) ? cur.productDetail.product.price : 0), 0) + "", ".")}
                         </td>
                         <td className="text-end">
-                            {bill.totalPrice}
+                            {formatCashVND(bill.totalPrice + "", ".")}
                         </td>
                     </tr>
                     <tr className="invoice__table-bb">
