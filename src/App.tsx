@@ -28,7 +28,6 @@ function App() {
       try {
         const currentUser: User = await usersService.findByUid(user.uid)
         if (currentUser) {
-          console.log(currentUser)
           dispatch(updateUser(currentUser))
         }
       } catch (err) {

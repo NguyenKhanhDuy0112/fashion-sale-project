@@ -4,6 +4,7 @@ import { FaShoppingBag } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router";
 import billsService from "../../../../services/billsService";
+import productDetailsService from "../../../../services/productDetailsService";
 import productsService from "../../../../services/productService";
 import Status from "../../../../shared/components/Status";
 import TableCustom from "../../../../shared/components/TableCustom";
@@ -27,17 +28,20 @@ function OrderAdDetail() {
                 const bill: any = await billData
                 const billDetail: any = await []
                 await bill.billDetails?.forEach(async (bd: any, index: number) => {
-                    const productDetail = await bd.productDetail
+                    const productDetail = await productDetailsService.findById(bd.productDetail)
+                    console.log("Pro detail: ", productDetail)
+                    productDetail.color = await productDetail.color.color
+                    productDetail.size = await productDetail.size.size
+                    productDetail.images = await [productDetail.images[0].image, ...productDetail.images[0].imagesSub]
 
-                    productDetail.color = await bd.productDetail.color.color
-                    productDetail.size = await bd.productDetail.size.size
-                    productDetail.image = await [bd.productDetail.images[0].image, ...bd.productDetail.images[0].imagesSub]
-
-                    const product = await productsService.findById(bd.productDetail.product)
+                    const product = await productsService.findById(productDetail.product)
                     productDetail.product = await product
-                    await billDetail.push(productDetail)
+                    await billDetail.push({...bd, productDetail})
 
                     if (index === await bill.billDetails.length - 1) {
+                        
+                        bill.billDetails = await billDetail
+                        
                         await setBill(bill)
 
                         await setLoading(false)
@@ -51,6 +55,8 @@ function OrderAdDetail() {
         }
 
     }
+    console.log("Bill: ", bill)
+  
     return (
         <div className="">
             <h6 className="fw-bold py-4 mb-0 dashboard__title margin-top-3">Hóa Đơn</h6>
@@ -83,7 +89,7 @@ function OrderAdDetail() {
                         </p>
                     </div>
                 </div>
-                <TableCustom headers={["STT", "Sản phẩm", "Màu sắc", "Kích cỡ", "Số lượng", "Giá tiền", "Giảm giá", "Tổng tiền"]}>
+                <TableCustom headers={["STT", "SKU","Sản phẩm", "Màu sắc", "Kích cỡ", "Số lượng", "Giá tiền", "Giảm giá", "Tổng tiền"]}>
                     {loading ?
                         Array.from({ length: 2 }).map((tr, index) => (
                             <tr key={index}>
@@ -98,6 +104,7 @@ function OrderAdDetail() {
                             return (
                                 <tr key={bDetail._id}>
                                     <td>{index + 1}</td>
+                                    <td>{bDetail.productDetail.SKU ? bDetail.productDetail.SKU : ''}</td>
                                     <td>{bDetail.productDetail.product ? bDetail.productDetail.product.name : ''}</td>
                                     <td>{(bDetail.productDetail.color).toUpperCase()}</td>
                                     <td>{(bDetail.productDetail.size).toUpperCase()}</td>

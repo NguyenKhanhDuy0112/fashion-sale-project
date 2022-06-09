@@ -63,6 +63,29 @@
     }
 }
 
+.homeProduct {
+    &-btn {
+        cursor: pointer;
+        display: inline-block;
+        width: 240px;
+        padding: 8px 12px;
+        background-color: #fff;
+        font-weight: 500;
+        border-radius: 4px;
+        border: 1px solid rgb(13, 92, 182);
+        color: rgb(13, 92, 182);
+        font-size: 13px;
+        text-align: center;
+        transition: all ease .3s;
+
+        &:hover {
+            color: rgb(255, 255, 255);
+            background-color: rgb(13, 92, 182);
+            border-color: rgb(13, 92, 182);
+        }
+    }
+}
+
 .homeBanner {
     &__swiper {
         overflow: hidden !important;
@@ -87,8 +110,6 @@
             background-color: rgb(255, 255, 255);
             width: 10px;
             height: 2px;
-
-
         }
 
         & > .swiper-button-next {
@@ -197,7 +218,6 @@
     &__title {
         font-size: 1.1rem;
     }
-
 }
 
 .homeSuggest {

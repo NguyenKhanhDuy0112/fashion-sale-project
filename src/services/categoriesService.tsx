@@ -17,6 +17,10 @@ const findById = (id: string) => {
     return api.get(`${api.url.categories}/${id}`).then(res => res.data)
 }
 
+const findBySlug = (slug:string) => {
+    return api.get(`${api.url.categories}/search?slug=${slug}`).then(res => res.data)
+}
+
 const get = (field: string) => {
     return api.get(api.url.categories+'/search/?search='+field).then(res => res.data)
 }
@@ -37,6 +41,7 @@ const categoriesService = {
     list,
     get,
     delete: remove,
+    findBySlug,
     listPagination,
     search,
     findById,

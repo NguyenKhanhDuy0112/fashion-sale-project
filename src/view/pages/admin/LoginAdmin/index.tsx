@@ -1,8 +1,51 @@
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { FaLock, FaUserAlt } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice";
+import { updateUser } from "../../../../modules/user/useSlice";
+import usersService from "../../../../services/usersService";
 
 function LoginAdmin() {
     const navigate = useNavigate()
+    const [message, setMessage] = useState('')
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (localStorage.getItem('_grecaptcha')) {
+            localStorage.removeItem('_grecaptcha')
+        }
+
+    }, [])
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        onSubmit: (values) => {
+            handleLoginByEmailAndPassword(values)
+        }
+
+    })
+
+    const handleLoginByEmailAndPassword = async (values: { email: string, password: string }) => {
+        dispatch(showLoading())
+        try {
+            const user = await usersService.loginByEmailAndPassword(values)
+            if (user && user.isAdmin === 1) {
+                dispatch(updateUser(user))
+                navigate('/admin/dashboard')
+            }
+            dispatch(hideLoading())
+        }
+        catch(err){
+            console.log(err)
+            dispatch(hideLoading())
+        }
+       
+    }
 
     return (
         <>
@@ -13,20 +56,37 @@ function LoginAdmin() {
                             <h3 className="loginAdmin__title mb-0 text-center p-2">Quản trị</h3>
                         </div>
                         <div className="card-body">
-
                             <div className="row">
                                 <div className="col">
                                     <div className="input-group mb-3">
-                                        <input type="text" className="form-control" placeholder="Tên đăng nhập" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                        <span className="input-group-text" id="basic-addon2"><FaUserAlt /></span>
+                                        <input
+                                            {...formik.getFieldProps('email')}
+                                            type="email"
+                                            className="form-control"
+                                            placeholder="Tên đăng nhập"
+                                            aria-label="Recipient's username"
+                                            aria-describedby="basic-addon2"
+                                        />
+                                        <span className="input-group-text" id="basic-addon2">
+                                            <FaUserAlt />
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col">
                                     <div className="input-group mb-3">
-                                        <input type="text" className="form-control" placeholder="Mật khẩu" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                        <span className="input-group-text" id="basic-addon2"><FaLock /></span>
+                                        <input
+                                            type="password"
+                                            {...formik.getFieldProps('password')}
+                                            className="form-control"
+                                            placeholder="Mật khẩu"
+                                            aria-label="Recipient's username"
+                                            aria-describedby="basic-addon2"
+                                        />
+                                        <span className="input-group-text" id="basic-addon2">
+                                            <FaLock />
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +96,13 @@ function LoginAdmin() {
                                     <label htmlFor="remember" className="d-d-inline-block ms-2">Nhớ mật khẩu</label>
                                 </div>
                                 <div className="col-auto">
-                                    <button className="btn btn-primary w-100" onClick={() => navigate("/admin/dashboard")}>Đăng Nhập</button>
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary w-100"
+                                        onClick={() => formik.handleSubmit()}
+                                    >
+                                        Đăng Nhập
+                                    </button>
                                 </div>
                             </div>
                         </div>

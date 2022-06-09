@@ -61,6 +61,10 @@ const findByEmail = (email: string) => {
     return api.get(`${api.url.users}/email/${email}`).then(res => res.data)
 }
 
+const loginByEmailAndPassword = ({email, password} : {email:string, password: string}) => {
+    return api.post(`${api.url.users}/login`, {email, password}).then(res => res.data)
+}
+
 const usersService = {
     list,
     get,
@@ -77,6 +81,7 @@ const usersService = {
     searchCustomers,
     searchProviders,
     findByEmail,
+    loginByEmailAndPassword
 }
 
 export default usersService;

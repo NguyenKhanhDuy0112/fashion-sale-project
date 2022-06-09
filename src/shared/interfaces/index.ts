@@ -11,7 +11,7 @@ export interface Product{
     slug?: string,
     trademark?: any,
     price?: number,
-    rating? : number,
+    rating? : any,
     category?: any,
     createdAt?: any,
     updatedAt?: any,
@@ -21,7 +21,7 @@ export interface Product{
 export interface ProductDetail{
     _id: string,
     quantity?: number,
-    sku?:string,
+    SKU?:string,
     status?: number,
     product?: Product,
     sizes: any,
@@ -124,6 +124,7 @@ export interface Coupon{
 
 export interface ProductDetailOrder{
     _id: string,
+    SKU? :string,
     quantity: number,
     product?: Product,
     size: string,

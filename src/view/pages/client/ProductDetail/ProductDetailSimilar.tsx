@@ -35,7 +35,7 @@ function ProductDetailSimilar() {
                         {Array.from({ length: 30 }).map((item, index) => {
                             return (
                                 <SwiperSlide key={index}>
-                                    <ProductItem hideImageSub={true} />
+                                    
                                 </SwiperSlide>
                             )
                         })}

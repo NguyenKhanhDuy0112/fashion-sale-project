@@ -208,9 +208,7 @@ function ProductAdModal(props: ModalShow) {
     }
 
     const handleLoading = () => { }
-
-    console.log("Formik values: ", formik.getFieldProps('startDate').value)
-
+    
     return (
         <>
             <Modal

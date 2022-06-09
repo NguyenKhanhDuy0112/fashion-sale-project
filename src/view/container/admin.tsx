@@ -8,6 +8,7 @@ import routeAdmin from "../../routes/routeAdmin";
 import useToggleNav from "../../shared/hooks/useToggleNav";
 import ToastCustom from "../../shared/components/ToastCustom";
 import useToast from "../../shared/hooks/useToast";
+import RequireAuthAdmin from "../../shared/components/RequireAuthAdmin";
 
 function Admin() {
     const isToggleNav = useToggleNav()
@@ -18,16 +19,26 @@ function Admin() {
         <>
             <div onClick={() => dispatch(toggleNav(!isToggleNav))} className={`overlay ${isToggleNav ? 'active' : ''}`}></div>
             <div className="admin">
-                <HeaderAdmin />
-                <NavAdmin />
+                <RequireAuthAdmin>
+                    <HeaderAdmin />
+                    <NavAdmin />
+                </RequireAuthAdmin>
+                
                 <section className={`container-admin admin__body ${isToggleNav ? 'active' : ''}`}>
                     <Routes>
-                        {routeAdmin.map((route, index) => <Route key={index} path={route.path} element={route.component} />)}
+                        {routeAdmin.map((route, index) => (
+                            <Route key={index} path={route.path} element={
+                                <RequireAuthAdmin key={index}>
+                                    {route.component}
+                                </RequireAuthAdmin>
+                            } />
+
+                        ))}
                     </Routes>
                 </section>
             </div>
 
-            <ToastCustom show = {toast.show} text={toast.text} type={toast.type}/>
+            <ToastCustom show={toast.show} text={toast.text} type={toast.type} />
         </>
     );
 }

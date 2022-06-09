@@ -11,7 +11,7 @@ function ProductDetailMore() {
                     <div className="row row-cols-xl-6 row-cols-md-4 row-cols-2 g-0 w-100">
                         {Array.from({ length: 20 }).map((item, index) => (
                             <div className="col" key={index}>
-                                <ProductItem />
+                                
                             </div>
                         ))}
                     </div>
