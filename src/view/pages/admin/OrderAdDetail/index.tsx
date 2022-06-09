@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlinePrinter } from "react-icons/ai";
 import { FaShoppingBag } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
@@ -10,11 +10,14 @@ import Status from "../../../../shared/components/Status";
 import TableCustom from "../../../../shared/components/TableCustom";
 import { formatCashVND, formatDate } from "../../../../shared/helpers";
 import { Bill, BillDetail } from "../../../../shared/interfaces";
+import { useReactToPrint } from 'react-to-print';
 
 function OrderAdDetail() {
     const { id } = useParams()
     const [bill, setBill] = useState<Bill>()
     const [loading, setLoading] = useState(true)
+
+    const componentRef = useRef<React.LegacyRef<HTMLDivElement> >()
 
     useEffect(() => {
         handleLoadBill()
@@ -55,10 +58,17 @@ function OrderAdDetail() {
         }
 
     }
-    console.log("Bill: ", bill)
+
+    // const handlePrint = useReactToPrint({
+    //     content: () => componentRef.current,
+    //     copyStyles: true
+    //   });
   
     return (
         <div className="">
+            <div>
+
+            </div>
             <h6 className="fw-bold py-4 mb-0 dashboard__title margin-top-3">Hóa Đơn</h6>
             <div className="invoiceAdmin p-3">
                 <div className="row g-3 mb-3">
