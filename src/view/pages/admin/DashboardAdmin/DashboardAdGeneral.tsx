@@ -3,10 +3,36 @@ import {} from "react-icons"
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { FaShippingFast } from "react-icons/fa"
 import { FiUsers } from "react-icons/fi";
+import productsService from "../../../../services/productService";
+import { useEffect, useState } from "react";
+import { Bill, Product } from "../../../../shared/interfaces";
+import usersService from "../../../../services/usersService";
+import { User } from "firebase/auth";
+import billsService from "../../../../services/billsService";
 
 
 function DashboardAdGeneral() {
+    const [products, setProducts] = useState<Product[]>([])
+    const [customers, setCustomers] = useState<User[]>([])
+    const [billExports, setBillExports] = useState<Bill[]>([])
 
+    useEffect(() => {
+        handleLoadCustomers()
+        handleLoadProduct()
+        handleLoadExports()
+    })
+
+    const handleLoadProduct = () => {
+        productsService.list().then(res => setProducts(res.data))
+    }
+
+    const handleLoadCustomers = () => {
+        usersService.findCustomers().then(res => setCustomers(res.data))
+    }
+
+    const handleLoadExports = () => {
+        billsService.findBillExports().then(res => setBillExports(res.data)) 
+    }
 
     return (
         <>
@@ -15,7 +41,7 @@ function DashboardAdGeneral() {
                     <div className="dashboardAdmin__general d-flex justify-content-between align-items-center">
                         <div className="dashboardAdmin__general-data">
                             <p className="dashboardAdmin__general-data-text mb-2">Tổng sản phẩm</p>
-                            <h3 className="dashboardAdmin__general-data-number">429</h3>
+                            <h3 className="dashboardAdmin__general-data-number">{products.length}</h3>
                         </div>
                         <span className="dashboardAdmin__general-icon" style={{backgroundColor: "#C3DDFD", color: "#4582F5"}}>
                             <AiOutlineGift size={30} />
@@ -37,7 +63,7 @@ function DashboardAdGeneral() {
                     <div className="dashboardAdmin__general d-flex justify-content-between align-items-center">
                         <div className="dashboardAdmin__general-data">
                             <p className="dashboardAdmin__general-data-text mb-2">Tổng đặt hàng</p>
-                            <h3 className="dashboardAdmin__general-data-number">247</h3>
+                            <h3 className="dashboardAdmin__general-data-number">{billExports.length}</h3>
                         </div>
                         <span className="dashboardAdmin__general-icon" style={{backgroundColor: "#AFECEF",color: "#047481"}}>
                             <FaShippingFast size={30} />
@@ -48,7 +74,7 @@ function DashboardAdGeneral() {
                     <div className="dashboardAdmin__general d-flex justify-content-between align-items-center">
                         <div className="dashboardAdmin__general-data">
                             <p className="dashboardAdmin__general-data-text mb-2">Tổng khách hàng</p>
-                            <h3 className="dashboardAdmin__general-data-number">872</h3>
+                            <h3 className="dashboardAdmin__general-data-number">{customers.length}</h3>
                         </div>
                         <span className="dashboardAdmin__general-icon" style={{backgroundColor: "#FCD9BD", color: "#D03801"}}>
                             <FiUsers size={30} />

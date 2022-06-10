@@ -16,6 +16,21 @@
         }
 
     }
+
+    &__container{
+        position: relative;
+        z-index: 3;
+    }
+
+    &__invoice{
+        @include position(absolute,50%, 0, none, 50%);
+        transform: translate(-50%, -50%);
+        width: 5px;
+        height: 5px;
+        overflow: hidden;
+        background-color: #fff;
+        z-index: -1;
+    }
     &__text{
         color: $color-sub;
         font-size: 0.9rem;

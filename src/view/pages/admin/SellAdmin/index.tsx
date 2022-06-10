@@ -1,6 +1,7 @@
 import { SyntheticEvent, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
+import { useSearchParams } from "react-router-dom";
 import { ProductDetailOrder, User } from "../../../../shared/interfaces";
 import SearchProduct from "./SearchProduct";
 import SellAdminCheckout from "./SellAdminCheckout"
@@ -36,6 +37,7 @@ function SellAdmin() {
     const [orders, setOrders] = useState<Order[]>([{ id: 1, title: 'Đặt hàng 1', products: [], method: "COD" }])
     const [selected, setSelected] = useState<number>(0)
     const [loading, setLoading] = useState(false)
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeSelected = (idx: number) => {
         setSelected(idx)
@@ -105,7 +107,7 @@ function SellAdmin() {
 
     return (
         <>
-            <h5 className="title-admin mb-0">Đặt hàng</h5>
+            <h5 className="title-admin mb-0">{searchParams.get('type') === 'import' ? 'Nhập hàng' : 'Đặt hàng'}</h5>
             <div className="sellAdmin__header">
                 <div className="row align-items-center p-2 g-3 g-lg-1">
                     <div className="col-lg-4">

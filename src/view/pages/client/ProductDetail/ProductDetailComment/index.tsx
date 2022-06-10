@@ -1,10 +1,17 @@
 import { useState } from "react";
 import RankRating from "../../../../../shared/components/RankRating";
+import { Product } from "../../../../../shared/interfaces";
 import ProductDetailCommentDesk from "./ProductDetailCommentDesk";
 import ProductDetailCommentFilter from "./ProductDetailCommentFilter";
 import ProductDetailCommentModal from "./ProductDetailCommentModal";
 
-function ProductDetailComment() {
+interface ProductDetailCommentProps{
+    product?: Product,
+    loading: boolean
+}
+
+function ProductDetailComment(props: ProductDetailCommentProps) {
+    const { product, loading } = props
     const [showModalComment, setShowModalComment] = useState<boolean>(false)
 
     return (
@@ -17,7 +24,7 @@ function ProductDetailComment() {
 
                         <div className="row g-3">
                             <div className="col-xl-3">
-                                <RankRating />
+                                <RankRating product={product}/>
                             </div>
                             <div className="col d-xl-block d-none">
                                 <ProductDetailCommentFilter />

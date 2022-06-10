@@ -35,7 +35,7 @@ function SearchUser(props: Props) {
         }
         else {
             if (searchParams.get('type') === 'import') {
-                usersService.searchProviders(debounceValue ? debounceValue : '', 1, 10)
+                usersService.searchProviders(debounceValue ? debounceValue : '', 1, 30)
                     .then(res => {
                         const { data, ...others } = res
                         console.log(data)
@@ -44,7 +44,7 @@ function SearchUser(props: Props) {
                     })
             }
             else {
-                usersService.searchCustomers(debounceValue ? debounceValue : '', 1, 10)
+                usersService.searchCustomers(debounceValue ? debounceValue : '', 1, 30)
                     .then(res => {
                         const { data, ...others } = res
                         setIsLoading(false)

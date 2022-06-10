@@ -61,16 +61,16 @@ function OrderAdDetail() {
     });
 
     return (
-        <div className="position-relative">
+        <div className="invoiceAdmin__container">
+            <div className="invoiceAdmin__invoice">
+                {bill &&
+                    <div ref={componentRef} className="content-invoice">
+                        <Invoice bill={bill} />
+                    </div>
+                }
+            </div>
             <h6 className="fw-bold py-4 mb-0 dashboard__title margin-top-3">Hóa Đơn</h6>
             <div className="invoiceAdmin p-3">
-                <div className="invoiceAdmin__invoice">
-                    {bill &&
-                        <div ref={componentRef} className="content-invoice">
-                            <Invoice bill={bill} />
-                        </div>
-                    }
-                </div>
                 <div className="row g-3 mb-3">
                     <div className="col-md">
                         <h5 className="text-uppercase">Hóa Đơn</h5>

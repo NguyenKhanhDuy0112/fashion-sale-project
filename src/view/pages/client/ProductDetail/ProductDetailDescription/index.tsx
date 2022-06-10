@@ -1,7 +1,7 @@
 import ProductDetailDescriptionDesk from "./ProductDetailDescriptionDesk";
 
 interface Props{
-    description: string,
+    description?: string,
 }
 
 function ProductDetailDescription(props: Props) {

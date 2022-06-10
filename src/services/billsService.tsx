@@ -14,11 +14,11 @@ const listPaginationImports = (page: number, limit: number) => {
 }
 
 const findBillImports = () => {
-    return api.get(`${api.url.bills}/types/imports`).then(res => res.data)
+    return api.get(`${api.url.bills}/type/imports`).then(res => res.data)
 }
 
 const findBillExports = () => {
-    return api.get(`${api.url.bills}/types/exports`).then(res => res.data)
+    return api.get(`${api.url.bills}/type/exports`).then(res => res.data)
 }
 
 const findById = (id: string) => {

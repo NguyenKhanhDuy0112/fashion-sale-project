@@ -1,10 +1,21 @@
+import { Product } from "../../../../../shared/interfaces";
 import ProductDetailOptionDesk from "./ProductDetailOptionDesk";
 import ProductDetailOptionMobile from "./ProductDetailOptionMobile";
 
-function ProductDetailOption() {
+interface ProductDetailProps{
+    product?: Product
+    loading: boolean,
+}
+
+function ProductDetailOption(props: ProductDetailProps) {
+    const { product, loading } = props
+
     return ( 
         <article>
-            <ProductDetailOptionDesk/>
+            <ProductDetailOptionDesk 
+                loading = {loading}
+                productDetails = {product?.productDetails}
+            />
             <ProductDetailOptionMobile/>
         </article>
      );

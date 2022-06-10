@@ -12,10 +12,21 @@ export interface Product{
     trademark?: any,
     price?: number,
     rating? : any,
+    oneStar?: number,
+    twoStar?: number,
+    threeStar? : number,
+    fourStar?:number,
+    fiveStar?:number, 
+    sold?: number,
     category?: any,
     createdAt?: any,
     updatedAt?: any,
-    productDetails?: ProductDetail[]
+    comments?: Comment[]
+    productDetails?: ProductDetail[] | ProductDetailOrder[]
+}
+
+export interface Comment{
+    _id?:string,
 }
 
 export interface ProductDetail{

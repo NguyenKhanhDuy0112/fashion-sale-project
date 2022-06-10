@@ -61,29 +61,29 @@ function Invoice(props: InvoiceProps) {
             <div className="invoice__info border-black mt-3">
                 <div className="d-flex flex-column p-2">
                     <div className="d-flex align-items-center">
-                        <p className="mb-0 invoice__info-title w-10">Họ tên người mua hàng</p>
+                        <p className="mb-0 invoice__info-title">Họ tên người mua hàng</p>
                         <p className="mb-0 invoice__info-text">
                             <span className="ms-1 me-2 invoice__info-separate">:</span>
                         </p>
                     </div>
                     <div className="d-flex align-items-center">
-                        <p className="mb-0 invoice__info-title w-10">Đơn vị mua hàng</p>
+                        <p className="mb-0 invoice__info-title">Đơn vị mua hàng</p>
                         <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user?.name}</p>
                     </div>
                     <div className="d-flex align-items-center">
-                        <p className="mb-0 invoice__info-title w-10">Mã số thuế</p>
+                        <p className="mb-0 invoice__info-title">Mã số thuế</p>
                         <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span></p>
                     </div>
                     <div className="d-flex align-items-center">
-                        <p className="mb-0 invoice__info-title w-10">Địa chỉ</p>
+                        <p className="mb-0 invoice__info-title">Địa chỉ</p>
                         <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user ? bill.user.address : ''}</p>
                     </div>
                     <div className="d-flex align-items-center">
-                        <p className="mb-0 invoice__info-title w-10">Điện thoại</p>
+                        <p className="mb-0 invoice__info-title">Điện thoại</p>
                         <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user?.phone}</p>
                     </div>
                     <div className="d-flex align-items-center">
-                        <p className="mb-0 invoice__info-title w-10">Hình thức thanh toán</p>
+                        <p className="mb-0 invoice__info-title">Hình thức thanh toán</p>
                         <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.method}</p>
                     </div>
                 </div>
@@ -113,7 +113,12 @@ function Invoice(props: InvoiceProps) {
 
                     {bill ?
                         <tr>
-                            <td>{bill.billDetails?.length}</td>
+                            <td className = "text-center">{bill.billDetails ? bill.billDetails.length + 1 : 0}</td>
+                            <td>Phí giao hàng</td>
+                            <td></td>
+                            <td>1</td>
+                            <td>{bill.feeShip}</td>
+                            <td>{bill.feeShip}</td>
                         </tr>
                         :
                         ''
@@ -125,7 +130,7 @@ function Invoice(props: InvoiceProps) {
                             {formatCashVND(bill.billDetails?.reduce((prev, cur) => prev + ((cur.productDetail.product && cur.productDetail.product.price) ? cur.productDetail.product.price : 0), 0) + "", ".")}
                         </td>
                         <td className="text-end">
-                            {formatCashVND(bill.totalPrice + "", ".")}
+                            {formatCashVND((bill.totalPrice + (bill.feeShip ? bill.feeShip : 0)) + "", ".")}
                         </td>
                     </tr>
                     <tr className="invoice__table-bb">

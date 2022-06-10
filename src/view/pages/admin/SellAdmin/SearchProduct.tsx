@@ -43,7 +43,7 @@ function SearchProduct(props: Props) {
             setIsLoading(false)
         }
         else {
-            productsService.search(debounceValue ? debounceValue : '', 1, 10)
+            productsService.search(debounceValue ? debounceValue : '', 1, 30)
                 .then(res => {
                     const { data, ...others } = res
                     setIsLoading(false)

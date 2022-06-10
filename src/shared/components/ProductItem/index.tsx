@@ -80,7 +80,7 @@ function ProductItem(props: Props) {
                                 stars={product?.rating ? product.rating : 0}
                             />
                             <div className="productSale__border-distance"></div>
-                            <p className="productSale__sold mb-0">Đã bán 40</p>
+                            <p className="productSale__sold mb-0">Đã bán {product?.sold}</p>
                         </div>
                     }
                 </div>
@@ -91,11 +91,11 @@ function ProductItem(props: Props) {
                         <p
                             className="productSale__price-current mb-0"
                         >
-                            {formatCashVND((product.price - (product.price * (product.discount ? product.discount : 0))) + "", ".")} ₫
+                            {formatCashVND((product.price - (product.price * ((product.discount ? product.discount : 0)/100))) + "", ".")} ₫
                         </p>
                     }
 
-                    {loading ? <Skeleton /> : <span className={`productSale__discount ${(product?.discount && product.discount > 0) ? 'd-block' : 'd-none'}`}>{product?.discount}</span>}
+                    {loading ? <Skeleton /> : <span className={`productSale__discount ${(product?.discount && product.discount > 0) ? 'd-block' : 'd-none'}`}>{product?.discount}%</span>}
                 </div>
             </div>
         </Link>

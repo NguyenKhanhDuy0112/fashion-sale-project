@@ -37,7 +37,7 @@ function ProductDetailInfoImageModal(props: Props) {
                 >
                     {images.map((img: string, index: number) => (
                         <SwiperSlide key={index} className='w-100 h-100 productDetail__info-image-modal-swiper-slide'>
-                            <img className='w-100 h-100' src={img} alt="" />
+                            <img className='w-100 h-100' style={{objectFit: "cover"}} src={img} alt="" />
                         </SwiperSlide>
                     ))}
                 </Swiper>
