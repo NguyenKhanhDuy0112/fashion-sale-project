@@ -16,7 +16,10 @@ function ProductDetailOption(props: ProductDetailProps) {
                 loading = {loading}
                 productDetails = {product?.productDetails}
             />
-            <ProductDetailOptionMobile/>
+            <ProductDetailOptionMobile
+                loading = {loading}
+                product = {product}
+            />
         </article>
      );
 }

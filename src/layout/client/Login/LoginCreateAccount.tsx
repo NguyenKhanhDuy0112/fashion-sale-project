@@ -57,7 +57,6 @@ function LoginCreateAccount(props: LoginAccountProps) {
                         dispatch(toggleFormLogin())
                         dispatch(showToast({ show: true, text: `Tạo tài khoản lỗi`, type: 'error', delay: 2500 }))
                     }
-                    console.log("Sign up success")
                 })
         }
         else{

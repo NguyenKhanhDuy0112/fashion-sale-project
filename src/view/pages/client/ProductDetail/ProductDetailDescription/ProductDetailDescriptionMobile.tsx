@@ -19,7 +19,7 @@ function ProductDetailDescriptionMobile(props: Props) {
                 <h5 className="modalCustom__header-title">Mô tả</h5>
             </div>
             <div className="modalCustom__body mt-5 py-4 px-3">
-                <div dangerouslySetInnerHTML={{ __html: description ? description : '' }} />
+                <div className="productDetail__description-text" dangerouslySetInnerHTML={{ __html: description ? description : '' }} />
             </div>
         </ModalCustom>
     );

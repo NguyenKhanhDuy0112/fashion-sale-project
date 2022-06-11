@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -9,7 +9,6 @@ import usersService from "../../../../services/usersService";
 
 function LoginAdmin() {
     const navigate = useNavigate()
-    const [message, setMessage] = useState('')
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -47,6 +46,12 @@ function LoginAdmin() {
        
     }
 
+    const handleKeyPressSubmit = (e: any) => {
+        if(e.nativeEvent.code === 'Enter'){
+            formik.handleSubmit()
+        }
+    }
+
     return (
         <>
             <div className="loginAdmin">
@@ -78,6 +83,7 @@ function LoginAdmin() {
                                     <div className="input-group mb-3">
                                         <input
                                             type="password"
+                                            onKeyPress={(e) => handleKeyPressSubmit(e)}
                                             {...formik.getFieldProps('password')}
                                             className="form-control"
                                             placeholder="Mật khẩu"
@@ -92,8 +98,14 @@ function LoginAdmin() {
                             </div>
                             <div className="row align-items-center">
                                 <div className="col">
-                                    <input id="remember" className="form-check-input" type="checkbox" />
-                                    <label htmlFor="remember" className="d-d-inline-block ms-2">Nhớ mật khẩu</label>
+                                    <input 
+                                        id="remember" 
+                                        className="form-check-input" 
+                                        type="checkbox" 
+                                    />
+                                    <label htmlFor="remember" className="d-d-inline-block ms-2">
+                                        Nhớ mật khẩu
+                                    </label>
                                 </div>
                                 <div className="col-auto">
                                     <button

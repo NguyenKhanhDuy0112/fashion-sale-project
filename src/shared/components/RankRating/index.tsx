@@ -33,10 +33,26 @@ function RankRating(props: RankRatingProps) {
             <div className="rankRating__general" onClick={handleShowRating}>
                 <h2 className="rankRating__general-average mb-0">{product?.rating ? product.rating : 0}</h2>
                 <div className="ms-2 d-xl-block d-flex">
-                    <Rating color="#FFD52E" distance={1} size={17} stars={product?.rating ? product.rating : 0} colorSub="#DDDDE3" />
+                    <Rating
+                        color="#FFD52E"
+                        distance={1}
+                        size={17}
+                        stars={product?.rating ? product.rating : 0}
+                        colorSub="#DDDDE3"
+                    />
                     <div className="d-flex align-items-center">
-                        <p className="rankRating__general-number mb-0 mt-1 ms-xl-0 ms-2">{product?.comments?.length} nhận xét</p>
-                        <span className="ms-1 d-xl-none d-block"><IoIosArrowDown size={14} color="#92929a" fontWeight="bold" /></span>
+                        <p className="rankRating__general-number mb-0 mt-1 ms-xl-0 ms-2">
+                            {product?.comments?.length} nhận xét
+                        </p>
+                        <span
+                            className="ms-1 d-xl-none d-block"
+                        >
+                            <IoIosArrowDown
+                                size={14}
+                                color="#92929a"
+                                fontWeight="bold"
+                            />
+                        </span>
                     </div>
                 </div>
             </div>
@@ -88,11 +104,11 @@ function RankRating(props: RankRatingProps) {
                             colorSub="#DDDDE3"
                         />
                         <div className="rankRating__data-item-progress">
-                            <div 
-                                className="rankRating__data-item-progress-child" 
+                            <div
+                                className="rankRating__data-item-progress-child"
                                 style={{ width: `${((product?.threeStar ? product.threeStar : 0) * 100) / (product?.comments ? product.comments.length : 0)}%` }}
                             >
-                                
+
                             </div>
                         </div>
                         <p className="mb-0 rankRating__data-item-number">{product?.threeStar}</p>
@@ -116,15 +132,15 @@ function RankRating(props: RankRatingProps) {
                         <p className="mb-0 rankRating__data-item-number">{product?.twoStar}</p>
                     </div>
                     <div className="rankRating__data-item justify-content-xl-start justify-content-center">
-                        <Rating 
-                            color="#FFD52E" 
-                            distance={1} 
-                            size={11} 
-                            stars={1} 
-                            colorSub="#DDDDE3" 
+                        <Rating
+                            color="#FFD52E"
+                            distance={1}
+                            size={11}
+                            stars={1}
+                            colorSub="#DDDDE3"
                         />
                         <div className="rankRating__data-item-progress">
-                            <div 
+                            <div
                                 className="rankRating__data-item-progress-child"
                                 style={{ width: `${((product?.oneStar ? product.oneStar : 0) * 100) / (product?.comments ? product.comments.length : 0)}%` }}
                             >

@@ -90,7 +90,7 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
                                         {(productInfo && productInfo.discount && productInfo.discount > 0)
                                             ?
                                             <p className="productDetail__info-content-price-old mb-0 mx-2">
-                                                {productInfo.price} ₫
+                                                {formatCashVND(productInfo.price+"",".")} ₫
                                             </p>
                                             :
                                             ''

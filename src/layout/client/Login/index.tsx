@@ -10,7 +10,6 @@ import usersService from "../../../services/usersService";
 import { hideLoading, showLoading } from "../../../modules/loading/loadingSlice";
 import { showToast } from "../../../modules/toast/toastSlice";
 import { User } from "../../../shared/interfaces";
-import { authentication } from "../../../firebase-config";
 import { updateUser } from "../../../modules/user/useSlice";
 import { IoIosArrowBack } from "react-icons/io";
 import LoginSocialPhone from "./LoginSocialPhone";

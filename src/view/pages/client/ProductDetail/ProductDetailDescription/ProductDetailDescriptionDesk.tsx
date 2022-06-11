@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import ProductDetailDescriptionMobile from "./ProductDetailDescriptionMobile";
 
@@ -8,6 +8,7 @@ interface Props{
 
 function ProductDetailDescriptionDesk(props: Props) {
     const { description } = props
+    const descriptionElement = useRef<HTMLDivElement>(null)
     const [showDescription, setShowDescription] = useState(true)
     const [showDescriptionModal, setShowDescriptionModal] = useState(false)
 
@@ -29,8 +30,14 @@ function ProductDetailDescriptionDesk(props: Props) {
                     <div className="border-radius-4 p-3 bg-white position-relative">
                         <h4 className="productDetail__title mb-3">Mô tả sản phẩm</h4>
 
-                        <div className={`productDetail__description-container position-relative ${(showDescription || showDescriptionModal) ? 'active' : ''}`}>
-                            <div dangerouslySetInnerHTML={{__html: description ? description : ''}}/>
+                        <div 
+                            className={`productDetail__description-container position-relative ${showDescriptionModal || showDescription ? 'active' : ''}`}
+                        >
+                            <div 
+                                className="productDetail__description-text" 
+                                ref = {descriptionElement} 
+                                dangerouslySetInnerHTML={{__html: description ? description : ''}}
+                            />
                             
                             <div className={`productDetail__description-gradient ${(showDescription || showDescriptionModal) ? 'active' : ''}`}></div>
                         </div>

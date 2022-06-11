@@ -35,7 +35,6 @@ function HomeProduct() {
             if (productsMore) {
                 const { data, ...others } = productsMore
                 const newProducts:Product[] = handleConvertProducts(data)
-                console.log("Load more: ", newProducts)
                 const newProductsData = [...products, ...newProducts]
                 setProducts(newProductsData)
 
@@ -48,7 +47,6 @@ function HomeProduct() {
         }
     }
 
-    console.log("Products: ", products)
 
     const handleConvertProducts = (products: Product[]) => {
         const newProducts: Product[] = products.map((pro: Product, index: number) => {

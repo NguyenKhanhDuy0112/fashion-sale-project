@@ -38,7 +38,7 @@ function ProductDetailComment(props: ProductDetailCommentProps) {
                     </div>
                 </div>
             </article>
-            <ProductDetailCommentModal onShow={() => setShowModalComment(!showModalComment)} show = {showModalComment}/>
+            <ProductDetailCommentModal product = {product} onShow={() => setShowModalComment(!showModalComment)} show = {showModalComment}/>
         </>
     );
 }

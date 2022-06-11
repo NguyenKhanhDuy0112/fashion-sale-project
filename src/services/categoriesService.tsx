@@ -37,6 +37,10 @@ const add = (data: Category) => {
     return api.post(api.url.categories, data).then(res => res.data)
 }
 
+const getProductsByCategoryId = (id: string, page: number, limit: number) => {
+    return api.get(`${api.url.categories}/${id}/products?page=${page}&limit=${limit}`).then(res => res.data)
+}
+
 const categoriesService = {
     list,
     get,
@@ -46,7 +50,8 @@ const categoriesService = {
     search,
     findById,
     update,
-    add
+    add,
+    getProductsByCategoryId
 }
 
 export default categoriesService;

@@ -121,7 +121,6 @@ function LoginMain(props: ILoginMain) {
             .then((result) => {
                 // The signed-in user info.
                 const user = result.user;
-                console.log("User facebook: ", user)
 
             })
             .catch((error) => {

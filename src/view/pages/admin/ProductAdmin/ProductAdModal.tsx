@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect, useRef, useState } from "react";
+import { InputHTMLAttributes, useEffect, useRef, useState } from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
 import * as Yup from "yup";
 import ImageUploading from "../../../../shared/components/ImageUploading";
@@ -52,17 +52,18 @@ function ProductAdModal(props: ModalShow) {
     }
 
     useEffect(() => {
+        console.log("Product: ", product)
         if (product) {
             description.current = product.description
         }
         if (product && product._id !== '') {
             if (product.endDate) {
-                product.endDate = new Date(formatDate(new Date(product.endDate), "yyyy-MM-dd"))
+                product.endDate = formatDate(new Date(product.endDate), "yyyy-MM-dd")
             }
             if (product.startDate) {
-                product.startDate = new Date(formatDate(new Date(product.startDate), "yyyy-MM-dd"))
+                product.startDate = formatDate(new Date(product.startDate), "yyyy-MM-dd")
             }
-            console.log(product)
+            product.discount = product.discount ? product.discount : 0
             formik.setValues(product)
         }
         else {
@@ -97,7 +98,7 @@ function ProductAdModal(props: ModalShow) {
             unit: Yup.string().required("Đơn vị không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
             price: Yup.number().required("Giá tiền không được để trống.").typeError('Vui lòng nhập số.').min(1, "Giá tiền phải lớn hơn 0.").max(1000000000, "Giá tiền phải bé hơn 1,000,000,000."),
             category: Yup.string().required('Vui lòng chọn danh mục.'),
-            discount: Yup.number().typeError('Vui lòng nhập số.').min(1, 'Vui lòng nhập số >= 1.'),
+            discount: Yup.number().typeError('Vui lòng nhập số.'),
             endDate: Yup.date().typeError("Vui lòng nhập đúng định dạng MM/dd/yyyy."),
             startDate: Yup.date().typeError("Vui lòng nhập đúng định dạng MM/dd/yyyy."),
             trademark: Yup.string().required('Vui lòng chọn thương hiệu.'),
@@ -106,10 +107,6 @@ function ProductAdModal(props: ModalShow) {
             handleSubmitForm(values)
         }
     })
-
-    console.log(formik.errors)
-
-
 
     const handleSubmitForm = async (value: any) => {
         value.description = description.current
@@ -235,6 +232,7 @@ function ProductAdModal(props: ModalShow) {
                         errMessage={formik.errors.name}
                         input={true}
                     />
+                    
                     <div className="row mb-3 g-3 align-items-center">
                         <label className="col-lg-2 col-md-3">
                             Chi tiết

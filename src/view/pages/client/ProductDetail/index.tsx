@@ -23,8 +23,9 @@ function ProductDetail() {
     const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
+        setLoading(true)
         handleLoadProductBySlug()
-    }, [])
+    }, [slug])
 
     const handleLoadProductBySlug = async () => {
         const product = await productsService.findBySlug(slug ? slug : '')
@@ -73,7 +74,7 @@ function ProductDetail() {
                                 </span>
                             </li>
                             <li className="breadcrumbCustom__list-item">
-                                <Link to="/" className="breadcrumbCustom__list-item-link">Áo thun nam ngắn tay có cổ</Link>
+                                <Link to={`/${product?.category.slug}`} className="breadcrumbCustom__list-item-link">{product?.category.name}</Link>
                             </li>
                             <li className="breadcrumbCustom__list-item mx-1">
                                 <span className="breadcrumbCustom__list-item-link">
@@ -82,7 +83,7 @@ function ProductDetail() {
                             </li>
                             <li className="breadcrumbCustom__list-item">
                                 <span className="breadcrumbCustom__list-item-link none">
-                                    Áo thun nam
+                                    {product?.name}
                                 </span>
                             </li>
                         </ul>
@@ -94,6 +95,7 @@ function ProductDetail() {
                         productInfo={product}
                     />
                     <ProductDetailSimilar 
+                        currentProductId = {product?._id}
                         category = {product?.category._id}
                     />
                     <ProductDetailInfoDt 

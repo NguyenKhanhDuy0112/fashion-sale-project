@@ -1,34 +1,119 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
+import Skeleton from "react-loading-skeleton";
+import { useSearchParams } from "react-router-dom";
 import images from "../../../../../shared/assets";
 import ModalCustom from "../../../../../shared/components/ModalCustom";
+import { formatCashVND } from "../../../../../shared/helpers";
+import { Product, ProductDetail, ProductDetailOrder } from "../../../../../shared/interfaces";
 
-function ProductDetailOptionMobile() {
-    const [show, setShow] = useState(false)
+interface ProductDetailOptionMobileProps {
+    product?: Product,
+    loading: boolean,
+}
+
+interface Color {
+    name: string,
+    image: string,
+}
+
+function ProductDetailOptionMobile(props: ProductDetailOptionMobileProps) {
+    const { product, loading } = props
+    const [show, setShow] = useState<boolean>(false)
+    const [color, setColor] = useState<Color>()
+    const [size, setSize] = useState<string>('size')
+    const [colorTemp, setColorTemp] = useState<Color>()
+    const [sizeTemp, setSizeTemp] = useState<string>('size')
+    const [colors, setColors] = useState<Color[]>([])
+    const [sizes, setSizes] = useState<string[]>([])
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    useEffect(() => {
+        const colors: Color[] = []
+        const sizes: string[] = []
+        let color: string = ''
+        product?.productDetails?.forEach((proDt: any) => {
+            if (proDt.color.toLowerCase() !== color.toLowerCase()) {
+                color = proDt.color
+                colors.push({ name: proDt.color, image: proDt.images[0] })
+            }
+
+            if (!sizes.includes(proDt.size)) {
+                sizes.push(proDt.size)
+            }
+
+        })
+
+        setColors(colors)
+        setColorTemp(colors[0])
+        setSizeTemp(sizes[0])
+        setSizes(sizes)
+        setColor(colors[0])
+        setSize(sizes[0])
+    }, [product])
+
+    const handleChangeColor = (colorItem: string) => {
+        if (colorItem.toLowerCase() !== colorTemp?.name.toLowerCase()) {
+            if (product && product.productDetails) {
+                const products: any = product.productDetails
+                const findProduct = products.find((proDt: any) => proDt.color === colorItem && proDt.size === sizeTemp)
+                setColorTemp({ image: findProduct.images[0], name: findProduct.color })
+                setSizeTemp(findProduct.size)
+            }
+        }
+    }
+
+    const handleChangeSize = (sizeItem: string) => {
+        if (sizeItem.toLowerCase() !== sizeTemp.toLowerCase()) {
+            if (product && product.productDetails) {
+                const products: any = product.productDetails
+                const findProduct = products.find((proDt: any) => proDt.color === colorTemp?.name && proDt.size === sizeItem)
+                setSizeTemp(sizeItem)
+                setColorTemp({ image: findProduct.images[0], name: findProduct.color })
+            }
+        }
+    }
+
+    const handleSubmitProperty = () => {
+        setSize(sizeTemp)
+        setColor(colorTemp)
+        setShow(!show)
+        if (product && product.productDetails) {
+            const products: any = product.productDetails
+            const findProduct = products.find((proDt: any) => proDt.color === colorTemp?.name && proDt.size === sizeTemp)
+            searchParams.set('spId', findProduct._id)
+            setSearchParams(searchParams)
+        }
+    }
+
     return (
         <article className="d-xl-none d-block">
-            <div onClick={() => setShow(!show)} className="productDetail__info-option-mobile d-flex align-items-center justify-content-between p-2">
-                <div className="d-flex align-items-center">
-                    <div className="productDetail__info-option-mobile-img">
-                        <div
-                            className="productDetail__info-option-mobile-bg"
-                            style={{ backgroundImage: `url(https://salt.tikicdn.com/cache/w400/ts/product/52/e2/51/589567fae9aba385e3e960f83ac976a0.jpg)` }}>
+            {loading ?
+                <Skeleton height={100}/>
+                :
+                <div onClick={() => setShow(!show)} className="productDetail__info-option-mobile d-flex align-items-center justify-content-between p-2">
+                    <div className="d-flex align-items-center">
+                        <div className="productDetail__info-option-mobile-img">
+                            <div
+                                className="productDetail__info-option-mobile-bg"
+                                style={{ backgroundImage: `url(${color?.image})` }}>
+                            </div>
+                        </div>
+                        <div className="productDetail__info-option-mobile-content d-flex flex-column ms-2">
+                            <span className="productDetail__info-option-mobile-content-title mb-0">
+                                Màu sắc, Kích cỡ
+                            </span>
+                            <span className="productDetail__info-option-mobile-content-text mb-0 text-uppercase">
+                                {color?.name} / {size}
+                            </span>
                         </div>
                     </div>
-                    <div className="productDetail__info-option-mobile-content d-flex flex-column ms-2">
-                        <span className="productDetail__info-option-mobile-content-title mb-0">
-                            Màu sắc, Kích cỡ
-                        </span>
-                        <span className="productDetail__info-option-mobile-content-text mb-0">
-                            Đỏ / M
-                        </span>
-                    </div>
+                    <span>
+                        <IoIosArrowForward size={23} color="#919191" />
+                    </span>
                 </div>
-                <span>
-                    <IoIosArrowForward size={23} color="#919191" />
-                </span>
-            </div>
+            }
 
             <ModalCustom show={show} onHandleShow={() => setShow(!show)} position="full">
                 <div className="modalCustom__header px-2">
@@ -41,85 +126,92 @@ function ProductDetailOptionMobile() {
                     <div className="productDetail__info-option-mobile-card d-flex px-3 pb-3 border-b-f7">
                         <div
                             className="productDetail__info-option-mobile-card-img"
-                            style={{ backgroundImage: `url(https://salt.tikicdn.com/cache/w208/ts/product/52/e2/51/589567fae9aba385e3e960f83ac976a0.jpg)` }}
+                            style={{ backgroundImage: `url(${colorTemp?.image})` }}
                         ></div>
                         <div className="productDetail__info-option-mobile-card-content ms-2">
                             <h5 className="productDetail__info-option-mobile-card-title mb-1">
-                                Áo Thun Nam Có Cổ 5S (3 màu) Tay Ngắn, Chất Liệu Thun Cotton Premium Co Giãn, Thấm Hút Mồ Hôi (APC21004)
+                                {product?.name}
                             </h5>
                             <div className="d-flex align-items-center">
-                                <span className="productDetail__info-option-mobile-content-title">Màu sắc, Kích cỡ: </span>
-                                <span className="productDetail__info-option-mobile-content-text ms-2">Đỏ / L</span>
+                                <span className="productDetail__info-option-mobile-content-title">
+                                    Màu sắc, Kích cỡ:
+                                </span>
+                                <span className="productDetail__info-option-mobile-content-text ms-2 text-uppercase">
+                                    {colorTemp?.name} / {sizeTemp}
+                                </span>
                             </div>
                             <div className="d-flex align-items-center">
-                                <span className="productDetail__info-option-mobile-content-title">Cung cấp bởi:</span>
-                                <span className="productDetail__info-option-mobile-content-text ms-2">5S Fashion</span>
+                                <span className="productDetail__info-option-mobile-content-title">
+                                    Cung cấp bởi:
+                                </span>
+                                <span className="productDetail__info-option-mobile-content-text ms-2">
+                                    {product?.trademark.name}
+                                </span>
                             </div>
-                            <h2 className="mb-0">189.000 đ</h2>
+                            <h2 className="mb-0">
+                                {formatCashVND((product?.price ? product.price : 0) - ((product?.price ? product.price : 0) * ((product?.discount ? product.discount : 0) / 100)) + "", ".")} đ
+                            </h2>
                         </div>
                     </div>
                     <div className="p-3">
                         <div className="productDetail__info-option-color mb-3">
                             <p className="productDetail__info-option-color-title mb-2">
-                                Màu sắc: <strong>Đỏ</strong>
+                                Màu sắc: <strong>{colorTemp?.name}</strong>
                             </p>
                             <div className="row g-2 w-100">
-                                <div className="col-xl-3 col-md-4 col-6">
-                                    <div className="productDetail__info-option-color-item active">
-                                        <img className="productDetail__info-option-color-item-img" alt="" src="https://salt.tikicdn.com/cache/100x100/ts/product/9f/e5/76/fe337ab46798e29b337c0e224512a7e4.png.webp" />
-                                        <span className="productDetail__info-option-color-item-text">
-                                            Cam Đất
-                                        </span>
-                                        <span className="productDetail__info-option-color-item-icon">
-                                            <images.CheckItem />
-                                        </span>
+                                {colors?.map(item => (
+                                    <div className="col-xl-3 col-md-4 col-6">
+                                        <div
+                                            onClick={() => handleChangeColor(item.name)}
+                                            className={`productDetail__info-option-color-item ${item.name === colorTemp?.name ? 'active' : ''}`}
+                                        >
+                                            <img
+                                                className="productDetail__info-option-color-item-img"
+                                                alt=""
+                                                src={item.image}
+                                            />
+                                            <span className="productDetail__info-option-color-item-text ms-1 text-uppercase">
+                                                {item.name}
+                                            </span>
+                                            <span className="productDetail__info-option-color-item-icon">
+                                                <images.CheckItem />
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-xl-3 col-md-4 col-6">
-                                    <div className="productDetail__info-option-color-item">
-                                        <img className="productDetail__info-option-color-item-img" alt="" src="https://salt.tikicdn.com/cache/100x100/ts/product/0c/e9/03/d6b32052e71a0d3928ce278400163e8d.png.webp" />
-                                        <span className="productDetail__info-option-color-item-text">
-                                            Trắng
-                                        </span>
-                                        <span className="productDetail__info-option-color-item-icon">
-                                            <images.CheckItem />
-                                        </span>
-                                    </div>
-                                </div>
+                                ))}
+
                             </div>
                         </div>
                         <div className="productDetail__info-option-color mb-3">
                             <p className="productDetail__info-option-color-title mb-2">
-                                Kích cỡ: <strong>XXL</strong>
+                                Kích cỡ: <strong>{sizeTemp}</strong>
                             </p>
-                            <div className="row g-2">
-                                <div className="col-xl-2 col-3">
-                                    <div className="productDetail__info-option-color-item active justify-content-center px-2 py-1">
-                                        <span className="productDetail__info-option-color-item-text text-center">
-                                            L
-                                        </span>
-                                        <span className="productDetail__info-option-color-item-icon">
-                                            <images.CheckItem />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="col-xl-2 col-3">
-                                    <div className="productDetail__info-option-color-item productDetail__info-option-size-item justify-content-center px-2 py-1">
-                                        <span className="productDetail__info-option-color-item-text text-center">
-                                            M
-                                        </span>
-                                        <span className="productDetail__info-option-color-item-icon productDetail__info-option-size-item-icon">
-                                            <images.CheckItem />
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
 
+                            <div className="row g-2">
+                                {sizes?.map(item => (
+                                    <div className="col-xl-2 col-3">
+                                        <div
+                                            onClick={() => handleChangeSize(item)}
+                                            className={`productDetail__info-option-color-item justify-content-center px-2 py-1 ${item.toLowerCase() === sizeTemp.toLowerCase() ? 'active' : ''}`}
+                                        >
+                                            <span className="productDetail__info-option-color-item-text text-center">
+                                                {item}
+                                            </span>
+                                            <span className="productDetail__info-option-color-item-icon">
+                                                <images.CheckItem />
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="modalCustom__footer p-3">
-                    <button className="productDetail__info-content-buy py-2">
+                    <button
+                        onClick={handleSubmitProperty}
+                        className="productDetail__info-content-buy py-2"
+                    >
                         Xong
                     </button>
                 </div>
