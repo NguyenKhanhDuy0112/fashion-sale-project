@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { InputHTMLAttributes, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
 import * as Yup from "yup";
 import ImageUploading from "../../../../shared/components/ImageUploading";
