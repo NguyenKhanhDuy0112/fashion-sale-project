@@ -3,6 +3,10 @@
     &__header {
         background-color: $ad-primary;
         border-radius: 10px 10px 0 0 ;
+        position: sticky;
+        height: 60px;
+        top: 80px;
+        z-index: 2;
 
         &-list-search{
             background-color: #fff;
@@ -122,6 +126,7 @@
         }
     }
     &__content{
+        
         background-color: #f1f1f1;
         &-child{
             height: 100%;
@@ -130,8 +135,14 @@
             height: 90%;
             overflow-y: scroll;
         }
+        &-container{
+            position: sticky;
+            top: 140px;
+            z-index: 1;
+        }
         &-calc{
             display: flex;
+           
             flex-direction: column;
             justify-content: space-between;
             background-color: #fff;

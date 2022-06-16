@@ -159,8 +159,8 @@ function ProductDetailOptionMobile(props: ProductDetailOptionMobileProps) {
                                 Màu sắc: <strong>{colorTemp?.name}</strong>
                             </p>
                             <div className="row g-2 w-100">
-                                {colors?.map(item => (
-                                    <div className="col-xl-3 col-md-4 col-6">
+                                {colors?.map((item:Color, index: number) => (
+                                    <div key={index} className="col-xl-3 col-md-4 col-6">
                                         <div
                                             onClick={() => handleChangeColor(item.name)}
                                             className={`productDetail__info-option-color-item ${item.name === colorTemp?.name ? 'active' : ''}`}
@@ -188,8 +188,8 @@ function ProductDetailOptionMobile(props: ProductDetailOptionMobileProps) {
                             </p>
 
                             <div className="row g-2">
-                                {sizes?.map(item => (
-                                    <div className="col-xl-2 col-3">
+                                {sizes?.map((item:string, index: number) => (
+                                    <div key = {index} className="col-xl-2 col-3">
                                         <div
                                             onClick={() => handleChangeSize(item)}
                                             className={`productDetail__info-option-color-item justify-content-center px-2 py-1 ${item.toLowerCase() === sizeTemp.toLowerCase() ? 'active' : ''}`}

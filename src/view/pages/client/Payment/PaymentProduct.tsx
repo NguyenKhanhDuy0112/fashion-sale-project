@@ -1,16 +1,36 @@
-function PaymentProduct() {
+import { useMemo, useState } from "react";
+import { formatCashVND } from "../../../../shared/helpers";
+import useCart from "../../../../shared/hooks/useCart";
+import { ProductCart } from "../../../../shared/interfaces";
+
+interface PaymentProductProps{
+    product: ProductCart
+}
+
+function PaymentProduct(props: PaymentProductProps) {
+    const { product } = props
+
+    const handleCalcSubtotal = useMemo(() => {
+        let total = 0;
+        if(product.product && product.product.price && product.product.discount){
+            total = product.quantity * (product.product.price - (product.product.price * product.product.discount/100))
+        }
+        return total
+        
+    },[product])
+
     return (
-        <div className="payment__product d-flex">
+        <div className="payment__product d-flex mb-4">
             <div className="payment__product-background">
-                <div className="payment__product-img" style={{ backgroundImage: `url(https://salt.tikicdn.com/cache/96x96/ts/product/b9/98/bd/57eff889aae74c2d21ea379c8d63eda2.jpg.webp)` }}></div>
+                <div className="payment__product-img" style={{ backgroundImage: `url(${product.images[0]})` }}></div>
             </div>
             <div className="payment__product-info ms-2">
                 <h5 className="payment__product-info-name">
-                    Áo Thun Nam Polo Ngắn Tay 5S (APC21013) Chất Liêu 100% Coolmax Phối Viền Năng Động, Trẻ Trung, Nam Tính - TRẮNG - SIZE 40 (L)
+                    {product.product?.name} - <span className="text-uppercase">{product.color}</span> - <span className="text-uppercase">{product.size}</span>
                 </h5>
                 <div className="d-flex justify-content-between align-items-center">
-                    <span className="payment__product-info-quantity">SL: x1</span>
-                    <span className="payment__product-info-price">168.000 ₫</span>
+                    <span className="payment__product-info-quantity">SL: x{product.quantity}</span>
+                    <span className="payment__product-info-price">{formatCashVND(handleCalcSubtotal+"", ".")} ₫</span>
                 </div>
             </div>
         </div>

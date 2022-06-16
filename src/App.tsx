@@ -10,26 +10,46 @@ import { useDispatch } from "react-redux";
 import { signOut, updateUser } from "./modules/user/useSlice";
 import usersService from "./services/usersService";
 import { User } from "./shared/interfaces";
+import { getProducts, getProductsChecking, resetCart } from "./modules/cart/cartSlice";
 
 function App() {
   const loading = useLoading()
   const dispatch = useDispatch()
+
   //handle firebase auth changed
   useEffect(() => {
     // authentication.signOut()
     const unregisterAuthObserver = authentication.onAuthStateChanged(async (user) => {
       if (!user) {
+        dispatch(resetCart())
         dispatch(signOut())
-        console.log("User id not logged in")
+        // console.log("User id not logged in")
         //user logs out, handle something here
         return;
       }
 
       try {
-        const currentUser: User = await usersService.findByUid(user.uid)
-        if (currentUser) {
-          dispatch(updateUser(currentUser))
+        if (user.phoneNumber) {
+          const currentUser: User = await usersService.findByPhoneNumber(user.phoneNumber)
+          if (currentUser) {
+            dispatch(updateUser(currentUser))
+            dispatch(getProducts({ key: currentUser._id ? currentUser._id : '' }))
+            dispatch(getProductsChecking())
+          }
         }
+        else {
+          if (user.email) {
+            const currentUser: User = await usersService.findByEmail(user.email)
+            if (currentUser) {
+              dispatch(updateUser(currentUser))
+              dispatch(getProducts({ key: currentUser._id ? currentUser._id : '' }))
+              dispatch(getProductsChecking())
+            }
+          }
+
+        }
+
+
       } catch (err) {
         console.log("Error login")
       }

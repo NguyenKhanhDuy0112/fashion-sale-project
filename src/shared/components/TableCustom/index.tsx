@@ -12,7 +12,7 @@ function TableCustom(props: TableData) {
 
 
     return (
-        <div className="table-responsive">
+        <div className="table-responsive tableCustom__container">
             <table className="tableCustom">
                 <thead>
                     <tr>

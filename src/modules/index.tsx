@@ -1,4 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import cartSlice from './cart/cartSlice';
 import loadingSlice from './loading/loadingSlice';
 import loginFormSlice from './loginForm/loginFormSlice';
 import orderAdSlice from './orderAd/orderAdSlice';
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     loginForm: loginFormSlice,
     loading: loadingSlice,
     user: userSlice,
+    cart: cartSlice,
 });
 
 export default rootReducer

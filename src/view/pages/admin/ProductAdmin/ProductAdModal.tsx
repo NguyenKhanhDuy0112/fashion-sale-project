@@ -99,14 +99,14 @@ function ProductAdModal(props: ModalShow) {
             price: Yup.number().required("Giá tiền không được để trống.").typeError('Vui lòng nhập số.').min(1, "Giá tiền phải lớn hơn 0.").max(1000000000, "Giá tiền phải bé hơn 1,000,000,000."),
             category: Yup.string().required('Vui lòng chọn danh mục.'),
             discount: Yup.number().typeError('Vui lòng nhập số.'),
-            endDate: Yup.date().typeError("Vui lòng nhập đúng định dạng MM/dd/yyyy."),
-            startDate: Yup.date().typeError("Vui lòng nhập đúng định dạng MM/dd/yyyy."),
             trademark: Yup.string().required('Vui lòng chọn thương hiệu.'),
         }),
         onSubmit: (values) => {
             handleSubmitForm(values)
         }
     })
+
+    console.log(formik.errors)
 
     const handleSubmitForm = async (value: any) => {
         value.description = description.current

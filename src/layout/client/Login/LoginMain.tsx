@@ -82,6 +82,11 @@ function LoginMain(props: ILoginMain) {
 
     const handleSignInWithGoogle = () => {
         const provider = new GoogleAuthProvider()
+
+        provider.setCustomParameters({
+            prompt: "select_account"
+          });
+        
         signInWithPopup(authentication, provider)
             .then((result) => {
                 const user = result.user;
@@ -95,6 +100,7 @@ function LoginMain(props: ILoginMain) {
                             }
                             else {
                                 dispatch(updateUser({
+                                    _id: '',
                                     address: '',
                                     avatar: user.photoURL,
                                     email: user.email ? user.email : '',

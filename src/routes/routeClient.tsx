@@ -10,6 +10,8 @@ import OrderManage from "../view/pages/client/OrderManage";
 import OrderDetail from "../view/pages/client/OrderDetail";
 import Wishlist from "../view/pages/client/Wishlist";
 import CommentSelled from "../view/pages/client/CommentSelled";
+import Address from "../view/pages/client/Address";
+import OrderSuccess from "../view/pages/client/OrderSuccess";
 
 interface Route {
     path: string,
@@ -23,12 +25,13 @@ const routeClient: Route[] = [
     {path: "/order/history/:id", component: <OrderDetail/>},
     {path: "/account/edit", component: <EditAccount/>},
     {path: "/customer/wishlist", component: <Wishlist/>},
+    {path: "/checkout/payment/success", component: <OrderSuccess/>},
     {path: "/checkout/payment", component: <Payment/>},
     {path: "/customer/nhan-xet-san-pham-da-mua", component: <CommentSelled/>},
     {path: "/checkout/cart", component: <Cart />},
     {path: "/products/:slug", component: <ProductDetail/>},
+    {path: "/checkout/shipping", component: <Address/>},
     {path: "/:category", component: <Shop/>},
-   
 ]
 
 export default routeClient;

@@ -4,8 +4,23 @@ import { Navigation } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Countdown from "../../../../shared/components/Countdown";
+import { useEffect, useState } from "react";
+import productsService from "../../../../services/productService";
 
 function HomeDealHot() {
+
+    const [products, setProducts] = useState<any[]>()
+    const [loading, setLoading] = useState<boolean>(true)
+
+    useEffect(() => {
+        handleLoadProductDiscount()
+    }, [])
+
+    const handleLoadProductDiscount = async () => {
+        const products = await productsService.getProductsDiscountCountdown()
+        setProducts(products.data)
+        setLoading(false)
+    }
 
     return (
         <div className="container-client none">
@@ -50,22 +65,46 @@ function HomeDealHot() {
 
 
                 >
-                    {Array.from({ length: 30 }).map((item,index) => {
-                        return (
-                            <SwiperSlide key={index}>
-                                <ProductSale
-                                    url="/"
-                                    title="Áo Sơ Mi Form Rộng Unisex Nam Nữ Tay Dài Hàn Quốc Kiểu Cổ Vest Cổ Ve Áo Khoác Ngoài Vải Lụa Mềm Mịn - SMV01 - Màu xanh đậm - XL"
-                                    image="https://salt.tikicdn.com/cache/200x200/ts/product/08/8d/27/0ba57ab422f7f1e709d8383c187615ff.png.webp"
-                                    price={210000}
-                                    discount={50}
-                                    quantity={100}
-                                    sold={50}
-                                    intro={true}
-                                />
-                            </SwiperSlide>
-                        )
-                    })}
+                    {
+                        loading
+                            ?
+                            Array.from({ length: 10 }).map((item, index) => {
+                                return (
+                                    <SwiperSlide key={index}>
+                                        <ProductSale
+                                            loading={loading}
+                                            url="/"
+                                            title=""
+                                            image=""
+                                            price={0}
+                                            discount={0}
+                                            quantity={0}
+                                            sold={0}
+                                            intro={true}
+                                        />
+                                    </SwiperSlide>
+                                )
+                            })
+                            :
+                            products?.map(pro => {
+                                return (
+                                    <SwiperSlide key={pro._id}>
+                                        <ProductSale
+                                            loading={loading}
+                                            url={`/products/${pro.slug}`}
+                                            title={`${pro.name}`}
+                                            image={`${pro.productDetails ? pro.productDetails[0]?.images[0].image : ''}`}
+                                            price={(pro.price ? pro.price: 0)}
+                                            discount={pro.discount ? pro.discount : 0}
+                                            quantity={pro.productDetails ? pro.productDetails.reduce((prev: number, cur:any) => prev + cur.quantity, 0) : 0}
+                                            sold={pro.sold ? pro.sold : 0}
+                                            intro={true}
+                                        />
+                                    </SwiperSlide>
+                                )
+                            })
+
+                    }
 
                 </Swiper>
 

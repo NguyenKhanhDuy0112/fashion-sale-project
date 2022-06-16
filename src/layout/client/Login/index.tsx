@@ -21,7 +21,6 @@ function Login() {
     const [phoneNumber, setPhoneNumber] = useState('')
     const [showSocial, setShowSocial] = useState(false)
     const showLogin = useShowLogin()
-    const currentUser = useCurrentUser()
     const dispatch = useDispatch()
 
     const handleToggle = () => {

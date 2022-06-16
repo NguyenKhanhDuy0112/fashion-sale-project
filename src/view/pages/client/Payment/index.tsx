@@ -1,12 +1,23 @@
+import { useMemo } from "react";
 import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderMobileTitle from "../../../../layout/client/HeaderMobileTitle";
 import HeaderPayment from "../../../../layout/client/HeaderPayment"
 import Address from "../../../../shared/components/Address";
 import Coupon from "../../../../shared/components/Coupon";
+import { formatCashVND } from "../../../../shared/helpers";
+import useCart from "../../../../shared/hooks/useCart";
+import { ProductCart } from "../../../../shared/interfaces";
 import PaymentOption from "./PaymentOption";
 import PaymentPackage from "./PaymentPackage";
 
 function Payment() {
+    const cart = useCart()
+
+    const handleCalcMoney = useMemo(() => {
+        const total = cart.productsChecking.reduce((prev: number, cur: ProductCart) => prev + (cur.quantity * ((cur.product && cur.product.price) ? (cur.product.price - (cur.product.price * (cur.product.discount ? cur.product.discount / 100 : 0))) : 0)), 0)
+        return total
+    }, [cart.productsChecking])
+
     return (
         <>
             <div className="d-xl-block d-none">
@@ -52,21 +63,22 @@ function Payment() {
                             <div className="mt-3 d-xl-block d-none">
                                 <Coupon />
                             </div>
-                            <div className="bg-white mt-3 border-radius-4">
-                                <div className="d-flex justify-content-between align-items-center px-3 py-1">
+                            <div className="bg-white payment__total-content mt-3 border-radius-4">
+                                <div className="d-flex justify-content-between align-items-center px-3 py-xl-1 py-2">
                                     <span className="payment__total payment__total-title mb-0">Tạm tính</span>
-                                    <span className="cart__total-price-temp">358.000 đ</span>
+                                    <span className="cart__total-price-temp">{formatCashVND(handleCalcMoney+"", ".")}đ</span>
                                 </div>
                                 <div className="d-flex justify-content-between border-b-f7 align-items-center px-3 py-1">
                                     <span className="payment__total payment__total-title mb-0">Phí vận chuyển</span>
-                                    <span className="cart__total-price-temp">18.000 đ</span>
+                                    <span className="cart__total-price-temp">20.000đ</span>
                                 </div>
                                 <div className="p-3">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <span className="payment__total payment__total-calc mb-0">Tổng tiền</span>
-                                        <span className="cart__total-price-current">338.000đ</span>
+                                        <span className="cart__total-price-temp d-xl-none d-block">{formatCashVND((handleCalcMoney + 20000)+"", ".")}đ</span>
+                                        <span className="cart__total-price-current d-xl-block d-none">{formatCashVND((handleCalcMoney+20000)+"", ".")} đ</span>
                                     </div>
-                                    <span className="cart__total-price-sub">
+                                    <span className="cart__total-price-sub d-xl-block d-none">
                                         (Đã bao gồm VAT nếu có)
                                     </span>
                                 </div>
@@ -86,11 +98,11 @@ function Payment() {
                 <div className="row g-0 w-100 h-100 justify-content-between p-3">
                     <div className="col-auto h-100 me-2 d-flex flex-column justify-content-start">
                         <span className="cart__nav-total-title mb-0">Tổng tiền</span>
-                        <span className="cart__nav-total-price">338.000đ</span>
+                        <span className="cart__nav-total-price">{formatCashVND((handleCalcMoney+20000)+"", ".")}đ</span>
                     </div>
                     <div className="col-auto">
                         <button className="productDetail__info-content-buy flex-grow-1 h-100 px-4">
-                           Đặt Hàng
+                            Đặt Hàng
                         </button>
                     </div>
 

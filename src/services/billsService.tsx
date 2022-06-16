@@ -41,6 +41,14 @@ const add = (data: BillApi) => {
     return api.post(api.url.bills, data).then(res => res.data)
 }
 
+const getStatistical = () => {
+    return api.get(`${api.url.bills}/statistics`).then(res => res.data)
+}
+
+const getStatisticalRevenueDay = () => {
+    return api.get(`${api.url.bills}/revenue-daily`).then(res => res.data) 
+}
+
 const billsService = {
     list,
     get,
@@ -52,6 +60,8 @@ const billsService = {
     add,
     listPaginationExports,
     listPaginationImports,
+    getStatistical,
+    getStatisticalRevenueDay,
 }
 
 export default billsService;

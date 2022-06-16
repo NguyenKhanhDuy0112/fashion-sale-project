@@ -25,13 +25,18 @@ const add = (data: ProductDetail[]) => {
     return api.post(api.url.productDetails, data).then(res => res.data)
 }
 
+const getProductsImportExportStore  = () => {
+       return api.get(`${api.url.productDetails}/calc/import-export`).then(res => res.data)
+}
+
 const productDetailsService = {
     list,
     get,
     delete: remove,
     update,
     findById,
-    add
+    add,
+    getProductsImportExportStore
 }
 
 export default productDetailsService;

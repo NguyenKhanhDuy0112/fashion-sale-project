@@ -3,11 +3,33 @@
     background-color: #fff;
     border: 1px solid #E5E7EB;
 
+    &__container{
+        overflow: auto;
+        max-height: 70vh;
+
+        &::-webkit-scrollbar{
+            width: 5px;
+            background-color: #eee;
+        }
+
+        &::-webkit-scrollbar-thumb{
+            width: 10px;
+            background-color: #ccc;
+        }
+    }
+
     &__select{
         outline: none;
         padding: 5px 10px;
         border-radius: 5px;
         border: 1px solid $color-border;
+    }
+
+
+    & thead tr{
+        position: sticky;
+        top: 0;
+        z-index: 2;
     }
 
     & > thead > tr{
@@ -29,6 +51,10 @@
 
     & > tbody > tr:nth-child(even){
         background-color: #f9f9f9;
+    }
+
+    & tbody{
+        z-index: 1;
     }
 
     & > tbody > tr > td{

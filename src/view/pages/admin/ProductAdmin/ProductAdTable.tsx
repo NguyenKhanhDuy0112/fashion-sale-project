@@ -27,7 +27,7 @@ function ProductAdTable(props: Props) {
         <>
             <TableCustom headers={["#", "Tên", "Giá tiền", "Đơn vị", "Xuất xứ", "Chất liệu", "Chi tiết", "Hành Động"]}>
                 {isLoading ?
-                    Array.from({ length: 8 }).map((tr, index) => (
+                    Array.from({ length: 10 }).map((tr, index) => (
                         <tr key={index}>
                             {Array.from({ length: 8 }).map((td, idx) => <td key={idx}><Skeleton /></td>)}
                         </tr>

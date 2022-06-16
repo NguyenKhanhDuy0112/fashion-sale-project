@@ -21,6 +21,10 @@ const findById = (id: string) => {
     return api.get(api.url.products+'/'+id).then(res => res.data)
 }
 
+const getProductsDiscountCountdown = () => {
+    return api.get(`${api.url.products}/v1/count-down-products`).then(res => res.data)
+}
+
 const findBySlug = (slug: string) => {
     return api.get(api.url.products+'/slug/'+slug).then(res => res.data)
 }
@@ -45,6 +49,7 @@ const productsService = {
     findById,
     findBySlug,
     listPagination,
+    getProductsDiscountCountdown,
     add,
     search
 }

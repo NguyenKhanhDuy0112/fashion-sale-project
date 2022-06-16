@@ -6,7 +6,12 @@ interface Seri {
     data: number[]
 }
 
-function DashboardAdTodayRevenue() {
+interface DashboardAdTodayRevenueProps{
+    data: any
+}
+
+function DashboardAdTodayRevenue(props: DashboardAdTodayRevenueProps) {
+    const {data } = props
     const [series, setSeries] = useState<Seri[]>([])
     const [options, setOptions] = useState({})
 
@@ -14,7 +19,7 @@ function DashboardAdTodayRevenue() {
         setSeries([
             {
                 name: 'Lợi nhuận',
-                data: [31, 40, 28, 51, 42, 109, 100]
+                data: data ? data.map((sta:any) => sta.total) : []
             }
         ])
     }, [])
@@ -36,7 +41,7 @@ function DashboardAdTodayRevenue() {
             },
             xaxis: {
                 type: 'datetime',
-                categories: ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00"]
+                categories: data ? data.map((sta: any) => `${sta.hour}h`) : []
             },
             yaxis: {
                 title: {
@@ -56,8 +61,7 @@ function DashboardAdTodayRevenue() {
                         <small className="dashboardAdmin__general-data-text"></small>
                     </div>
                     <div className="col text-lg-end text-start">
-                        <h4 className="mb-0">$240.45</h4>
-                        <small className="dashboardAdmin__general-data-text"><strong style={{color:"#76E474"}}>0.5%</strong> so với ngày trước</small>
+                        <h4 className="mb-0">{data ? data.reduce((prev: number, cur:any) => (prev + cur.total), 0) : 0}</h4>
                     </div>
                 </div>
                 {options && series && <Chart series={series} options={options} type="area" height={300} />}

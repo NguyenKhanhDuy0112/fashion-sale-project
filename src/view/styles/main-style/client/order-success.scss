@@ -1,0 +1,147 @@
+.orderSuccess {
+    &__img {
+        z-index: 1;
+    }
+
+    &__notify {
+        position: relative;
+        border-radius: 8px;
+        background-color: #fff;
+        overflow: hidden;
+    }
+    
+    &__background {
+        position: absolute;
+        width: 100%;
+        height: 112px;
+        left: 0;
+        top: 0;
+        z-index: 0;
+        &::before {
+            position: absolute;
+            display: block;
+            content: "";
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(119.64deg, rgb(11, 190, 229) 9.56%, rgb(56, 86, 243) 73.79%);
+            z-index: 1;
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: block;
+            background-image: url('https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/confetti.svg');
+        }
+    }
+    &__btn {
+        &-back {
+            border: 1px solid rgb(11, 116, 229);
+            border-radius: 4px;
+            background-color: #fff;
+            outline: none;
+            width: 100%;
+            font-weight: 500;
+            padding: 10px 15px;
+            color: rgb(11, 116, 229);;
+        }
+    }
+    &__content {
+        flex: 1;
+        z-index: 1;
+        &-header {
+            &-title {
+                font-size: 1.5rem;
+                color: #fff;
+                &-sub {
+                    font-size: 1.2rem;
+                    color: #fff;
+                }
+            }
+        }
+        &-summary {
+            &-item {
+                &-label {
+                    color: rgb(128, 128, 128);
+                    font-size: 0.95rem;
+                }
+                &-value {
+                    font-size: 0.95rem;
+
+                    &--large{
+                        font-size: 1.1rem;
+                        font-weight: 500;
+                    }
+                }
+            }
+            &-vat {
+                color: $color-sub;
+                font-size: 0.8rem;
+            }
+        }
+        &-body {
+        }
+    }
+
+    &__bill {
+        &-main{
+            background-color: #fff;
+            border-radius: 8px;
+
+        }
+        &-header {
+            border-bottom: 1px solid rgb(235, 235, 240);
+            &-code {
+                font-weight: 600;
+                font-size: 0.9rem;
+            }  
+            &-view {
+                font-weight: 500;
+                font-size: 0.9rem;
+                color: rgb(11, 116, 226);
+            }
+        }
+        &-body {
+            &-date {
+                color: rgb(56, 56, 61);
+                font-size: 0.95rem;
+            }
+
+            &-product {
+                display: flex;
+                &-img {
+                    width: 56px;
+                    padding-top: 100%;
+                    background-position: top center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }
+                &-name {
+                    font-size: 0.9rem;
+                    -webkit-line-clamp: 2;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    line-height: 20px;
+                    color: rgb(128,128, 137);
+                }
+            }
+
+            &-download {
+                background-color: #fff;
+                border-radius: 8px;
+                &-title {
+                    font-weight: 500;
+                }
+                &-app {
+                    & img {
+                        width: 120px;
+                        height: 40px;
+                    }
+                }
+            }
+        }
+    }
+}

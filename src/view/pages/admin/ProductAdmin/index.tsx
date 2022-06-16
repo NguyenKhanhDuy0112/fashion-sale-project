@@ -24,7 +24,7 @@ function ProductAdmin() {
 
     const handleSearchProduct = async (value:string, page: number) => {
         setIsLoading(true)
-        productsService.search(value, page, 8)
+        productsService.search(value, page, 10)
                     .then(res => {
                         const { data, ...others } = res
                         setProducts(data)
@@ -34,7 +34,7 @@ function ProductAdmin() {
     }
 
     const handleLoadData = async (page: number) => {
-        productsService.listPagination(page, 8).then(res => {
+        productsService.listPagination(page, 10).then(res => {
             const { data, ...others } = res
             setProducts(data)
             setPagination({ ...others })

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { BsChat } from "react-icons/bs";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useSearchParams } from "react-router-dom";
+import { addProduct } from "../../../../../modules/cart/cartSlice";
+import { toggleFormLogin } from "../../../../../modules/loginForm/loginFormSlice";
 import InputQuantity from "../../../../../shared/components/InputQuantity";
 import Rating from "../../../../../shared/components/Rating";
 import { formatCashVND } from "../../../../../shared/helpers";
-import { Product } from "../../../../../shared/interfaces";
+import useCurrentUser from "../../../../../shared/hooks/useCurrentUser";
+import { Product, ProductDetailOrder } from "../../../../../shared/interfaces";
 import ProductDetailOption from "../ProductDetailOption";
 import ProductDetailInfoImage from "./ProductDetailInfoImage";
 
@@ -16,8 +20,25 @@ interface ProductDetailInfoProps {
 
 function ProductDetailInfo(props: ProductDetailInfoProps) {
     const { productInfo, loading } = props
+    const [searchParams, setSearchParams] = useSearchParams()
+    const currentUser = useCurrentUser()
+    const dispatch = useDispatch()
 
     const [quantity, setQuantity] = useState(1)
+
+    const handleAddToCart = () => {
+        if(currentUser._id !== ''){
+            if(searchParams.get('spId')){
+                const productDetail:any = productInfo?.productDetails
+                const product = productDetail.find((pro:any) => pro._id === searchParams.get('spId'))
+                console.log("Add product: ",product)
+                dispatch(addProduct({key: currentUser._id ? currentUser._id : '', product: {...product, quantity: quantity,product: productInfo, isChecking: false}}))
+            }
+        }
+        else{
+            dispatch(toggleFormLogin())
+        }
+    }
 
     return (
         <>
@@ -118,7 +139,7 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
                                 }
                                 {!loading &&
                                     <div className="d-xl-flex d-none mt-3">
-                                        <button className="productDetail__info-content-buy">
+                                        <button onClick={handleAddToCart} className="productDetail__info-content-buy">
                                             Chọn Mua
                                         </button>
 
@@ -130,7 +151,6 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
                                         </button>
                                     </div>
                                 }
-
                             </div>
                         </div>
                     </div>

@@ -6,8 +6,12 @@ interface Seri {
     data: number[]
 }
 
+interface DashboardAdProfitProps{
+    data:any
+}
 
-function DashboardAdProfit() {
+function DashboardAdProfit(props: DashboardAdProfitProps) {
+    const { data } = props
 
     const [series, setSeries] = useState<Seri[]>([])
     const [options, setOptions] = useState({})
@@ -16,7 +20,7 @@ function DashboardAdProfit() {
         setSeries([
             {
                 name: 'Lợi nhuận',
-                data: [31, 40, 28, 51, 42, 35, 43]
+                data:data ? data.map((sta:any) => sta.total) : []
             }
         ])
     }, [])
@@ -38,7 +42,7 @@ function DashboardAdProfit() {
             },
             xaxis: {
                 type: 'datetime',
-                categories: ["2013", "2014", "2015", "2016", "2017", "2018", "2019"]
+                categories:data ? data.map((sta:any) => sta.year) : []
             },
             yaxis: {
                 title: {

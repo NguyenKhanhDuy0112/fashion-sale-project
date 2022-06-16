@@ -12,6 +12,82 @@
     }
 
     &__payment {
+        &-progress {
+            &-step {
+                width: 33%;
+                position: relative;
+                &:first-child &-bar {
+                    left: 50%;
+                    width: 50%;
+                }
+                &:last-child &-bar {
+                    width: 50%;
+                }
+                &-text {
+                    text-align: center;
+                    color: rgb(89, 89, 89);
+                    font-size: 14px;
+                }
+                &:nth-child(2) &-bar &-bar-child{
+                    width: 50%;
+                }
+                &:last-child &-bar &-bar-child {
+                    width: 0;
+                }
+                &:last-child &-text{
+                    color: #ccc;
+                }
+                &:last-child &-circle {
+                    position: absolute;
+                    width: 26px;
+                    height: 26px;
+                    display: block;
+                    background: rgb(255, 255, 255);
+                    top: 65%;
+                    left: 50%;
+                    margin-top: -15px;
+                    margin-left: -15px;
+                    border-radius: 50%;
+                    color: rgb(0, 0, 0);
+                    border: none;
+                    font-size: 15px;
+                    text-align: center;
+                    line-height: 26px;
+                    border: 1px solid #ccc;
+                    box-shadow: 0 0 rgb(102 ,102, 102) ;
+                }
+                &-bar {
+                    height: 6px;
+                    margin: 20px 0px;
+                    background: rgb(235, 235, 235);
+                    position: relative;
+                    &-child {
+                        height: 100%;
+                        box-shadow: none;
+                        background: rgb(0, 182, 240);
+                        transition: none 0s ease 0s;
+                    }
+                }
+                &-circle {
+                    position: absolute;
+                    width: 26px;
+                    height: 26px;
+                    display: block;
+                    background: rgb(0, 182, 240);
+                    top: 65%;
+                    left: 50%;
+                    margin-top: -15px;
+                    margin-left: -15px;
+                    border-radius: 50%;
+                    color: rgb(255, 255, 255);
+                    border: none;
+                    font-size: 15px;
+                    text-align: center;
+                    line-height: 26px;
+                    box-shadow: rgb(102 102 102) 0px 0px;
+                }
+            }
+        }
         &-logo {
             width: 60px;
             height: 40px;
@@ -236,7 +312,7 @@
             }
         }
 
-        &-auth:hover &-list{
+        &-auth:hover &-list {
             display: block;
         }
 
@@ -256,15 +332,14 @@
             top: 45px;
             left: calc(50% + 10px);
             transform: translateX(-50%);
-            transition: all ease .3s;
+            transition: all ease 0.3s;
 
-            &::after{
+            &::after {
                 content: "";
                 @include position(absolute, -5%, none, none, none);
                 width: 100%;
                 background-color: transparent;
                 height: 10px;
-                
             }
 
             &::before {

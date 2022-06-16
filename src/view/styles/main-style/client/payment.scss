@@ -117,6 +117,14 @@
         font-size: 0.88rem;
         color: $color-sub;
 
+        &-content{
+            padding-bottom: 150px;
+
+            @include responsive(xxl-screen){
+                padding-bottom: 0;
+            }
+        }
+
         &-calc{
             color: #000;
         }

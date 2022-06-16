@@ -1,27 +1,33 @@
 .cart {
     margin-top: 56px;
     height: 100vh;
-    
-    @include responsive(xxl-screen){
+
+    @include responsive(xxl-screen) {
         margin-top: 0;
         height: auto;
     }
 
-    &__nav{
+    &__nav {
         height: auto !important;
 
-        &-total{
-            &-title{
+        &-total {
+            &-title {
                 font-size: 0.85rem;
             }
-            &-price{
+            &-price {
                 font-size: 1.2rem;
                 font-weight: 500;
                 color: $color-red;
             }
         }
-
     }
+
+    &__sidebar {
+        position: sticky;
+        z-index: 3;
+        top: 20px;
+    }
+
     &__cartHead {
         margin-bottom: 0;
         position: sticky;
@@ -30,20 +36,11 @@
 
         @include responsive(xxl-screen) {
             top: 20px;
-            margin-bottom: 12px;
+        }
 
-            &::after {
-                content: "";
-                background: rgb(245, 245, 250);
-                width: 100%;
-                height: 10px;
-                position: absolute;
-                left: 0px;
-                bottom: -10px;
-                right: 0px;
-            }
-
-            &::before {
+        &::before {
+            height: 0;
+            @include responsive(xxl-screen) {
                 content: "";
                 background: rgb(245, 245, 250);
                 width: 100%;
@@ -55,10 +52,6 @@
             }
         }
 
-        &::before {
-            display: none;
-        }
-
         &::after {
             content: "";
             height: 1px;
@@ -67,6 +60,22 @@
             left: 0px;
             bottom: 0px;
             width: 100%;
+
+            @include responsive(xxl-screen) {
+                content: "";
+                background: rgb(245, 245, 250);
+                width: 100%;
+                height: 10px;
+                position: absolute;
+                left: 0px;
+                bottom: -10px;
+                right: 0px;
+            }
+        }
+
+        @include responsive(xxl-screen) {
+            top: 20px;
+            margin-bottom: 12px;
         }
 
         &-checkbox {
@@ -123,7 +132,7 @@
     }
 
     &__item {
-        &-quantity{
+        &-quantity {
             transform: scale(0.9);
         }
         &-card {
@@ -160,7 +169,7 @@
                     font-weight: 500;
                     color: $color-red;
 
-                    @include responsive(xxl-screen){
+                    @include responsive(xxl-screen) {
                         color: #000;
                         font-size: 0.8rem;
                     }
@@ -207,6 +216,13 @@
         }
     }
 
+    &__empty {
+        height: 100vh;
+        @include responsive(xxl-screen) {
+            height: auto;
+        }
+    }
+
     &__btn {
         background-color: $color-red;
         border: none;
@@ -217,6 +233,36 @@
         font-size: 0.9rem;
         text-transform: capitalize;
         transition: all ease 0.2s;
+
+        &-continue {
+            display: block;
+            width: 100%;
+            color: rgb(255, 255, 255);
+            font-size: 15px;
+            background: rgb(255, 66, 78);
+            text-align: center;
+            font-weight: 500;
+            padding: 15px 0px;
+            text-decoration: none;
+
+            @include responsive(xxl-screen) {
+                background-color: rgb(253, 216, 53);
+                color: rgb(74, 74, 74);
+                font-weight: 500;
+                padding: 7px 55px;
+                width: auto;
+                display: inline-block;
+                border-radius: 4px;
+
+                &:hover{
+                    color: rgb(74, 74, 74);
+                }
+            }
+
+            &:hover{
+                color: rgb(255, 255, 255);
+            }
+        }
 
         &:hover {
             opacity: 0.8;

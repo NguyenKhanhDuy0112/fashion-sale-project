@@ -6,8 +6,12 @@ interface Seri {
     data: number[]
 }
 
-function DashboardAdSale() {
+interface DashboardAdSaleProps{
+    data: any
+}
 
+function DashboardAdSale(props: DashboardAdSaleProps) {
+    const { data } = props
     const [series, setSeries] = useState<Seri[]>([])
     const [options, setOptions] = useState({})
 
@@ -15,10 +19,10 @@ function DashboardAdSale() {
         setSeries([
             {
                 name: 'Doanh thu',
-                data: [200, 250, 400, 250, 387, 430, 350]
+                data: data ? data.map((sta:any) => sta.total) : []
             }
         ])
-    }, [])
+    }, [data])
 
     useEffect(() => {
         setOptions({
@@ -37,7 +41,7 @@ function DashboardAdSale() {
             },
             xaxis: {
                 type: 'datetime',
-                categories: ["2013", "2014", "2015", "2016", "2017", "2018", "2019"]
+                categories: data ? data.map((sta:any) => sta.year) : []
             },
             yaxis: {
                 title: {
@@ -46,7 +50,7 @@ function DashboardAdSale() {
             },
 
         })
-    }, [])
+    }, [data])
 
     return (
         <div className="dashboardAdmin__general">

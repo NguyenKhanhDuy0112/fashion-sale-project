@@ -9,9 +9,13 @@ import { Bill, Product } from "../../../../shared/interfaces";
 import usersService from "../../../../services/usersService";
 import { User } from "firebase/auth";
 import billsService from "../../../../services/billsService";
+import { formatCashVND } from "../../../../shared/helpers";
 
-
-function DashboardAdGeneral() {
+interface DashboardAdGeneralProps{
+    totalRevenue: number
+}
+function DashboardAdGeneral(props: DashboardAdGeneralProps) {
+    const { totalRevenue } = props
     const [products, setProducts] = useState<Product[]>([])
     const [customers, setCustomers] = useState<User[]>([])
     const [billExports, setBillExports] = useState<Bill[]>([])
@@ -52,7 +56,7 @@ function DashboardAdGeneral() {
                     <div className="dashboardAdmin__general d-flex justify-content-between align-items-center">
                         <div className="dashboardAdmin__general-data">
                             <p className="dashboardAdmin__general-data-text mb-2">Tổng doanh thu</p>
-                            <h3 className="dashboardAdmin__general-data-number">$87,561</h3>
+                            <h3 className="dashboardAdmin__general-data-number">{formatCashVND(totalRevenue+"", ".")}</h3>
                         </div>
                         <span className="dashboardAdmin__general-icon" style={{backgroundColor: "#FFF59C", color:" #FFD52F"}}>
                             <MdOutlineAttachMoney size={30} />

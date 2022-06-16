@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 interface DateCountdown {
-    endDate: Date
+    endDate: Date,
 }
 
 interface Timer{

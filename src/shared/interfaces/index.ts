@@ -143,6 +143,10 @@ export interface ProductDetailOrder{
     images: string[]
 }
 
+export interface ProductCart extends ProductDetailOrder {
+    isChecking: boolean,
+}
+
 export interface ProductOrder {
     _id: string,
     name: string,

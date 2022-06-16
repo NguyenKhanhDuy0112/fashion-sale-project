@@ -11,6 +11,7 @@ const url = {
     billDetails: "/bill-details",
     productDetails: "/product-details",
     coupons: "/coupons",
+    location: "/location",
 }
 
 const instance = axios.create({

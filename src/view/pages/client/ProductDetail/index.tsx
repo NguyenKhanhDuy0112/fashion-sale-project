@@ -13,7 +13,7 @@ import FooterClient from "../../../../layout/client/FooterClient";
 import { useParams } from "react-router";
 import productsService from "../../../../services/productService";
 import { useEffect, useState } from "react";
-import { Product, ProductDetailOrder } from "../../../../shared/interfaces";
+import { Product } from "../../../../shared/interfaces";
 import Skeleton from "react-loading-skeleton";
 
 function ProductDetail() {
@@ -49,9 +49,6 @@ function ProductDetail() {
         setProduct(product)
         setLoading(false)
     }
-
-    console.log("Product: ", product)
-
 
     return (
         <>

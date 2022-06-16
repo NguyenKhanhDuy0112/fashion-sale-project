@@ -145,8 +145,8 @@ function SellAdmin() {
                     </button>
                 </li>
             </ul>
-            <div>
-                <div className="bg-white" style={{ minHeight: "80vh" }}>
+            <div className="sellAdmin__content-container">
+                <div className="bg-white">
                     <div className="row">
                         <div className="col-xl-8 col-lg-7">
                             <SellAdminTable
