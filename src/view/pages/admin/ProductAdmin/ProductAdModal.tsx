@@ -170,6 +170,8 @@ function ProductAdModal(props: ModalShow) {
                             await proDetail.push({ ...proDe, product: value._id, images: images })
 
                             if (value.productDetails.length === await proDetail.length) {
+                                console.log("Pro detail: ", proDetail)
+                                console.log(value._id)
                                 await productDetailsService.update(proDetail, value._id)
                                 await dispatch(showToast({ show: true, text: "Cập nhật sản phẩm thành công", type: "success", delay: 1500 }))
                                 setIsLoading(false)
