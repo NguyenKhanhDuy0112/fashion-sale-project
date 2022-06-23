@@ -37,7 +37,8 @@ function ProductDetail() {
         })
 
         if (searchParams.get('spId')) {
-            searchParams.set('spId', productDetails[0]._id)
+            const id = searchParams.get('spId') ?? ''
+            searchParams.set('spId', id)
             setSearchParams(searchParams)
         }
         else {

@@ -42,10 +42,23 @@ function SaleAdminCheckout(props: Props) {
     const handleSell = async () => {
         dispatch(showLoading())
         try {
-            const bill = await billsService.add({feeShip: searchParams.get('type') === 'import' ? 0 : 20000,status: searchParams.get('type') === 'import' ? 3 : 1, shippedDate: searchParams.get('type') === 'import' ? new Date() : new Date().setDate(new Date().getDate() + 3), user: user ? user._id : ''})
+            const bill = await billsService.add(
+                {
+                    feeShip: searchParams.get('type') === 'import' ? 0 : 20000,
+                    status: searchParams.get('type') === 'import' ? 3 : 1, 
+                    shippedDate: searchParams.get('type') === 'import' ? new Date() : new Date().setDate(new Date().getDate() + 3), 
+                    user: user ? user._id : ''
+                }
+            )
             if(bill){
                 await data.forEach(async (pro, index) => {
-                    await billDetailsService.add({bill: bill._id, quantity: pro.mainProduct.quantity, productDetail: pro.mainProduct._id})
+                    await billDetailsService.add(
+                        {
+                            bill: bill._id, 
+                            quantity: pro.mainProduct.quantity, 
+                            productDetail: pro.mainProduct._id
+                        }
+                    )
                 
                     if(index === data.length - 1){
                         dispatch(hideLoading())

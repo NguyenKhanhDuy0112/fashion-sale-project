@@ -35,17 +35,17 @@ function HeaderClientAuth() {
                     </p>
                     <ul className="headerClient__account-list">
                         <li className="headerClient__account-list-item">
-                            <Link to="" className="headerClient__account-list-item-link">
+                            <Link to="/order/history" className="headerClient__account-list-item-link">
                                 Đơn hàng của tôi
                             </Link>
                         </li>
                         <li className="headerClient__account-list-item">
-                            <Link to="" className="headerClient__account-list-item-link">
+                            <Link to="/account/edit" className="headerClient__account-list-item-link">
                                 Tài khoản của tôi
                             </Link>
                         </li>
                         <li className="headerClient__account-list-item">
-                            <Link to="" className="headerClient__account-list-item-link">
+                            <Link to="/customer/nhan-xet-san-pham-da-mua" className="headerClient__account-list-item-link">
                                 Nhận xét sản phẩm đã mua
                             </Link>
                         </li>

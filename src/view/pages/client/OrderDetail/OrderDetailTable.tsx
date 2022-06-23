@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom";
+import { formatCashVND } from "../../../../shared/helpers";
+import { BillDetail } from "../../../../shared/interfaces";
 
-function OrderDetailTable() {
+interface OrderDetailTableProps {
+    billDetails?: BillDetail[]
+}
+
+function OrderDetailTable(props: OrderDetailTableProps) {
+    const { billDetails } = props
+
     return (
         <table className="orderDetail__table">
-            <thead className="d-xl-block d-none">
-                <tr>
+            <thead className="">
+                <tr className="d-xl-table-row d-none">
                     <th>Sản phẩm</th>
                     <th>Giá</th>
                     <th>Số lượng</th>
@@ -14,36 +22,51 @@ function OrderDetailTable() {
             </thead>
 
             <tbody>
-                <tr>
-                    <td>
-                        <div className="orderDetail__table-item d-flex">
-                            <div className="orderItem__body-img" style={{ backgroundImage: `url(https://salt.tikicdn.com/cache/200x200/ts/product/0e/bb/92/decfe5388018bc718294a0db45d456dd.png)` }}></div>
-                            <div className="d-flex flex-column ms-2">
-                                <Link to="/" className="orderDetail__table-item-title">
-                                    Áo Thun Nam AMES Có Cổ Trơn 5S ( 8 màu), Vải Coolmax Co Giãn Nhẹ, Phối Logo Thêu Trẻ Trung, Phom Cơ Bản  - TRT - XL
-                                </Link>
-                                <div className="d-xl-none d-block">
-                                    189.000 x 1
+                {billDetails && billDetails.map(bdt => (
+                    <tr key={bdt._id}>
+                        <td>
+                            <div className="orderDetail__table-item d-flex">
+                                <div
+                                    className="orderItem__body-img"
+                                    style={{ backgroundImage: `url(${bdt.productDetail.images[0]})` }}
+                                >
+
                                 </div>
-                                <button className="orderDetail__table-item-btn mt-2">
-                                    Mua lại
-                                </button>
+                                <div className="d-flex flex-column ms-2">
+                                    <Link to="/" className="orderDetail__table-item-title">
+                                        {bdt.productDetail && bdt.productDetail.product && bdt.productDetail.product.name} -
+                                        <span className="text-uppercase">
+                                            {bdt.productDetail.size}
+                                        </span> -
+                                        <span className="text-uppercase">
+                                            {bdt.productDetail.color}
+                                        </span>
+                                    </Link>
+                                    <div className="d-xl-none d-block">
+                                        {formatCashVND(bdt.productDetail.product ? (bdt.productDetail.product.price ? bdt.productDetail.product.price - (bdt.productDetail.product.price * (bdt.productDetail.product.discount ? bdt.productDetail.product.discount / 100 : 0)) : 0) + "" : '', ".")}s
+                                        x {bdt.quantity}
+                                    </div>
+                                    <button className="orderDetail__table-item-btn mt-2">
+                                        Mua lại
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td className="d-xl-block d-none">
-                        189.000đ
-                    </td>
-                    <td className="d-xl-block d-none">
-                        1
-                    </td>
-                    <td className="d-xl-block d-none">
-                        0đ
-                    </td>
-                    <td className="d-xl-block d-none">
-                        189.000đ
-                    </td>
-                </tr>
+                        </td>
+                        <td className="d-xl-table-cell d-none">
+                            {formatCashVND(bdt.price + "", ".")}đ
+                        </td>
+                        <td className="d-xl-table-cell d-none">
+                            {bdt.quantity}
+                        </td>
+                        <td className="d-xl-table-cell d-none">
+                            {bdt.discount ? bdt.discount : 0}đ
+                        </td>
+                        <td className="d-xl-table-cell d-none">
+                            {formatCashVND(bdt.price + "", ".")}đ
+                        </td>
+                    </tr>
+                ))}
+
             </tbody>
         </table>
     );

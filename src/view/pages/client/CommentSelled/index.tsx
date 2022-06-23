@@ -4,6 +4,7 @@ import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderClient from "../../../../layout/client/HeaderClient";
 import HeaderMobileTitle from "../../../../layout/client/HeaderMobileTitle";
 import Account from "../Account";
+import CommentSelledItem from "./CommentSelledItem";
 
 function CommentSelled() {
     return (
@@ -12,7 +13,7 @@ function CommentSelled() {
                 <HeaderClient />
             </div>
             <div className="d-xl-none d-block">
-                <HeaderMobileTitle title="Đơn Hàng Của Tôi" />
+                <HeaderMobileTitle title="Nhận xét sản phẩm đã mua" />
             </div>
             <section className="orderManage bg-outside-client pb-3">
                 <div className="container-client none">
@@ -38,7 +39,7 @@ function CommentSelled() {
                             <Account />
                         </div>
                         <div className="col">
-                            <div className="col">
+                            <div className="">
                                 <h5 className="editAccount__title mb-4">Nhận xét sản phẩm đã mua</h5>
                                 <div className="bg-white border-radius-4 p-3">
                                     <div className="d-flex justify-content-center ">
@@ -47,6 +48,20 @@ function CommentSelled() {
                                     <div className="d-flex justify-content-center mt-2">
                                         <button className="shop__address-modal-body-btn py-2 px-4">Tiếp tục mua sắm</button>
                                     </div>
+                                    {/* <div className="row g-5 row-cols-xl-4 row-cols-ms-2 row-cols-1">
+                                        <div className="col">
+                                            <CommentSelledItem/>
+                                        </div>
+                                        <div className="col">
+                                            <CommentSelledItem/>
+                                        </div>
+                                        <div className="col">
+                                            <CommentSelledItem/>
+                                        </div>
+                                        <div className="col">
+                                            <CommentSelledItem/>
+                                        </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

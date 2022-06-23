@@ -85,6 +85,7 @@ export interface Bill{
     coupon?: Coupon,
     totalPrice: number,
     method?: string,
+    statusDetails: {status: number, date: any}[]
     date? :any,
     type?: string,
     billDetails?: BillDetail[]

@@ -12,8 +12,8 @@ function PaymentProduct(props: PaymentProductProps) {
 
     const handleCalcSubtotal = useMemo(() => {
         let total = 0;
-        if(product.product && product.product.price && product.product.discount){
-            total = product.quantity * (product.product.price - (product.product.price * product.product.discount/100))
+        if(product.product && product.product.price){
+            total = product.quantity * (product.product.price - (product.product.price * (product.product.discount ? product.product.discount/100 : 0)))
         }
         return total
         

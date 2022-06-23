@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderClient from "../../../../layout/client/HeaderClient";
 import HeaderMobileTitle from "../../../../layout/client/HeaderMobileTitle";
+import billsService from "../../../../services/billsService";
 import OrderItem from "../../../../shared/components/OrderItem";
+import useCurrentUser from "../../../../shared/hooks/useCurrentUser";
+import { Bill } from "../../../../shared/interfaces";
 import Account from "../Account";
+import OrderManageAll from "./OrderManageAll";
 
-const orders = ["Tất cả đơn", "Đang xử lý", "Đang vận chuyển", "Đã giao", "Đã hủy"]
+const orders = [
+    { status: 5, name: "Tất cả đơn" },
+    { status: 1, name: "Đang xử lý" },
+    { status: 2, name: "Đang vận chuyển" },
+    { status: 3, name: "Đã giao" },
+    { status: 0, name: "Đã hủy" }
+]
 
 function OrderManage() {
+    const [bills, setBills] = useState<Bill>()
+    const [tab, setTab] = useState<{ status: number, name: string }>()
+    const currentUser = useCurrentUser()
+    
 
-    const [tab, setTab] = useState("Tất cả đơn")
+    useEffect(() => {
+        setTab(orders[0])
+    }, [])
+
 
     return (
         <>
@@ -48,12 +65,18 @@ function OrderManage() {
                             <h5 className="editAccount__title mb-4">Đơn hàng của tôi</h5>
                             <ul className="orderManage__list p-0 mb-3">
                                 {orders.map(item => (
-                                    <li onClick={() => setTab(item)} className={`orderManage__list-item ${item === tab ? 'active' : ''}`}>
-                                        {item}
+                                    <li
+                                        onClick={() => setTab(item)}
+                                        className={`orderManage__list-item ${item.status === tab?.status ? 'active' : ''}`}
+                                    >
+                                        {item.name}
                                     </li>
                                 ))}
                             </ul>
-                            <OrderItem/>
+                            <div className={`${tab?.status === 5 ? 'd-block' : 'd-none'}`}>
+                                <OrderManageAll />
+                            </div>
+
                         </div>
                     </div>
                 </div>

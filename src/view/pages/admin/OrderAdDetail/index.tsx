@@ -119,7 +119,9 @@ function OrderAdDetail() {
                                     <td>{(bDetail.productDetail.color).toUpperCase()}</td>
                                     <td>{(bDetail.productDetail.size).toUpperCase()}</td>
                                     <td className="text-end">{bDetail.quantity}</td>
-                                    <td className="text-end">{formatCashVND(bDetail.productDetail.product ? bDetail.productDetail.product.price + "" : '', ".")}</td>
+                                    <td className="text-end">
+                                        {formatCashVND(bDetail.productDetail.product ? (bDetail.productDetail.product.price ? bDetail.productDetail.product.price - (bDetail.productDetail.product.price * (bDetail.productDetail.product.discount? bDetail.productDetail.product.discount/100 : 0 )) : 0) + "" : '', ".")}
+                                    </td>
                                     <td className="text-end">0</td>
                                     <td className="text-end">{formatCashVND(bDetail.price + "", ".")}</td>
                                 </tr>

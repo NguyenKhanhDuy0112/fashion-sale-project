@@ -18,7 +18,7 @@ const findById = (id: string) => {
 }
 
 const findBySlug = (slug:string) => {
-    return api.get(`${api.url.categories}/search?slug=${slug}`).then(res => res.data)
+    return api.get(`${api.url.categories}/slug/${slug}`).then(res => res.data)
 }
 
 const get = (field: string) => {

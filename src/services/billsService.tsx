@@ -49,6 +49,19 @@ const getStatisticalRevenueDay = () => {
     return api.get(`${api.url.bills}/revenue-daily`).then(res => res.data) 
 }
 
+const findAllByUser = (id: string) => {
+    console.log(`${api.url.bills}/find-all-by-user/${id}`)
+    return api.get(`${api.url.bills}/find-all-by-user/${id}`).then(res => res.data)
+}
+
+const findByStatusUser = (id: string,status: number) => {
+    return api.get(`${api.url.bills}/find-by-status-user/${id}?status=${status}`).then(res => res.data)
+}
+
+const getBillDetailsByBillId = (id: string) =>{
+    return api.get(`${api.url.bills}/${id}/bill-detail`).then(res => res.data)
+}
+
 const billsService = {
     list,
     get,
@@ -62,6 +75,9 @@ const billsService = {
     listPaginationImports,
     getStatistical,
     getStatisticalRevenueDay,
+    findAllByUser,
+    findByStatusUser,
+    getBillDetailsByBillId,
 }
 
 export default billsService;

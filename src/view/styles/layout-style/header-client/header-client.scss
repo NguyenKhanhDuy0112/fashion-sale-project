@@ -28,13 +28,13 @@
                     color: rgb(89, 89, 89);
                     font-size: 14px;
                 }
-                &:nth-child(2) &-bar &-bar-child{
+                &:nth-child(2) &-bar &-bar-child {
                     width: 50%;
                 }
                 &:last-child &-bar &-bar-child {
                     width: 0;
                 }
-                &:last-child &-text{
+                &:last-child &-text {
                     color: #ccc;
                 }
                 &:last-child &-circle {
@@ -54,7 +54,7 @@
                     text-align: center;
                     line-height: 26px;
                     border: 1px solid #ccc;
-                    box-shadow: 0 0 rgb(102 ,102, 102) ;
+                    box-shadow: 0 0 rgb(102, 102, 102);
                 }
                 &-bar {
                     height: 6px;
@@ -443,6 +443,7 @@
 
     &__cart {
         color: white;
+        position: relative;
         cursor: pointer;
         display: flex;
         align-items: flex-end;
@@ -465,6 +466,67 @@
                 border-radius: 50%;
                 height: 20px;
                 background-color: $color-yellow;
+            }
+        }
+
+        &-notify {
+            cursor: auto;
+            position: absolute;
+            bottom: -15px;
+            right: 0px;
+            padding: 16px;
+            transform: translateY(100%);
+            background-color: rgb(255, 255, 255);
+            border-radius: 6px;
+            box-shadow: rgb(179 179 179) 1px 1px;
+            min-width: 260px;
+            display: none;
+
+            &.active{
+                display: block;
+            }
+
+            &::after{
+                content: "";
+                border-width: 9px 11px;
+                position: absolute;
+                top: -15%;
+                right: 7%;
+                border-style: solid;
+                border-color: transparent transparent #fff transparent;
+            }
+
+            &-text {
+                color: rgb(51, 51, 51);
+                font-size: 0.85rem;
+            }
+
+            &-btn {
+                display: block;
+                margin-top: 16px;
+                padding: 8px 0px;
+                width: 100%;
+                outline: none;
+                border: none;
+                color: rgb(255, 255, 255);
+                font-size: 14px;
+                font-weight: 400;
+                text-align: center;
+                white-space: nowrap;
+                background-color: rgb(255, 57, 69);
+                border-radius: 4px;
+            }
+
+            &-close {
+                position: absolute;
+                right: 0;
+                top: 0;
+                padding: 5px;
+                cursor: pointer;
+
+                &:hover {
+                    color: #ccc;
+                }
             }
         }
     }

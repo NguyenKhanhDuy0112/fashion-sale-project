@@ -1,14 +1,27 @@
 import ProductItem from "../../../../shared/components/ProductItem";
+import { Product } from "../../../../shared/interfaces";
 
-function ShopProduct() {
+interface ShopProductProps {
+    products?: Product[],
+    loading: boolean
+}
+
+function ShopProduct(props: ShopProductProps) {
+    const { products, loading } = props
     return (
         <article className="shop__product">
-            <div className="row row-cols-xl-4 row-cols-md-3 row-cols-2 g-0">
-                {Array.from({ length: 20 }).map((item, index) => (
-                    <div className="col" key={index}>
-                       
-                    </div>
-                ))}
+            <div className="row row-cols-xl-5 row-cols-md-3 row-cols-2 g-0">
+                {loading ?
+                    Array.from({ length: 20 }).map((pro:any, idx: number) => (
+                        <ProductItem key={idx} loading={loading} />
+                    ))
+                    :
+                    products && products.map(pro => (
+                        <div className="col" key={pro._id}>
+                            <ProductItem loading={loading} product={pro} />
+                        </div>
+                    ))
+                }
             </div>
         </article>
     );

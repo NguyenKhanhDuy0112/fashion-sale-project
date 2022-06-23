@@ -22,26 +22,41 @@ function ProductDetailOptionDesk(props: ProductDetailDeskProps) {
     const [sizes, setSizes] = useState<string[]>([])
     const [searchParams, setSearchParams] = useSearchParams()
 
+    console.log("Color: ", color)
+    console.log("Size: ", size)
+
     useEffect(() => {
         const colors: Color[] = []
         const sizes: string[] = []
         let color: string = ''
+        const id = searchParams.get('spId') ?? ''
+        let product: any = undefined
         productDetails?.forEach((proDt: any) => {
             if (proDt.color.toLowerCase() !== color.toLowerCase()) {
                 color = proDt.color
                 colors.push({ name: proDt.color, image: proDt.images[0] })
             }
-
+            if (proDt._id === id) {
+                product = proDt
+            }
             if (!sizes.includes(proDt.size)) {
                 sizes.push(proDt.size)
             }
 
         })
 
+        if (product) {
+            setColor({ image: product.images[0], name: product.color })
+            setSize(product.size)
+        }
+        else {
+            setColor(colors[0])
+            setSize(sizes[0])
+        }
+
         setColors(colors)
         setSizes(sizes)
-        setColor(colors[0])
-        setSize(sizes[0])
+
     }, [productDetails])
 
     const handleChangeColor = (colorItem: string) => {

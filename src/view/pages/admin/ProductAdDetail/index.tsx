@@ -17,9 +17,18 @@ function ProductAdDetail() {
     const handleLoadProduct = async () => {
         const product = await productsService.findBySlug(String(slug))
         if(product){
-            console.log(product)
+            const productDetails = product.productDetails.map((proDt: any) => {
+                proDt.color = proDt.color.color
+                proDt.size = proDt.size.size
+                proDt.images = [proDt.images[0].image, ...proDt.images[0].imagesSub]
+                return { ...proDt }
+            })
+            product.productDetails = productDetails
+            setProduct(product)
         }
     }
+
+    console.log("Products: ", product)
     return (
         <article className="productAdDetail">
             <h5 className="title-admin mb-0">Sản phẩm chi tiết</h5>

@@ -62,7 +62,7 @@ function CartItem(props: CartItemProps) {
                                 </div>
                                 <div className="col">
                                     <Link
-                                        to={`/products/${product.product?.slug}`}
+                                        to={`/products/${product.product?.slug}?spId=${product._id}`}
                                         className="cart__item-card-title"
                                     >
                                         {product?.product?.name}-{product.color.toUpperCase()}-{product.size.toUpperCase()}

@@ -1,0 +1,39 @@
+.commentSelled{
+
+    &__item{
+
+        &-img{
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            padding-top: 100%;
+        }
+
+        &-title{
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            overflow: hidden;
+            font-size: 0.9rem;
+            color: $color-sub;
+            font-weight: 400;
+        }
+        &-btn{
+            outline: none;
+            border: none;
+            color: #000;
+            border-radius: 5px;
+            padding: 5px 10px;
+            background-color: #FDD835;
+            font-size: 0.9rem;
+            width: 100%;
+            transition: all ease .25s;
+
+            &:hover{
+                color: #fff;
+            }
+        }
+    }
+}

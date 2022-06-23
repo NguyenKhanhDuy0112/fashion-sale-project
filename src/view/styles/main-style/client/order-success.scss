@@ -1,22 +1,44 @@
 .orderSuccess {
+    margin-top: 56px;
+
+    @include responsive(xxl-screen) {
+        margin-top: 0px;
+    }
+
     &__img {
         z-index: 1;
+
+        &-mobile {
+            position: absolute;
+            top: 14px;
+            right: -16px;
+            z-index: 3;
+        }
     }
 
     &__notify {
         position: relative;
-        border-radius: 8px;
+        border-radius: 0px;
         background-color: #fff;
         overflow: hidden;
+        height: 196px;
+
+        @include responsive(xxl-screen) {
+            border-radius: 8px;
+            height: auto;
+        }
     }
-    
+
     &__background {
         position: absolute;
         width: 100%;
-        height: 112px;
+        height: 100%;
         left: 0;
         top: 0;
         z-index: 0;
+        @include responsive(xxl-screen) {
+            height: 112px;
+        }
         &::before {
             position: absolute;
             display: block;
@@ -30,10 +52,14 @@
             content: "";
             position: absolute;
             width: 100%;
-            height: 100%;
+            height: 80px;
             z-index: 2;
             display: block;
-            background-image: url('https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/confetti.svg');
+            background-image: url("https://frontend.tikicdn.com/_desktop-next/static/img/icons/checkout/confetti.svg");
+
+            @include responsive(xxl-screen) {
+                height: 100%;
+            }
         }
     }
     &__btn {
@@ -45,19 +71,33 @@
             width: 100%;
             font-weight: 500;
             padding: 10px 15px;
-            color: rgb(11, 116, 229);;
+            color: rgb(11, 116, 229);
         }
     }
     &__content {
         flex: 1;
         z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        @include responsive(xxl-screen){
+            display: block;
+        }
         &-header {
             &-title {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
                 color: #fff;
                 &-sub {
-                    font-size: 1.2rem;
+                    font-size: 1rem;
                     color: #fff;
+
+                    @include responsive(xxl-screen) {
+                        font-size: 1.2rem;
+                    }
+                }
+
+                @include responsive(xxl-screen) {
+                    font-size: 1.5rem;
                 }
             }
         }
@@ -70,7 +110,7 @@
                 &-value {
                     font-size: 0.95rem;
 
-                    &--large{
+                    &--large {
                         font-size: 1.1rem;
                         font-weight: 500;
                     }
@@ -83,20 +123,33 @@
         }
         &-body {
         }
+
+        &-bottom {
+            &-btn {
+                border: 1px solid rgb(255, 255, 255);
+                border-radius: 4px;
+                padding: 8px 16px;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 20px;
+                color: rgb(255, 255, 255);
+                height: 36px;
+                background: none;
+            }
+        }
     }
 
     &__bill {
-        &-main{
+        &-main {
             background-color: #fff;
             border-radius: 8px;
-
         }
         &-header {
             border-bottom: 1px solid rgb(235, 235, 240);
             &-code {
                 font-weight: 600;
                 font-size: 0.9rem;
-            }  
+            }
             &-view {
                 font-weight: 500;
                 font-size: 0.9rem;
@@ -125,7 +178,7 @@
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     line-height: 20px;
-                    color: rgb(128,128, 137);
+                    color: rgb(128, 128, 137);
                 }
             }
 

@@ -55,3 +55,10 @@ export const getDayInWeek  = (date: Date) => {
         case 6: return "Thứ bảy"
     }
 }
+
+export const getTime = (date: Date) => {
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+
+    return `${hours}:${minutes}`
+}

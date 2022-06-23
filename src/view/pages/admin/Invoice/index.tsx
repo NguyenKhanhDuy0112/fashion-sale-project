@@ -68,15 +68,23 @@ function Invoice(props: InvoiceProps) {
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title">Đơn vị mua hàng</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user?.name}</p>
+                        <p className="mb-0 invoice__info-text">
+                            <span className="ms-1 me-2 invoice__info-separate">:</span> 
+                            {bill.user?.name}
+                        </p>
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title">Mã số thuế</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span></p>
+                        <p className="mb-0 invoice__info-text">
+                            <span className="ms-1 me-2 invoice__info-separate">:</span>
+                        </p>
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title">Địa chỉ</p>
-                        <p className="mb-0 invoice__info-text"><span className="ms-1 me-2 invoice__info-separate">:</span> {bill.user ? bill.user.address : ''}</p>
+                        <p className="mb-0 invoice__info-text">
+                            <span className="ms-1 me-2 invoice__info-separate">:</span>
+                            {bill.user ? JSON.parse(bill.user.address).village ? `${JSON.parse(bill.user.address).detail}, ${JSON.parse(bill.user.address).village.full_name}` : bill.user.address : ''}
+                        </p>
                     </div>
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title">Điện thoại</p>
@@ -113,7 +121,7 @@ function Invoice(props: InvoiceProps) {
 
                     {bill ?
                         <tr>
-                            <td className = "text-center">{bill.billDetails ? bill.billDetails.length + 1 : 0}</td>
+                            <td className="text-center">{bill.billDetails ? bill.billDetails.length + 1 : 0}</td>
                             <td>Phí giao hàng</td>
                             <td></td>
                             <td>1</td>

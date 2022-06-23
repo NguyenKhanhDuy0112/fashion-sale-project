@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import { addProduct } from "../../../../../modules/cart/cartSlice";
 import { toggleFormLogin } from "../../../../../modules/loginForm/loginFormSlice";
+import { showCartNotify } from "../../../../../modules/notifyCart/notifyCartSlice";
 import InputQuantity from "../../../../../shared/components/InputQuantity";
 import Rating from "../../../../../shared/components/Rating";
 import { formatCashVND } from "../../../../../shared/helpers";
@@ -27,11 +28,14 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
     const [quantity, setQuantity] = useState(1)
 
     const handleAddToCart = () => {
+        dispatch(showCartNotify({show: true, delay: 5000}))
+        window.scrollTo(0,0)
+
         if(currentUser._id !== ''){
             if(searchParams.get('spId')){
                 const productDetail:any = productInfo?.productDetails
                 const product = productDetail.find((pro:any) => pro._id === searchParams.get('spId'))
-                console.log("Add product: ",product)
+                
                 dispatch(addProduct({key: currentUser._id ? currentUser._id : '', product: {...product, quantity: quantity,product: productInfo, isChecking: false}}))
             }
         }

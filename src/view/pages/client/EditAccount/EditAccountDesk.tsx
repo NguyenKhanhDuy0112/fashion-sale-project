@@ -5,8 +5,83 @@ import { MdOutlineEmail } from "react-icons/md";
 import { AiFillLock } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc"
+import useCurrentUser from "../../../../shared/hooks/useCurrentUser";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useEffect } from "react";
+import usersService from "../../../../services/usersService";
+import { handleCreateImage } from "../../../../shared/helpers";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../../../../modules/loading/loadingSlice";
+import { updateUser } from "../../../../modules/user/useSlice";
 
 function EditAccountDesk() {
+    const currentUser = useCurrentUser()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        formik.setValues({
+            _id: currentUser._id ? currentUser._id : '',
+            name: currentUser.name,
+            avatar: { file: null, url: currentUser.avatar }
+        })
+    }, [])
+
+    const formik = useFormik({
+        initialValues: {
+            _id: '',
+            name: '',
+            avatar: { file: null, url: '' },
+        },
+        validationSchema: Yup.object({
+            _id: Yup.string(),
+            name: Yup.string().required("Tên không được để trống.").max(50, "Độ dài kí tự phải dưới 50"),
+        }),
+        onSubmit: (values) => {
+            handleSubmitForm(values)
+        }
+    })
+
+    const handleSubmitForm = async (values: any) => {
+        dispatch(showLoading())
+        try {
+            if (values.avatar.file) {
+                const image = await handleCreateImage(values.avatar.file)
+                if (image) {
+                    const user = await usersService.update(currentUser._id ? currentUser._id : '',
+                        {
+                            ...currentUser,
+                            name: values.name,
+                            avatar: image.data.url
+                        }
+                    )
+                    dispatch(updateUser(user))
+                }
+            } else {
+                console.log("User: ",  { ...currentUser, name: values.name, avatar: values.avatar.url })
+                const user = await usersService.update(currentUser._id ? currentUser._id : '', { ...currentUser, name: values.name, avatar: values.avatar.url })
+                dispatch(updateUser(user))
+            }
+            await dispatch(hideLoading())
+        } catch (err) {
+            await dispatch(hideLoading())
+            console.log("EROR")
+        }
+
+
+    }
+
+    const getBase64 = (file: any) => {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            formik.setFieldValue('avatar', { file: file, url: reader.result })
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
+
     return (
         <article className="editAccount__desk">
             <h5 className="editAccount__title mb-4">Thông tin tài khoản</h5>
@@ -17,7 +92,10 @@ function EditAccountDesk() {
                             <p className="editAccount__title-sub d-xl-block d-none">Thông tin cá nhân</p>
                             <div className="d-flex flex-xl-row flex-column align-items-start">
                                 <div className="d-flex editAccount__avatar">
-                                    <InputFileAvatar />
+                                    <InputFileAvatar
+                                        avatar={formik.getFieldProps('avatar').value.url}
+                                        onChangeFile={file => getBase64(file)}
+                                    />
                                 </div>
                                 <div className="ms-2 w-100 d-flex flex-column justify-content-between editAccount__name">
                                     <InputAdmin
@@ -25,9 +103,9 @@ function EditAccountDesk() {
                                         id="fullName"
                                         label="Họ & Tên"
                                         placeholder="Họ và tên đầy đủ"
-                                        frmField={null}
-                                        err={null}
-                                        errMessage={null}
+                                        frmField={formik.getFieldProps('name')}
+                                        err={formik.touched.name && formik.errors.name}
+                                        errMessage={formik.touched.name && formik.errors.name}
                                         labelClass="col-xl-3"
                                     />
 
@@ -115,7 +193,7 @@ function EditAccountDesk() {
                                 </div>
                             </div>
                             <div className="d-xl-flex d-none justify-content-center mt-4">
-                                <button className="d-flex editAccount__btn-save justify-content-center align-items-center">
+                                <button type="submit" onClick={() => formik.handleSubmit()} className="d-flex editAccount__btn-save justify-content-center align-items-center">
                                     Lưu thay đổi
                                 </button>
                             </div>
@@ -130,7 +208,7 @@ function EditAccountDesk() {
                                 </span>
                                 <div className="d-flex flex-column">
                                     <span className="editAccount__label">Số điện thoại</span>
-                                    <span className="editAccount__label">0798132664</span>
+                                    <span className="editAccount__label">{currentUser.phone}</span>
                                 </div>
                             </div>
                             <button className="editAccount__btn">Cập nhật</button>
@@ -142,7 +220,7 @@ function EditAccountDesk() {
                                 </span>
                                 <div className="d-flex flex-column">
                                     <span className="editAccount__label">Email</span>
-                                    <span className="editAccount__label">duynguyen.011202@gmail.com</span>
+                                    <span className="editAccount__label">{currentUser.email}</span>
                                 </div>
                             </div>
                             <button className="editAccount__btn">Cập nhật</button>

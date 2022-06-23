@@ -3,8 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import ShopProduct from "./ShopProduct";
 import ShopTagFilter from "./ShopTagFilter";
 import { HiOutlineArrowUp, HiOutlineArrowDown } from "react-icons/hi";
+import { Product } from "../../../../shared/interfaces";
 
-function ShopMain() {
+interface ShopMainProps{
+    loading: boolean,
+    products?: Product[]
+}
+
+function ShopMain(props: ShopMainProps) {
+    const { loading, products } = props
     const [searchParams, setSearchParams] = useSearchParams()
 
     const handleQuerySort = (sort: string) => {
@@ -88,7 +95,7 @@ function ShopMain() {
                 </ul>
             </div>
             <ShopTagFilter />
-            <ShopProduct />
+            <ShopProduct products = {products} loading = {loading}/>
         </article>
     );
 }

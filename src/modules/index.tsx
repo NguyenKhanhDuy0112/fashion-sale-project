@@ -7,6 +7,7 @@ import snackbarSlice from './snackbar/snackbarSlice';
 import toastSlice from './toast/toastSlice';
 import toggleNavSlice from './toggleNav/toggleNavSlice';
 import userSlice from "./user/useSlice";
+import notifyCart from "./notifyCart/notifyCartSlice";
 
 const rootReducer = combineReducers({
     toggleNav: toggleNavSlice,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     loading: loadingSlice,
     user: userSlice,
     cart: cartSlice,
+    notifyCart: notifyCart
 });
 
 export default rootReducer

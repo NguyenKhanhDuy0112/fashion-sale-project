@@ -18,7 +18,7 @@ function ImportAdmin() {
     }, [])
 
     const handleLoadData = (page: number) => {
-        billsService.listPaginationImports(page, 8).then(res => {
+        billsService.listPaginationImports(page, 20).then(res => {
             const { data, ...others } = res
             setOrders(data)
             setPagination({ ...others })

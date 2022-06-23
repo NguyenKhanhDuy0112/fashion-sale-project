@@ -265,6 +265,7 @@ input[type="date"]:focus::before {
 
 .bg-outside-client{
     background-color: $bg-container;
+    min-height: 100vh;
 }
 
 .react-tag-input__input {
