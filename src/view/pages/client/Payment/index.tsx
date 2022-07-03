@@ -57,7 +57,7 @@ function Payment() {
                     if (index === cart.productsChecking.length - 1) {
                         dispatch(hideLoading())
                         navigate(`/checkout/payment/success?orderId=${bill._id}`)
-                        dispatch(deleteProductsByChecking())
+                        dispatch(deleteProductsByChecking({key: currentUser._id ? currentUser._id : ''}))
                     }
                 })
             }

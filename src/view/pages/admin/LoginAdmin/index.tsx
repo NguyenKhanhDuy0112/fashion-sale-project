@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -7,9 +7,11 @@ import { hideLoading, showLoading } from "../../../../modules/loading/loadingSli
 import { updateUser } from "../../../../modules/user/useSlice";
 import usersService from "../../../../services/usersService";
 
+
 function LoginAdmin() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const socket = useRef<any>()
 
     useEffect(() => {
         if (localStorage.getItem('_grecaptcha')) {
@@ -33,6 +35,7 @@ function LoginAdmin() {
         dispatch(showLoading())
         try {
             const user = await usersService.loginByEmailAndPassword(values)
+           
             if (user && user.isAdmin === 1) {
                 dispatch(updateUser(user))
                 navigate('/admin/dashboard')
@@ -40,7 +43,7 @@ function LoginAdmin() {
             dispatch(hideLoading())
         }
         catch(err){
-            console.log(err)
+            console.log("Error")
             dispatch(hideLoading())
         }
        

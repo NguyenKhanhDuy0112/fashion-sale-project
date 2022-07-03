@@ -4,6 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import ModalCustom from "../../../shared/components/ModalCustom";
+import useCurrentUser from "../../../shared/hooks/useCurrentUser";
 
 interface Nav{
     show: boolean,
@@ -13,6 +14,8 @@ interface Nav{
 function NavAccount(props :  Nav) {
     
     const { show, toggleNav } = props
+    const currentUser = useCurrentUser()
+
 
     return (
         <ModalCustom 
@@ -23,10 +26,21 @@ function NavAccount(props :  Nav) {
         >
             <div className="modalCustom__header position-fixed d-flex align-items-center justify-content-between">
                 <Link to="/" className="navAccount__avatar d-flex w-100 align-items-center">
-                    <span className="navAccount__avatar-char">NG</span>
+                   
+                    {currentUser.avatar ? 
+                         <img className="navAccount__avatar-img" src = {currentUser.avatar} alt = ""/>
+                         :
+                        <span className="navAccount__avatar-char">{currentUser.name}</span>
+
+                    }
+                    
                     <div className="navAccount__avatar-content">
-                        <h5 className="navAccount__avatar-name mb-0">Nguyễn Khánh Duy</h5>
-                        <p className="navAccount__avatar-email mb-0">duynguyen.011202@gmail.com</p>
+                        <h5 className="navAccount__avatar-name mb-0">
+                            {currentUser.name}
+                        </h5>
+                        <p className="navAccount__avatar-email mb-0">
+                            {currentUser.email}
+                        </p>
                     </div>
                     <span className="ms-auto">
                         <IoIosArrowForward color="#fff" size={18}/>

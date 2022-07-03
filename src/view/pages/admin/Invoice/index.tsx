@@ -69,7 +69,7 @@ function Invoice(props: InvoiceProps) {
                     <div className="d-flex align-items-center">
                         <p className="mb-0 invoice__info-title">Đơn vị mua hàng</p>
                         <p className="mb-0 invoice__info-text">
-                            <span className="ms-1 me-2 invoice__info-separate">:</span> 
+                            <span className="ms-1 me-2 invoice__info-separate">:</span>
                             {bill.user?.name}
                         </p>
                     </div>
@@ -83,7 +83,13 @@ function Invoice(props: InvoiceProps) {
                         <p className="mb-0 invoice__info-title">Địa chỉ</p>
                         <p className="mb-0 invoice__info-text">
                             <span className="ms-1 me-2 invoice__info-separate">:</span>
-                            {bill.user ? JSON.parse(bill.user.address).village ? `${JSON.parse(bill.user.address).detail}, ${JSON.parse(bill.user.address).village.full_name}` : bill.user.address : ''}
+                            {
+                                (bill && bill.user && bill.user.address && bill.user.address.startsWith("{"))
+                                    ?
+                                    `${JSON.parse(bill.user.address).detail}, ${JSON.parse(bill.user.address).village.full_name}`
+                                    :
+                                    bill.user?.address
+                            }
                         </p>
                     </div>
                     <div className="d-flex align-items-center">
@@ -141,9 +147,9 @@ function Invoice(props: InvoiceProps) {
                             {formatCashVND((bill.totalPrice + (bill.feeShip ? bill.feeShip : 0)) + "", ".")}
                         </td>
                     </tr>
-                    <tr className="invoice__table-bb">
+                    {/* <tr className="invoice__table-bb">
                         <td colSpan={6}>Số tiền viết bằng chữ: Hai mươi nghìn đồng</td>
-                    </tr>
+                    </tr> */}
                 </tbody>
             </table>
             <div className="row">

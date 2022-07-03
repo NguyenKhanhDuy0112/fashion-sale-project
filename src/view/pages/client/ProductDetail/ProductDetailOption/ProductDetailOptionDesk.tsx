@@ -22,9 +22,6 @@ function ProductDetailOptionDesk(props: ProductDetailDeskProps) {
     const [sizes, setSizes] = useState<string[]>([])
     const [searchParams, setSearchParams] = useSearchParams()
 
-    console.log("Color: ", color)
-    console.log("Size: ", size)
-
     useEffect(() => {
         const colors: Color[] = []
         const sizes: string[] = []

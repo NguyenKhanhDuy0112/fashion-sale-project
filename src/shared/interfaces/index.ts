@@ -25,8 +25,43 @@ export interface Product{
     productDetails?: ProductDetail[] | ProductDetailOrder[]
 }
 
+export interface Reply{
+    _id?: string,
+    content:string,
+    createdAt?: Date,
+    updatedAt?:Date,
+    product: any,
+    parent: string,
+    user: any,
+    images?: string[]
+}
+
+export interface Message{
+    _id?:string,
+    sender: string,
+    text: string,
+    conversationId: string,
+    isSeen?: number,
+    createdAt?:any,
+    updatedAt?:any
+}
+
+export interface Conversation{
+    _id?:string,
+    members: User[]
+}
 export interface Comment{
     _id?:string,
+    content:string,
+    product: any,
+    star: number,
+    createdAt?: Date,
+    updatedAt?:Date,
+    user:any,
+    children: Comment[],
+    numberOfLikes?: number,
+    liked?: number,
+    images?: string[]
 }
 
 export interface ProductDetail{
@@ -71,7 +106,8 @@ export interface User{
     password: string,
     numberBankAccount?: string,
     bills?: Bill,
-    comments?: any
+    comments?: any,
+    status?: any,
 }
 
 export interface Bill{

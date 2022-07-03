@@ -4,6 +4,7 @@ import { FiHome } from "react-icons/fi";
 import { HiOutlineTruck } from "react-icons/hi";
 import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import billsService from "../../../services/billsService";
 import productDetailsService from "../../../services/productDetailsService";
 import productsService from "../../../services/productService";
@@ -55,7 +56,6 @@ function OrderItem(props: OrderItemProps) {
        
     }
 
-    console.log("Bill Detail", billDetails)
 
     return (
         <div className="orderItem p-3 border-radius-4">
@@ -115,9 +115,9 @@ function OrderItem(props: OrderItemProps) {
                                         style={{ backgroundImage: `url(${bdDt.productDetail.images[0]})` }}
                                     ></div>
                                     <div className="ms-2">
-                                        <h5 className="orderItem__body-title">
+                                        <Link to = {`/products/${bdDt.productDetail.product.slug}`} className="orderItem__body-title">
                                             {bdDt.productDetail?.product && bdDt.productDetail?.product.name}
-                                        </h5>
+                                        </Link>
                                         <div className="d-flex align-item-center">
                                             <span className="orderItem__body-quantity">
                                                 {bdDt.quantity} sản phẩm

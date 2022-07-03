@@ -5,10 +5,12 @@ interface Props {
     show: boolean,
     onShow: () => void,
     onDelete: () => void,
+    title?: string,
+    text?: string,
 }
 
 function ModalCustomDelete(props: Props) {
-    const { show, onShow, onDelete } = props
+    const { show, onShow, onDelete, title, text } = props
 
     return (
         <ModalCustom zIndexOverlay={50} className="modalCustom__delete p-3" show={show} onHandleShow={onShow} position="center" >
@@ -18,10 +20,10 @@ function ModalCustomDelete(props: Props) {
                 </span>
                 <div>
                     <span className="modalCustom__delete-title">
-                        Xóa sản phẩm
+                        {title ? title : 'Xóa sản phẩm'}
                     </span>
                     <p className="modalCustom__delete-text mt-2 mb-4">
-                        Bạn có muốn xóa sản phẩm đang chọn?
+                        {text ? text : 'Bạn có muốn xóa sản phẩm đang chọn?'}
                     </p>
                 </div>
             </div>

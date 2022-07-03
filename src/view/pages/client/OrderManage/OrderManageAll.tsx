@@ -28,9 +28,7 @@ function OrderManageAll() {
                     if (bill.billDetails && bill.billDetails.length > 0) {
                         await bill.billDetails.forEach(async (bdt: any, index: number) => {
                             const productDetail = await productDetailsService.findById(bdt.productDetail)
-                            
                             const product = await productsService.findById(productDetail.product)
-                            
                             productDetail.images = await [productDetail.images[0].image, ...productDetail.images[0].imagesSub]
                             productDetail.color = await productDetail.color.color
                             productDetail.size = await productDetail.size.size
@@ -52,6 +50,7 @@ function OrderManageAll() {
 
         } catch (err) {
             setLoading(false)
+            console.log("Error")
         }
     }
 
@@ -64,6 +63,7 @@ function OrderManageAll() {
                 :
                 bills?.map((b, index: number) => (
                     <OrderItem 
+                        
                         bill = {b}
                         shipedDate={b.shippedDate}
                         status={b.status} 

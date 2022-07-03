@@ -26,6 +26,8 @@ function OrderAdmin() {
         })
     }
 
+    console.log("Orders: ", orders)
+
     
     const handleSearchOrders = (value: string, page: number) => {
 

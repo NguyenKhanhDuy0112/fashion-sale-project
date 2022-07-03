@@ -1,7 +1,5 @@
 import { useMemo, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { BsChat } from "react-icons/bs";
-import { IoWarningOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import FooterClient from "../../../../layout/client/FooterClient";

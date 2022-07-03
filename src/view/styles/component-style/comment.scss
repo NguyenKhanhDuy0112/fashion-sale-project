@@ -78,6 +78,14 @@
             font-weight: 500;
             border-radius: 4px;
 
+            &-like{
+                
+                &.active{
+                    background-color: #DBEEFF;
+                    border: none;
+                }
+            }
+
             &-cmt {
                 border: none;
                 background-color: transparent;

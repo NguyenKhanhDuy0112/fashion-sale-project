@@ -32,6 +32,7 @@ const routeClient: Route[] = [
     {path: "/products/:slug", component: <ProductDetail/>},
     {path: "/checkout/shipping", component: <Address/>},
     {path: "/:category", component: <Shop/>},
+    {path: "/search", component: <Shop/>},
 ]
 
 export default routeClient;

@@ -1,9 +1,9 @@
 import { BiSearchAlt } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import HistorySearch from "../../../shared/components/HistorySearch";
 import ModalCustom from "../../../shared/components/ModalCustom";
-import { useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
@@ -14,6 +14,8 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount?: () => void
     const [showModalFull, setShowModalFull] = useState(false)
     const [size, setSize] = useState<number>(window.innerWidth)
     const inputSearch = useRef<HTMLInputElement>(null)
+    const [valueSearch, setValueSearch] = useState<string>('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         const handleResize = () => {
@@ -49,6 +51,17 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount?: () => void
         inputSearch.current?.focus()
     }
 
+    const handleSearch = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.code === 'Enter' && valueSearch.trim() !== ""){
+            const histories = JSON.parse(localStorage.getItem('search') ?? "")
+            histories.push(valueSearch)
+            localStorage.setItem('search', JSON.stringify(histories))
+            navigate(`/search?q=${valueSearch}`)
+            handleModalShow()
+            setValueSearch("")
+        }
+    }
+
 
     return (
         <>
@@ -66,7 +79,13 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount?: () => void
                         <span className="d-xl-none d-flex justify-content-center align-items-center opacity-50">
                             <BiSearchAlt size={17} />
                         </span>
-                        <input onClick={handleModalShow} className="headerClient__search-input py-2" placeholder="Bạn đang tìm kiếm gì?" />
+                        <input 
+                            onKeyPress={(e) => handleSearch(e)}
+                            onChange = {(e) => setValueSearch(e.target.value)}
+                            onClick={handleModalShow} 
+                            className="headerClient__search-input py-2" 
+                            placeholder="Bạn đang tìm kiếm gì?" 
+                        />
                     </div>
 
                     <button className="headerClient__search-btn d-xl-block d-none">
@@ -77,7 +96,7 @@ function HeaderClientSearch(props: { show: boolean,onShowNavAccount?: () => void
                 <div className={`headerClient__search-history ${show ? 'active' : ''}`}>
                     <HistorySearch
                         handleToggle={handleToggle}
-                        historySearch={["Áo thun nam", "Áo sơ mi, Quần Jeans"]}
+                        historySearch={["ao thun nam"]}
                     />
                     <p className="headerClient__search-history-title">Danh mục nổi bật</p>
                     <div className="headerClient__search-history-category-container">

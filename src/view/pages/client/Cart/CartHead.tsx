@@ -15,7 +15,7 @@ function CartHead() {
     const checking = useRef<boolean>(false)
 
     const handleDeleteByChecking = () => {
-        dispatch(deleteProductsByChecking())
+        dispatch(deleteProductsByChecking({key: currentUser._id ? currentUser._id : ''}))
         setShowModal(!showModal)
     }
 

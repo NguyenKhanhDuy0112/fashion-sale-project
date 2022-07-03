@@ -5,6 +5,7 @@ import CartItem from "./CartItem";
 
 function CartTable() {
     const cart = useCart()
+    
     return (
         <article className="cart__table">
             <CartHead />

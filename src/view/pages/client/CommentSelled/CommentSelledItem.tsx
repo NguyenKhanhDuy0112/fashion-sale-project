@@ -1,20 +1,69 @@
+import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { Product } from "../../../../shared/interfaces";
+import ModalCustom from "../../../../shared/components/ModalCustom";
+import WriteComment from "../../../../shared/components/WriteComment";
+import { ProductDetail } from "../../../../shared/interfaces";
 
 interface CommentSelledItemProps {
-    product: Product,
-    loading: boolean
+    productDetail?: ProductDetail,
+    loading: boolean,
+    onLoadProducts:() => void
 }
 
-function CommentSelledItem() {
+function CommentSelledItem(props: CommentSelledItemProps) {
+    const { productDetail, loading, onLoadProducts } = props
+    const [show, setShow] = useState<boolean>(false)
+    console.log("Product detail: ",productDetail)
+
+    const handleCloseModal = () => {
+        setShow(!show)
+        onLoadProducts()
+    }
     return (
-        <div className="commentSelled__item">
-            <div className="commentSelled__item-img" style={{ backgroundImage: `url(https://salt.tikicdn.com/cache/400x400/ts/product/73/81/9b/20898dc3e2a24de641ff799a88d2b2e8.jpg.webp)` }}></div>
-            <h5 className="commentSelled__item-title my-2">DREAMS, mã G38. Áo thun nữ siêu đẹp. Áo phông nữ thoát nhiệt Goking hàng hiệu</h5>
-            <div>
-                <button className="commentSelled__item-btn">Viết nhận xét</button>
+        <>
+            <div className="commentSelled__item">
+                {loading ?
+                    <Skeleton height={180} />
+                    :
+                    <div
+                        className="commentSelled__item-img"
+                        style={{ backgroundImage: `url(${productDetail?.images[0].image})` }}
+                    >
+
+                    </div>
+                }
+                <h5 className="commentSelled__item-title my-2">
+                    {
+                        loading ? <Skeleton />
+                            :
+                            productDetail?.product?.name
+                    }
+                </h5>
+                <div>
+                    {loading ?
+                        <Skeleton height={10} />
+                        :
+                        <button
+                            onClick={() => setShow(!show)}
+                            className="commentSelled__item-btn"
+                        >
+                            Viết nhận xét
+                        </button>
+                    }
+                </div>
             </div>
-        </div>
+            <ModalCustom
+                onHandleShow={() => setShow(!show)}
+                show={show}
+                className="commentSelled__item-modal"
+                position="center"
+            >
+                <div className="p-3">
+                    <WriteComment onCloseModal={handleCloseModal} productDetail={productDetail} />
+                </div>
+            </ModalCustom>
+        </>
+
     );
 }
 

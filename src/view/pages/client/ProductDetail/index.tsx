@@ -51,6 +51,8 @@ function ProductDetail() {
         setLoading(false)
     }
 
+    console.log(product)
+
     return (
         <>
             <div className="d-xl-block d-none">

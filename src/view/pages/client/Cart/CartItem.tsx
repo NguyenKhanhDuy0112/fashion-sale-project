@@ -21,7 +21,8 @@ function CartItem(props: CartItemProps) {
     const currentUser = useCurrentUser()
 
     const handleDeleteProduct = () => {
-        
+        dispatch(deleteProducts({ key: currentUser._id ? currentUser._id : '', index }))
+        setShowModal(!showModal)
     }
 
     const handleChangeQuantity = (quantity: number) => {
@@ -133,7 +134,7 @@ function CartItem(props: CartItemProps) {
             <ModalCustomDelete
                 onShow={() => setShowModal(!showModal)}
                 show={showModal}
-                onDelete={() => dispatch(deleteProducts({ key: currentUser.id ? currentUser.id : '', index }))}
+                onDelete={handleDeleteProduct}
             />
         </>
     );

@@ -11,10 +11,12 @@ import { signOut, updateUser } from "./modules/user/useSlice";
 import usersService from "./services/usersService";
 import { User } from "./shared/interfaces";
 import { getProducts, getProductsChecking, resetCart } from "./modules/cart/cartSlice";
+import Chat from "./layout/client/Chat";
 
 function App() {
   const loading = useLoading()
   const dispatch = useDispatch()
+  
 
   //handle firebase auth changed
   useEffect(() => {
@@ -49,7 +51,6 @@ function App() {
 
         }
 
-
       } catch (err) {
         console.log("Error login")
       }
@@ -67,6 +68,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <Loading show={loading} />
+      <Chat/>
     </>
   );
 }

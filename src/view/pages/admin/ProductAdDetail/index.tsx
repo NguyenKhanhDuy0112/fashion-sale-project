@@ -1,22 +1,27 @@
 import { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { Link, useParams } from 'react-router-dom';
-import { Swiper, SwiperSlide, } from 'swiper/react';
 import productsService from '../../../../services/productService';
 import Rating from '../../../../shared/components/Rating';
 import TableCustom from '../../../../shared/components/TableCustom';
-import { Product } from '../../../../shared/interfaces';
+import { formatCashVND } from '../../../../shared/helpers';
+import { Product, ProductDetail } from '../../../../shared/interfaces';
+import ProductDetailDescription from '../../client/ProductDetail/ProductDetailDescription';
+import ProductDetailInfoImage from '../../client/ProductDetail/ProductDetailInfo/ProductDetailInfoImage';
 
 function ProductAdDetail() {
     const { slug } = useParams()
     const [product, setProduct] = useState<Product>()
+    const [loading, setLoading] = useState(true)
+    const [statistical, setStatistical] = useState<ProductDetail[]>()
 
     useEffect(() => {
         handleLoadProduct()
-    },[])
+    }, [])
 
     const handleLoadProduct = async () => {
         const product = await productsService.findBySlug(String(slug))
-        if(product){
+        if (product) {
             const productDetails = product.productDetails.map((proDt: any) => {
                 proDt.color = proDt.color.color
                 proDt.size = proDt.size.size
@@ -24,88 +29,125 @@ function ProductAdDetail() {
                 return { ...proDt }
             })
             product.productDetails = productDetails
+
+            //begin
+            const statistical: any = []
+            let color = ''
+            product.productDetails.forEach((pro: any) => {
+                if (pro.color.toLowerCase() !== color.toLowerCase()) {
+                    color = pro.color
+                    statistical.push({ ...pro, color: pro.color, sizes: [pro.size] })
+                }
+                else {
+                    const productTemp = statistical[statistical.length - 1]
+                    productTemp.sizes.push(pro.size)
+                    statistical.splice(statistical.length - 1, 1, productTemp)
+                }
+            })
+            setStatistical(statistical)
+            //end
             setProduct(product)
+            setLoading(false)
         }
     }
 
-    console.log("Products: ", product)
+    console.log("Product: ", product)
+    console.log("Statistical: ", statistical)
+
     return (
         <article className="productAdDetail">
             <h5 className="title-admin mb-0">Sản phẩm chi tiết</h5>
-            <div className='row g-3'>
-                <div className="col-xl-5 col-lg-5 col-12">
-                    <div className="productAdDetail__image">
-                        <img className="productAdDetail__image-main w-100 mb-2" src="https://salt.tikicdn.com/cache/400x400/ts/product/4a/ce/f2/9b3bfd240e385838072d3832436d6245.jpg.webp" alt="" />
-                        <Swiper
-                            // install Swiper modules
-                            modules={[]}
-                            spaceBetween={5}
-                            loop={true}
-                            slidesPerView={4}
+            <article className="productDetail__info">
+                <div className="bg-white border-radius-4">
+                    <div className="row g-0">
+                        <div className="col-xl-5 col-12">
+                            <ProductDetailInfoImage
+                                loading={loading}
+                                productDetails={product?.productDetails}
+                            />
+                        </div>
+                        <div className="col-xl col-12">
+                            <div className="productDetail__info-content p-3">
+                                {
+                                    loading
+                                        ?
+                                        <Skeleton />
+                                        :
+                                        <p className="productDetail__info-content-brand mb-1 d-xl-block d-none">
+                                            Thương hiệu:
+                                            <Link
+                                                to={`/thuong-hieu/${product?.trademark._id}`}
+                                                className="productDetail__info-content-brand-name ms-1"
+                                            >
+                                                {product?.trademark.name}
+                                            </Link>
+                                        </p>
+                                }
+                                <h4 className="productDetail__info-content-title mb-2">
+                                    {loading ? <Skeleton /> : product?.name}
+                                </h4>
+                                {loading ? <Skeleton /> :
+                                    <div className="productDetail__info-content-rating d-flex align-items-center mb-xl-3 mb-2">
+                                        <Rating
+                                            stars={product?.rating ? product.rating : 0}
+                                            color="#FDD836"
+                                            size={14}
+                                            distance={1}
+                                        />
+                                        {product && product.comments && product.comments.length > 0 &&
+                                            <Link to="#comment" className="productDetail__info-content-rating-comment ms-2">
+                                                <span className="d-xl-inline d-none">
+                                                    (Xem</span> {product?.comments?.length} <span></span> <span className="d-xl-inline d-none">đánh giá)
+                                                </span>
+                                            </Link>
+                                        }
+                                        <div className="productDetail__info-content-rating-separate mx-2"></div>
+                                        <p className="productDetail__info-content-rating-selled mb-0">
+                                            Đã bán {product?.sold}
+                                        </p>
+                                    </div>
+                                }
+                                {loading ?
+                                    <div className="mb-3">
+                                        <Skeleton height={70} />
+                                    </div>
+                                    :
+                                    <div className="productDetail__info-content-price align-items-xl-end align-items-center p-xl-3 p-0 mb-3">
+                                        <p className="productDetail__info-content-price-current mb-0">
+                                            {(product && product.price)
+                                                ?
+                                                formatCashVND(product.price - (product.price * ((product.discount ? product.discount : 0) / 100)) + "", ".")
 
-                            className="w-100 h-100 homeBanner__swiper border-radius-4"
+                                                :
+                                                0
+                                            } ₫
 
-                        >
-                            <SwiperSlide>
-                                <img className='w-100 productAdDetail__image-child cursor-pointer active' src="https://salt.tikicdn.com/cache/100x100/ts/product/7b/af/e3/60e6673d1ac9337b9431cd2656b1f0c8.jpg.webp" alt="" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/07/3e/fe/14172fb51417d6d9a33f832770304ec7.jpg.webp" alt="" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/a5/7b/9a/4f86ae55da63d641cc1f3911770a9069.jpg.webp" alt="" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img className='w-100 productAdDetail__image-child cursor-pointer' src="https://salt.tikicdn.com/cache/100x100/ts/product/54/85/b7/31cc53a37b7e08dbde5cdfec428b8bdc.jpg.webp" alt="" />
-                            </SwiperSlide>
-                        </Swiper>
+                                        </p>
+                                        {(product && product.discount && product.discount > 0)
+                                            ?
+                                            <p className="productDetail__info-content-price-old mb-0 mx-2">
+                                                {formatCashVND(product.price + "", ".")} ₫
+                                            </p>
+                                            :
+                                            ''
+                                        }
+                                        {(product && product.discount && product.discount > 0) ?
+                                            <p className="mb-0 productDetail__info-content-price-discount">
+                                                -{product?.discount}%
+                                            </p> :
+                                            ''
+                                        }
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div className='col'>
-                    <h5 className='productAdDetail__title mb-2'>Áo thun nam cổ bẻ ngắn tay cao cấp phong cách hàn quốc, áo thun polo nam MURADFASHION AT025</h5>
-                    <div className='d-flex align-items-center mb-2'>
-                        <Rating size={17} color="#FDD836" distance={1} stars={4} />
-                        <Link to="" className='ms-2 productAdDetail__rating-number'>(1 đánh giá)</Link>
-                    </div>
-                    <div className='d-flex align-items-center mb-2'>
-                        <p className='productAdDetail__price-current me-1 mb-0'>123.094</p>
-                        <p className='productAdDetail__price-old mx-3 mb-0'>145.000</p>
-                        <span className='productAdDetail__discount d-block'>45%</span>
-                    </div>
-                    <p className='productAdDetail__info mb-2'>Thông tin chi tiết</p>
-                    <div className='d-flex mb-2'>
-                        <span>Xuất xứ: </span>
-                        <span className='ms-2'>America</span>
-                    </div>
-                    <div className='d-flex mb-2'>
-                        <span>Chất liệu:</span>
-                        <span className='ms-2'>Cotton</span>
-                    </div>
-                    <p>
-                        Áo thun nam, áo phông có cổ bigsize từ 45kg đến gần 90kg - NH Shop
+            </article>
 
-                        Nếu mình có bụng thì tăng size cho thoải mái nhé<br />
-
-                        -- Mô tả sản phẩm:
-
-                        Áo thun cổ trụ sang chảnh, bo cổ và bo tay chắc chắn không hề bai nhão
-
-                        Các màu cơ bản dễ phối đồ: đen, trắng, xanh biển, xanh đậm, đỏ, xám đậm, xám lợt
-
-                        Chất thun cotton, dày dặn, thấm hút mồ hôi.<br />
-
-                        Đường may chắc chắn, sắc sảo
-
-                        In logo nhẹ nhàng ở ngực áo và tay áo. Logo này thay đổi nhẹ, shop xin giao hình ngẫu nhiên nhé.<br />
-
-                        Bảng size tham khảo: Hãy nhấn vào "Bảng quy đổi kích cở" ngay gần nút mua hàng nhé.
-
-                        Bảng size này được Shop lập tham khảo, mà hầu hết khách hàng mua tại shop đều mặc vừa. Nếu mình có bụng hay đùi to thì tăng 1 size cho thoài mái nhé.
-                        <br />
-                        Lưu ý: Tùy vào chất lượng độ phân giải của màn hình PC hay màn hình điện thoại bạn đang sử dụng mà màu sắc hình ảnh sẽ không được trung thực 100%. Mong quý khách thông cảm.
-                    </p>
-                </div>
-            </div>
             <h5 className='my-4'>Thống kê</h5>
             <div className='row align-items-center g-3'>
                 <div className='col'>
@@ -172,6 +214,9 @@ function ProductAdDetail() {
                     </div>
                 </div>
             </div>
+            <ProductDetailDescription
+                description={product?.description}
+            />
         </article>
     );
 }

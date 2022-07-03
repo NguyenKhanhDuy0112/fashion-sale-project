@@ -1,5 +1,7 @@
 .commentSelled{
 
+    
+
     &__item{
 
         &-img{
@@ -34,6 +36,11 @@
             &:hover{
                 color: #fff;
             }
+        }
+
+        &-modal{
+            width: 600px;
+            border-radius: 5px;
         }
     }
 }

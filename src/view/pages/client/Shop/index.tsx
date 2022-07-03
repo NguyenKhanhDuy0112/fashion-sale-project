@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderClient from "../../../../layout/client/HeaderClient";
 import HeaderClientMobile from "../../../../layout/client/HeaderClient/HeaderClientMobile";
 import categoriesService from "../../../../services/categoriesService";
-import Breadcrumb from "../../../../shared/components/Breadcrumb";
 import { Category, Product, ProductDetail } from "../../../../shared/interfaces";
+import productsService from "../../../../services/productService"
 import ShopMain from "./ShopMain";
 import ShopSidebar from "./ShopSidebar";
 
@@ -16,19 +16,35 @@ function Shop() {
     const [loading, setLoading] = useState(true)
     const [products, setProducts] = useState<Product[]>()
     const { category } = useParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [name, setName] = useState<string>('')
 
     useEffect(() => {
-        handleLoadCategory()
-    })
+        handleLoadData()
+    },[])
 
-    const handleLoadCategory = async () => {
-        const findCategory = await categoriesService.findBySlug(category ? category : '')
-        setCategoryData(findCategory)
-        if (findCategory) {
-            const products = handleConvertProducts(findCategory.products)
-            setProducts(products)
+    const handleLoadData = async () => {
+        if (searchParams.get('q')) {
+            let products = await productsService.search(
+                searchParams.get('q') ?? '', 1, 30
+            )
+            setName(searchParams.get('q') ?? '')
+            if(products){
+                products = handleConvertProducts(products.data)
+                setProducts(products)
+            }
         }
-        
+        else {
+            const findCategory = await categoriesService.findBySlug(category ? category : '')
+            setCategoryData(findCategory)
+            if (findCategory) {
+                const products = handleConvertProducts(findCategory.products)
+                setProducts(products)
+                setName(findCategory.name)
+            }
+        }
+
+
         setLoading(false)
     }
 
@@ -88,7 +104,7 @@ function Shop() {
                 <div className="container-client none">
                     <div className="bg-white border-radius-4 d-flex">
                         <ShopSidebar />
-                        <ShopMain loading={loading} products={products} />
+                        <ShopMain name = {name} loading={loading} products={products} />
                     </div>
                 </div>
             </section>

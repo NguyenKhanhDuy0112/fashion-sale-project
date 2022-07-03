@@ -64,8 +64,9 @@ function OrderManage() {
                         <div className="col">
                             <h5 className="editAccount__title mb-4">Đơn hàng của tôi</h5>
                             <ul className="orderManage__list p-0 mb-3">
-                                {orders.map(item => (
+                                {orders.map((item:any, index: number) => (
                                     <li
+                                        key={index}
                                         onClick={() => setTab(item)}
                                         className={`orderManage__list-item ${item.status === tab?.status ? 'active' : ''}`}
                                     >

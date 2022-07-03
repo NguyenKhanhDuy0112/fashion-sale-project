@@ -4,6 +4,7 @@ import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide, } from 'swiper/react';
 import { ProductDetail, ProductDetailOrder } from "../../../../../shared/interfaces";
 import Skeleton from "react-loading-skeleton";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
     productDetails?: ProductDetailOrder[] | ProductDetail[],
@@ -16,6 +17,35 @@ function ProductDetailInfoImage(props: Props) {
     const [images, setImages] = useState<string[]>([''])
     const [thumnail, setThumnail] = useState<string>()
     const [showModalImage, setShowModalImage] = useState(false)
+    const [searchParams, setSearchParams] = useSearchParams()
+
+
+    useEffect(() => {
+        if (productDetails) {
+            let productDetailData: any = productDetails
+            const product = productDetailData.find((pro: ProductDetail) => pro._id === searchParams.get('spId'))
+
+            const firstProducts: ProductDetail[] = productDetailData.filter((pro: ProductDetail) => pro.color.toLowerCase() === product.color.toLowerCase())
+            const orderProducts = productDetailData.filter((pro: ProductDetail) => !firstProducts.includes(pro))
+
+            console.log("First Products: ", firstProducts)
+            console.log("Second Products: ", orderProducts)
+            const newProducts = [...firstProducts, ...orderProducts]
+            let color = ''
+            let images: string[] = []
+
+            newProducts.forEach(pro => {
+                if (color.toLowerCase() !== pro.color.toLowerCase()) {
+                    images = [...images, ...pro.images]
+                    color = pro.color
+                }
+
+            })
+            setImages(images)
+            setThumnail(images[0])
+
+        }
+    }, [searchParams])
 
     useEffect(() => {
         let color = ''

@@ -28,8 +28,6 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
     const [quantity, setQuantity] = useState(1)
 
     const handleAddToCart = () => {
-        dispatch(showCartNotify({show: true, delay: 5000}))
-        window.scrollTo(0,0)
 
         if(currentUser._id !== ''){
             if(searchParams.get('spId')){
@@ -37,6 +35,8 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
                 const product = productDetail.find((pro:any) => pro._id === searchParams.get('spId'))
                 
                 dispatch(addProduct({key: currentUser._id ? currentUser._id : '', product: {...product, quantity: quantity,product: productInfo, isChecking: false}}))
+                dispatch(showCartNotify({show: true, delay: 5000}))
+                window.scrollTo(0,0)
             }
         }
         else{

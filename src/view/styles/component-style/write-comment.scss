@@ -1,0 +1,59 @@
+.writeComment{
+    &__header{
+        &-title{
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin: 0;
+            color: $color-sub;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-direction: vertical;
+        }
+        &-icon{
+            color: $color-sub;
+            cursor: pointer;
+            &:hover{
+                color: #000;
+            }
+        }
+    }
+    &__rating{
+        &-title{
+            font-size: 1.2rem;
+        }
+    }
+    &__input{
+        width: 100%;
+        border-radius: 5px;
+        outline: none;
+        padding: 10px;
+        border: 1px solid $color-border;
+
+        &::placeholder{
+            font-size: 0.9rem;
+        }
+    }
+
+    &__btn{
+        width: 100%;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        padding: 7px;
+        font-size: 0.9rem;
+
+        &-image{
+            border: 1px solid $color-blue;
+            background-color: transparent;
+            color: $color-blue;
+            font-weight: 500;
+        }
+
+        &-send{
+            background-color: #FCD834;
+            
+        }
+    }
+}

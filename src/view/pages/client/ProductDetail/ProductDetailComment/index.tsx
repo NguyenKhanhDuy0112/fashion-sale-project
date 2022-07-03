@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import commentsService from "../../../../../services/commentsService";
 import RankRating from "../../../../../shared/components/RankRating";
-import { Product } from "../../../../../shared/interfaces";
+import useCurrentUser from "../../../../../shared/hooks/useCurrentUser";
+import { Comment, Product } from "../../../../../shared/interfaces";
 import ProductDetailCommentDesk from "./ProductDetailCommentDesk";
 import ProductDetailCommentFilter from "./ProductDetailCommentFilter";
 import ProductDetailCommentModal from "./ProductDetailCommentModal";
@@ -13,6 +15,25 @@ interface ProductDetailCommentProps{
 function ProductDetailComment(props: ProductDetailCommentProps) {
     const { product, loading } = props
     const [showModalComment, setShowModalComment] = useState<boolean>(false)
+    const [comments, setComments] = useState<Comment[]>()
+    const [loadingComment, setLoadingComment] = useState(true)
+    const currentUser = useCurrentUser()
+
+    useEffect(() => {
+        handleLoadComment()
+    },[product])
+
+    const handleLoadComment = async () => {
+        try{
+            const comments = await commentsService.getCommentsByProductId((product && product._id) ? product._id : "", currentUser._id ? currentUser._id : "")
+            console.log("Comments detail: ", comments.data)
+            setComments(comments.data)
+            setLoadingComment(false)
+        }catch(err){
+            console.log("Failed load comment")
+            setLoadingComment(false)
+        }
+    }
 
     return (
         <>
@@ -30,7 +51,11 @@ function ProductDetailComment(props: ProductDetailCommentProps) {
                                 <ProductDetailCommentFilter />
                             </div>
                         </div>
-                        <ProductDetailCommentDesk />
+                        <ProductDetailCommentDesk 
+                            comments={comments} 
+                            loading = {loadingComment}
+                            onLoadComment = {handleLoadComment}
+                        />
 
                         <button onClick={() => setShowModalComment(!showModalComment)} className="productDetail__comment-btn-more d-xl-none d-block">
                             Xem tất cả 185 đánh giá
@@ -38,7 +63,11 @@ function ProductDetailComment(props: ProductDetailCommentProps) {
                     </div>
                 </div>
             </article>
-            <ProductDetailCommentModal product = {product} onShow={() => setShowModalComment(!showModalComment)} show = {showModalComment}/>
+            <ProductDetailCommentModal 
+                product = {product} 
+                onShow={() => setShowModalComment(!showModalComment)} 
+                show = {showModalComment}
+            />
         </>
     );
 }

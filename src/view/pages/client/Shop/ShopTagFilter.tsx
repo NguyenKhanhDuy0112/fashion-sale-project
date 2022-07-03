@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { formatCashVND } from "../../../../shared/helpers";
@@ -15,16 +15,18 @@ function ShopTagFilter() {
     useEffect(() => {
         const queryData: { key: string, value: any }[] = []
         searchParams.forEach((value: string, key: string) => {
-            if (value.includes(",")) {
-                const values = value.split(",")
-                queryData.push({ key: key, value: values })
-            }
-            else {
-                if(key !== 'sort'){
-                    queryData.push({ key: key, value: value })
+            if (key !== 'q') {
+                if (value.includes(",")) {
+                    const values = value.split(",")
+                    queryData.push({ key: key, value: values })
+                }
+                else {
+                    if (key !== 'sort') {
+                        queryData.push({ key: key, value: value })
+                    }
                 }
             }
-            
+
         })
         setQueries(queryData)
     }, [search])
@@ -45,7 +47,7 @@ function ShopTagFilter() {
         <>
             <div className="d-flex align-items-center px-3 shop__tag-container border-b-f7 py-xl-0 py-2">
                 <div onClick={() => setShowModal(!showModal)} className="shop__tag-filter border-r-f7 pe-2 d-xl-none d-block">
-                    <BiFilterAlt size={19} color = "#808089"/> Lọc
+                    <BiFilterAlt size={19} color="#808089" /> Lọc
                 </div>
                 <ul className="shop__tag pt-xl-3 pt-0 pb-xl-1 pb-0">
 
@@ -95,7 +97,7 @@ function ShopTagFilter() {
 
                 </ul>
             </div>
-            <ShopSidebarModal onShow={() => setShowModal(!showModal)} show={showModal}/>
+            <ShopSidebarModal onShow={() => setShowModal(!showModal)} show={showModal} />
         </>
     );
 }

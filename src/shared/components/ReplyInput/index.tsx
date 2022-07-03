@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 
 interface Props {
@@ -9,10 +9,6 @@ interface Props {
 function ReplyInput(props: Props) {
     const { show, onChangeReply } = props;
     const [valueInput, setValueInput] = useState('')
-
-    useEffect(() => {
-        onChangeReply(valueInput)
-    }, [valueInput])
 
     const handleChangeReply = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setValueInput(e.target.value)
@@ -31,9 +27,10 @@ function ReplyInput(props: Props) {
                     placeholder="Viết câu trả lời" 
                     className="comment__content-reply-input-child px-3 py-2" 
                     rows={1}
+                   
                 >
                 </textarea>
-                <span className="comment__content-reply-input-icon cursor-pointer">
+                <span onClick={() => onChangeReply(valueInput)}className="comment__content-reply-input-icon cursor-pointer">
                     <IoMdSend 
                         size={18} 
                         color={`${valueInput !== '' ? '#0D5CB6' : '#C7C7C7'}`} 

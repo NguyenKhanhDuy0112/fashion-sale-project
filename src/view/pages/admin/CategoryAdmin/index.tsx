@@ -89,7 +89,6 @@ function CategoryAdmin() {
                 </div>
             </div>
 
-
             <CategoryAdTable
                 loading={isLoading}
                 onEditCategory={(id) => handleModalShow(id)}

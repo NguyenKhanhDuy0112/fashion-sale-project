@@ -7,11 +7,12 @@ import { Product } from "../../../../shared/interfaces";
 
 interface ShopMainProps{
     loading: boolean,
+    name: string,
     products?: Product[]
 }
 
 function ShopMain(props: ShopMainProps) {
-    const { loading, products } = props
+    const { loading, products, name } = props
     const [searchParams, setSearchParams] = useSearchParams()
 
     const handleQuerySort = (sort: string) => {
@@ -27,7 +28,9 @@ function ShopMain(props: ShopMainProps) {
     return (
         <article className="shop__main w-100">
             <div className="border-b-f7 px-3 pt-3">
-                <h4 className="shop__main-title mb-xl-3 mb-4 mt-xl-0 mt-1">Áo thun nam ngắn tay có cổ</h4>
+                <h4 className="shop__main-title mb-xl-3 mb-4 mt-xl-0 mt-1">
+                    {searchParams.get('q') ? 'Kết quả tìm kiếm cho: ' : ''}{name}
+                </h4>
                 <ul className="shop__main-sort d-flex align-items-center justify-content-between pb-xl-0 pb-2">
                     <li className="shop__main-sort-item d-flex align-items-center">
                         <span

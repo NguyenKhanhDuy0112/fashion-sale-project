@@ -2,6 +2,7 @@
     padding: 6px;
     border: 5px solid #257CB0;
     position: relative;
+    min-height: 100vh;
 
     &::after{
         content: "";

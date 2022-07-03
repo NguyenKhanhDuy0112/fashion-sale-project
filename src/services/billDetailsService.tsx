@@ -33,7 +33,7 @@ const remove = (id: string) => {
     return api.delete(api.url.billDetails+'/'+id).then(res => res.data)
 }
 
-const update = (id:string ,data: Category) => {
+const update = (id:string ,data: BillDetailApi) => {
     return api.put(api.url.billDetails+'/'+id, data).then(res => res.data)
 }
 

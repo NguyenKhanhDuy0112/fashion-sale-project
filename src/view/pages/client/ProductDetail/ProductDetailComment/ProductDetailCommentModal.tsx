@@ -31,7 +31,7 @@ function ProductDetailCommentModal(props: Props) {
                     <ProductDetailCommentFilter />
                 </div>
                 <div className="px-3">
-                    <Comment />
+                    {/* <Comment  loading = {false}/> */}
                 </div>
             </div>
         </ModalCustom>
