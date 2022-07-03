@@ -6,6 +6,7 @@ import Rating from '../../../../shared/components/Rating';
 import TableCustom from '../../../../shared/components/TableCustom';
 import { formatCashVND } from '../../../../shared/helpers';
 import { Product, ProductDetail } from '../../../../shared/interfaces';
+import ProductDetailComment from '../../client/ProductDetail/ProductDetailComment';
 import ProductDetailDescription from '../../client/ProductDetail/ProductDetailDescription';
 import ProductDetailInfoImage from '../../client/ProductDetail/ProductDetailInfo/ProductDetailInfoImage';
 
@@ -36,11 +37,12 @@ function ProductAdDetail() {
             product.productDetails.forEach((pro: any) => {
                 if (pro.color.toLowerCase() !== color.toLowerCase()) {
                     color = pro.color
-                    statistical.push({ ...pro, color: pro.color, sizes: [pro.size] })
+                    statistical.push({ color: color, data: [{ size: pro.size, quantity: pro.quantity }] })
                 }
                 else {
                     const productTemp = statistical[statistical.length - 1]
-                    productTemp.sizes.push(pro.size)
+                    const data = productTemp.data
+                    data.push({ size: pro.size, quantity: pro.quantity })
                     statistical.splice(statistical.length - 1, 1, productTemp)
                 }
             })
@@ -149,73 +151,36 @@ function ProductAdDetail() {
             </article>
 
             <h5 className='my-4'>Thống kê</h5>
-            <div className='row align-items-center g-3'>
-                <div className='col'>
-                    <div className='card'>
-                        <div className='card-header'>
-                            <h5 className='card-title'>Đỏ</h5>
-                        </div>
-                        <div className='card-body'>
-                            <TableCustom headers={["#", "Kích cỡ", "Số lượng"]}>
-                                <tr>
-                                    <td>1</td>
-                                    <td>SM</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>XL</td>
-                                    <td>100</td>
-                                </tr>
-                            </TableCustom>
-                        </div>
-                    </div>
-                </div>
-                <div className='col'>
-                    <div className='card'>
-                        <div className='card-header'>
-                            <h5 className='card-title'>Vàng</h5>
-                        </div>
-                        <div className='card-body'>
-                            <TableCustom headers={["#", "Kích cỡ", "Số lượng"]}>
-                                <tr>
-                                    <td>1</td>
-                                    <td>SM</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>XL</td>
-                                    <td>10</td>
-                                </tr>
-                            </TableCustom>
+            <div className='row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3'>
+                {statistical?.map((sta: any, index: number) => (
+                    <div className="col h-100" key={index}>
+                        <div className='card h-100'>
+                            <div className='card-header'>
+                                <h5 className='card-title text-uppercase'>{sta.color}</h5>
+                            </div>
+                            <div className='card-body'>
+                                <TableCustom headers={["#", "Kích cỡ", "Số lượng"]}>
+                                    {sta.data.map((staData: any, idx: number) => (
+                                        <tr key={idx}>
+                                            <td>{idx + 1}</td>
+                                            <td className='text-uppercase'>{staData.size}</td>
+                                            <td>{staData.quantity}</td>
+                                        </tr>
+                                    ))}
+                                </TableCustom>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className='col'>
-                    <div className='card'>
-                        <div className='card-header'>
-                            <h5 className='card-title'>Xanh</h5>
-                        </div>
-                        <div className='card-body'>
-                            <TableCustom headers={["#", "Kích cỡ", "Số lượng"]}>
-                                <tr>
-                                    <td>1</td>
-                                    <td>SM</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>L</td>
-                                    <td>22</td>
-                                </tr>
-                            </TableCustom>
-                        </div>
-                    </div>
-                </div>
+                ))}
             </div>
             <ProductDetailDescription
+                noneContainer={true}
                 description={product?.description}
+            />
+            <ProductDetailComment
+                noneContainer = {true}
+                product={product}
+                loading={loading}
             />
         </article>
     );

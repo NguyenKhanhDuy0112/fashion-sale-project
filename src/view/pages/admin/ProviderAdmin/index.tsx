@@ -17,6 +17,7 @@ function ProviderAdmin() {
     const [isLoading, setIsLoading] = useState(true)
     const [pagination, setPagination] = useState<Pagination>()
     const dispatch = useDispatch()
+    
 
     useEffect(() => {
         handleLoadData(1)
@@ -45,7 +46,6 @@ function ProviderAdmin() {
         }
         
     }
-
 
     const handleModalDeleteShow = (id: string) => {
         setProvider({ name: '', password: '', phone: '', avatar: '', address: '', email: '', _id: id })

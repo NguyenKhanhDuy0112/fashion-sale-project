@@ -4,10 +4,11 @@ import ProductDetailDescriptionMobile from "./ProductDetailDescriptionMobile";
 
 interface Props{
     description?: string,
+    noneContainer?: boolean
 }
 
 function ProductDetailDescriptionDesk(props: Props) {
-    const { description } = props
+    const { description, noneContainer } = props
     const descriptionElement = useRef<HTMLDivElement>(null)
     const [showDescription, setShowDescription] = useState(true)
     const [showDescriptionModal, setShowDescriptionModal] = useState(false)
@@ -26,7 +27,7 @@ function ProductDetailDescriptionDesk(props: Props) {
     return (
         <>
             <article className="productDetail__description mt-xl-3 mt-2">
-                <div className="container-client none">
+                <div className={`${noneContainer ? '' : 'container-client none'}`}>
                     <div className="border-radius-4 p-3 bg-white position-relative">
                         <h4 className="productDetail__title mb-3">Mô tả sản phẩm</h4>
 

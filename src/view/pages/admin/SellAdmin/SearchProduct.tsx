@@ -35,6 +35,7 @@ function SearchProduct(props: Props) {
     const [valueInputSearch, setValueInputSearch] = useState<string>('')
     const [searchResults, setSearchResults] = useState<ProductOrder[]>([])
     const debounceValue = useDebounce<string>(valueInputSearch, 700)
+    const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
         setIsLoading(true)
@@ -106,7 +107,7 @@ function SearchProduct(props: Props) {
                             <li
                                 key={index}
                                 onClick={() => handleAddProduct({ ...product})}
-                                className="sellAdmin__header-list-search-item"
+                                className={`sellAdmin__header-list-search-item`}
                             >
                                 {product &&
                                     <ProductItemAdSearch

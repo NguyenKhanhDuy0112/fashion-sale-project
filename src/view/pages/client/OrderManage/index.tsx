@@ -10,6 +10,10 @@ import useCurrentUser from "../../../../shared/hooks/useCurrentUser";
 import { Bill } from "../../../../shared/interfaces";
 import Account from "../Account";
 import OrderManageAll from "./OrderManageAll";
+import OrderManageCancel from "./OrderManageCancel";
+import OrderManageDeal from "./OrderManageDeal";
+import OrderManageShipped from "./OrderManageShipped";
+import OrderManageShipping from "./OrderManageShipping";
 
 const orders = [
     { status: 5, name: "Tất cả đơn" },
@@ -76,6 +80,18 @@ function OrderManage() {
                             </ul>
                             <div className={`${tab?.status === 5 ? 'd-block' : 'd-none'}`}>
                                 <OrderManageAll />
+                            </div>
+                            <div className={`${tab?.status === 1 ? 'd-block' : 'd-none'}`}>
+                                <OrderManageDeal />
+                            </div>
+                            <div className={`${tab?.status === 2 ? 'd-block' : 'd-none'}`}>
+                                <OrderManageShipping />
+                            </div>
+                            <div className={`${tab?.status === 3 ? 'd-block' : 'd-none'}`}>
+                                <OrderManageShipped />
+                            </div>
+                            <div className={`${tab?.status === 0 ? 'd-block' : 'd-none'}`}>
+                                <OrderManageCancel />
                             </div>
 
                         </div>

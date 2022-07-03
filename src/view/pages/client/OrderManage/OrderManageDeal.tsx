@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import billsService from "../../../../services/billsService";
-import productDetailsService from "../../../../services/productDetailsService";
-import productsService from "../../../../services/productService";
-import OrderItem from "../../../../shared/components/OrderItem";
-import useCurrentUser from "../../../../shared/hooks/useCurrentUser";
-import { Bill } from "../../../../shared/interfaces";
+import { useEffect, useState } from "react"
+import billsService from "../../../../services/billsService"
+import productDetailsService from "../../../../services/productDetailsService"
+import productsService from "../../../../services/productService"
+import OrderItem from "../../../../shared/components/OrderItem"
+import useCurrentUser from "../../../../shared/hooks/useCurrentUser"
+import { Bill } from "../../../../shared/interfaces"
 
-function OrderManageAll() {
+function OrderManageDeal() {
     const [bills, setBills] = useState<Bill[]>()
     const [loading, setLoading] = useState(true)
     const currentUser = useCurrentUser()
@@ -17,7 +17,7 @@ function OrderManageAll() {
 
     const handleLoadAllByUser = async () => {
         try {
-            let bills = await billsService.findAllByUser(currentUser._id ? currentUser._id : '')
+            let bills = await billsService.findByStatusUser(currentUser._id ? currentUser._id : '', 1)
 
             if (bills) {
                 bills = await bills.data
@@ -75,7 +75,6 @@ function OrderManageAll() {
                 ))
 
             }
-
             {!bills &&
                 <div className="bg-white border-radius-4 p-4">
                     <div className="d-flex flex-column align-items-center">
@@ -90,4 +89,4 @@ function OrderManageAll() {
     );
 }
 
-export default OrderManageAll;
+export default OrderManageDeal;
