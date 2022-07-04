@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import { useDispatch } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import { addProduct } from "../../../../../modules/cart/cartSlice";
+import { showChat } from "../../../../../modules/chat/chatSlice";
 import { toggleFormLogin } from "../../../../../modules/loginForm/loginFormSlice";
 import { showCartNotify } from "../../../../../modules/notifyCart/notifyCartSlice";
 import InputQuantity from "../../../../../shared/components/InputQuantity";
@@ -29,17 +30,17 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
 
     const handleAddToCart = () => {
 
-        if(currentUser._id !== ''){
-            if(searchParams.get('spId')){
-                const productDetail:any = productInfo?.productDetails
-                const product = productDetail.find((pro:any) => pro._id === searchParams.get('spId'))
-                
-                dispatch(addProduct({key: currentUser._id ? currentUser._id : '', product: {...product, quantity: quantity,product: productInfo, isChecking: false}}))
-                dispatch(showCartNotify({show: true, delay: 5000}))
-                window.scrollTo(0,0)
+        if (currentUser._id !== '') {
+            if (searchParams.get('spId')) {
+                const productDetail: any = productInfo?.productDetails
+                const product = productDetail.find((pro: any) => pro._id === searchParams.get('spId'))
+
+                dispatch(addProduct({ key: currentUser._id ? currentUser._id : '', product: { ...product, quantity: quantity, product: productInfo, isChecking: false } }))
+                dispatch(showCartNotify({ show: true, delay: 5000 }))
+                window.scrollTo(0, 0)
             }
         }
-        else{
+        else {
             dispatch(toggleFormLogin())
         }
     }
@@ -115,7 +116,7 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
                                         {(productInfo && productInfo.discount && productInfo.discount > 0)
                                             ?
                                             <p className="productDetail__info-content-price-old mb-0 mx-2">
-                                                {formatCashVND(productInfo.price+"",".")} ₫
+                                                {formatCashVND(productInfo.price + "", ".")} ₫
                                             </p>
                                             :
                                             ''
@@ -147,12 +148,14 @@ function ProductDetailInfo(props: ProductDetailInfoProps) {
                                             Chọn Mua
                                         </button>
 
-                                        <button className="productDetail__info-content-chat ms-2">
-                                            <span className="productDetail__info-content-chat-icon">
-                                                <BsChat />
-                                            </span>
-                                            <span className="productDetail__info-content-chat-text">Chat</span>
-                                        </button>
+                                        {currentUser._id !== "" &&
+                                            <button onClick={() => dispatch(showChat())} className="productDetail__info-content-chat ms-2">
+                                                <span className="productDetail__info-content-chat-icon">
+                                                    <BsChat />
+                                                </span>
+                                                <span className="productDetail__info-content-chat-text">Chat</span>
+                                            </button>
+                                        }
                                     </div>
                                 }
                             </div>

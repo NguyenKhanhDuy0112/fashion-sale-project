@@ -17,7 +17,7 @@ function ChatClient() {
     const showChat = useChat()
 
     useEffect(() => {
-        socket.current = io("ws://localhost:8900");
+        socket.current = io("https://socket-chat-tiki-clone.herokuapp.com/");
         socket.current.on("getUsers", (users: { userId: string, socketId: string }[]) => {
             setOnlineUsers(users)
         })

@@ -9,11 +9,16 @@ import useToggleNav from "../../shared/hooks/useToggleNav";
 import ToastCustom from "../../shared/components/ToastCustom";
 import useToast from "../../shared/hooks/useToast";
 import RequireAuthAdmin from "../../shared/components/RequireAuthAdmin";
+import Snackbar from "../../shared/components/Snackbar";
+import useSnackbar from "../../shared/hooks/useSnackbar";
+import { FaRegComment } from "react-icons/fa";
+import { showChat } from "../../modules/chat/chatSlice";
 
 function Admin() {
     const isToggleNav = useToggleNav()
     const toast = useToast()
     const dispatch = useDispatch()
+    const snackbar = useSnackbar()
 
     return (
         <>
@@ -23,7 +28,7 @@ function Admin() {
                     <HeaderAdmin />
                     <NavAdmin />
                 </RequireAuthAdmin>
-                
+
                 <section className={`container-admin admin__body ${isToggleNav ? 'active' : ''}`}>
                     <Routes>
                         {routeAdmin.map((route, index) => (
@@ -37,8 +42,15 @@ function Admin() {
                     </Routes>
                 </section>
             </div>
+            <Snackbar show={snackbar.show} text={snackbar.text} />
 
             <ToastCustom show={toast.show} text={toast.text} type={toast.type} />
+            <button onClick={() => dispatch(showChat())} className="chat__btn">
+                <span className="chat__btn-icon me-1">
+                    <FaRegComment />
+                </span>
+                Chat
+            </button>
         </>
     );
 }

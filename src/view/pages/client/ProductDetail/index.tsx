@@ -15,12 +15,17 @@ import productsService from "../../../../services/productService";
 import { useEffect, useState } from "react";
 import { Product } from "../../../../shared/interfaces";
 import Skeleton from "react-loading-skeleton";
+import useCurrentUser from "../../../../shared/hooks/useCurrentUser";
+import { useDispatch } from "react-redux";
+import { showChat } from "../../../../modules/chat/chatSlice";
 
 function ProductDetail() {
     const { slug } = useParams()
     const [loading, setLoading] = useState(true)
     const [product, setProduct] = useState<Product>()
     const [searchParams, setSearchParams] = useSearchParams()
+    const currentUser = useCurrentUser()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setLoading(true)
@@ -94,20 +99,20 @@ function ProductDetail() {
                         loading={loading}
                         productInfo={product}
                     />
-                    <ProductDetailSimilar 
-                        currentProductId = {product?._id}
-                        category = {product?.category._id}
+                    <ProductDetailSimilar
+                        currentProductId={product?._id}
+                        category={product?.category._id}
                     />
-                    <ProductDetailInfoDt 
-                        product = {product} 
-                        loading = {loading}
+                    <ProductDetailInfoDt
+                        product={product}
+                        loading={loading}
                     />
                     <ProductDetailDescription
                         description={product?.description}
                     />
-                    <ProductDetailComment 
-                        product = {product}
-                        loading = {loading}
+                    <ProductDetailComment
+                        product={product}
+                        loading={loading}
                     />
                     <ProductDetailMore />
                 </div>
@@ -118,14 +123,17 @@ function ProductDetail() {
                 :
                 <div className="navClient productDetail__nav-buy d-xl-none d-block">
                     <div className="row g-0 w-100 h-100">
-                        <div className="col-auto h-100 me-2 d-flex justify-content-start">
-                            <button className="productDetail__info-content-chat">
-                                <span className="productDetail__info-content-chat-icon">
-                                    <BsChat size={17} />
-                                </span>
-                                <span className="productDetail__info-content-chat-text">Chat</span>
-                            </button>
-                        </div>
+                        {currentUser._id !== ""
+                            &&
+                            <div className="col-auto h-100 me-2 d-flex justify-content-start">
+                                <button onClick={() => dispatch(showChat())} className="productDetail__info-content-chat">
+                                    <span className="productDetail__info-content-chat-icon">
+                                        <BsChat size={17} />
+                                    </span>
+                                    <span className="productDetail__info-content-chat-text">Chat</span>
+                                </button>
+                            </div>
+                        }
                         <div className="col h-100">
                             <button className="productDetail__info-content-buy flex-grow-1 h-100">
                                 Chọn Mua

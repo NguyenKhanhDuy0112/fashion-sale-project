@@ -65,12 +65,44 @@ function OrderAdDetail() {
     });
 
     const handleDeleteByChecking = () => {
-        if (billDetailsChecking.length > 0) {
+        dispatch(showSnackbar({ show: true, text: "Vui lòng chọn sản phẩm để xóa", delay: 3000 }))
+    }
 
-        } else {
-            dispatch(showSnackbar({ show: true, text: "Vui lòng chọn sản phẩm để xóa", delay: 3000 }))
+    const handleChangeCheckbox = (e: any) => {
+        if (e.target.checked) {
+            if (bill && bill.billDetails) {
+                const newBill = bill.billDetails
+                setBillDetailsChecking(newBill)
+            }
+        }
+        else {
+            setBillDetailsChecking([])
         }
     }
+
+    const handleChangeCheckboxSingle = (e: any, billDetail: BillDetail) => {
+        const findBill = billDetailsChecking.find(b => b._id === billDetail._id)
+        const findIdx = billDetailsChecking.findIndex(b => b._id === billDetail._id)
+        let newBillDetail 
+        if(findBill){
+            newBillDetail = billDetailsChecking
+            newBillDetail.splice(findIdx, 1)
+            console.log("Bill find: ", newBillDetail)
+            
+        }
+        else{
+            
+            newBillDetail = billDetailsChecking
+            newBillDetail.push(billDetail)
+            console.log("Bill not find: ", newBillDetail)
+        }
+        console.log("new Bill Detail: ", newBillDetail)
+        setBillDetailsChecking(newBillDetail)
+    }
+    console.log(billDetailsChecking.length)
+    console.log(bill && bill.billDetails && bill?.billDetails.length)
+
+    console.log("Bill Detail checking: ", billDetailsChecking)
 
     return (
         <>
@@ -152,7 +184,8 @@ function OrderAdDetail() {
                                 <th style={{ width: "3rem" }}>
                                     <label className="cart__cartHead-checkbox d-flex align-items-center">
                                         <input
-
+                                            checked={((bill && bill.billDetails && bill?.billDetails.length) ? bill.billDetails.length : 0) === billDetailsChecking.length}
+                                            onChange={(e) => handleChangeCheckbox(e)}
                                             type="checkbox"
                                             className="cart__cartHead-checkbox-input"
                                         />
@@ -195,6 +228,8 @@ function OrderAdDetail() {
                                             <td style={{ width: "3rem" }}>
                                                 <label className="cart__cartHead-checkbox d-flex align-items-center">
                                                     <input
+                                                        checked = {billDetailsChecking.includes(bDetail)}
+                                                        onChange={(e) => handleChangeCheckboxSingle(e, bDetail)}
                                                         type="checkbox"
                                                         className="cart__cartHead-checkbox-input"
                                                     />
@@ -214,6 +249,7 @@ function OrderAdDetail() {
                                             <td className="text-end">{formatCashVND(bDetail.price + "", ".")}</td>
                                             <td>
                                                 <span
+                                                    onClick={() => setShowModalSingle(!showModalSingle)}
                                                     className="cart__cartHead-title cursor-pointer"
                                                 >
                                                     <FiTrash2 color="#787878" size={18} />

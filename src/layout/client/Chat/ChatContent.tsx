@@ -1,11 +1,13 @@
 import ChatReceive from "./ChatReceive";
 import ChatSend from "./ChatSend";
 import { AiOutlinePicture } from "react-icons/ai";
-import { IoPaperPlaneOutline } from "react-icons/io5";
+import { IoCloseOutline, IoPaperPlaneOutline } from "react-icons/io5";
 import useCurrentUser from "../../../shared/hooks/useCurrentUser";
 import { Message, User } from "../../../shared/interfaces";
 import { useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
+import { hideChat } from "../../../modules/chat/chatSlice";
+import { useDispatch } from "react-redux";
 
 interface ChatContentProps {
     user?: User,
@@ -22,12 +24,13 @@ function ChatContent(props: ChatContentProps) {
     const currentUser = useCurrentUser()
     const [value, setValue] = useState<string>("")
     const scrollBottom = useRef<any>(null)
+    const dispatch = useDispatch()
     const [messagesData, setMessagesData] = useState<Message[]>()
     const [isOnline, setIsOnline] = useState<boolean>(false)
 
     useEffect(() => {
         if (onlineUsers) {
-            const find = onlineUsers.find((u: any) =>  u.user._id === receiverId)
+            const find = onlineUsers.find((u: any) => u.user._id === receiverId)
             setIsOnline(find)
         }
 
@@ -90,6 +93,10 @@ function ChatContent(props: ChatContentProps) {
                         }
                     </small>
                 </div>
+                <span onClick={() => dispatch(hideChat())} className="chat__box-header-action-btn ms-auto">
+                    <IoCloseOutline size={25} />
+                </span>
+
             </div>
             <div className="chat__box-content-body px-2 py-2">
                 <div className="d-flex flex-column justify-content-end" style={{ minHeight: "100%" }}>

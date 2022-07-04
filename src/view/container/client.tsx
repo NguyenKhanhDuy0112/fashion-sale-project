@@ -22,7 +22,7 @@ function Client() {
                 {routeClient.map((route, index) => <Route key={index} path={route.path} element={route.component} />)}
             </Routes>
             <Login/>
-            <Snackbar show = {snackbar.show} text = {snackbar.text} />
+            
             <ToastCustom show = {toast.show} text={toast.text} type={toast.type}/>
         </>
     );

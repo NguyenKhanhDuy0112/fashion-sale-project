@@ -20,12 +20,6 @@ function Chat() {
 
     return (
         <div className="chat">
-            <button onClick={() => dispatch(showChat())} className="chat__btn">
-                <span className="chat__btn-icon me-1">
-                    <FaRegComment />
-                </span>
-                Chat
-            </button>
             {currentUser.isAdmin === 1 ?
                 <ChatAdmin
                     onCloseChat={handleCloseChat}

@@ -1,7 +1,7 @@
 .chat {
     &__btn {
         z-index: 90;
-        @include position(fixed, none, 20px, 20px, none);
+        @include position(fixed, none, 12px, 8px, none);
         background-color: #fff;
         border-radius: 7px;
         padding: 10px 15px;
@@ -88,7 +88,7 @@
         flex-direction: column;
         overflow: hidden;
         z-index: 91;
-        @include position(fixed, none, 30px, 40px, none);
+        @include position(fixed, none, 23px, 23px, none);
 
         &.admin{
             width: 700px;
