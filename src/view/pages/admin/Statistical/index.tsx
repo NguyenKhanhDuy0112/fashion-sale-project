@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ImportExportStore from "./ImportExportStore";
+import SelledProducts from "./SelledProducts";
 import StoreNotAllow from "./StoreNotAllow";
 
 function StatisticalAdmin() {
@@ -22,13 +23,20 @@ function StatisticalAdmin() {
                     >
                         Tồn dưới định mức
                     </h6>
+                    <h6
+                        className={`dashboard__title-tab mb-0 h-100 ${tab === "selled" ? "active" : ""}`}
+                        onClick={() => setTab('selled')}
+                    >
+                        Sản phẩm đã bán
+                    </h6>
                 </div>
                 <div className="dashboard__body pt-3">
                     {tab === "import-export" && <ImportExportStore />}
                     {tab === "store" && <StoreNotAllow />}
+                    {tab === "selled" && <SelledProducts />}
                 </div>
             </div>
-            
+
         </>
     );
 }

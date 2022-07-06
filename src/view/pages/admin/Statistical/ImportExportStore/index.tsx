@@ -1,8 +1,13 @@
 import InputSearch from "../../../../../shared/components/InputSearch";
+import PagninationAdmin from "../../../../../shared/components/PaginationAdmin.tsx";
 
 function ImportExportStore() {
 
     const handleSearchStatistical = (value: string, page: number) => {
+
+    }
+
+    const handleLoad = (data:number) => {
 
     }
 
@@ -25,7 +30,7 @@ function ImportExportStore() {
                 <table className="tableCustom">
                     <thead>
                         <tr>
-                            <th colSpan={6} className = "text-center">Thông tin sản phẩm</th>
+                            <th colSpan={6} className="text-center">Thông tin sản phẩm</th>
                             <th style={{ width: "4rem" }} colSpan={1}>Tồn đầu</th>
                             <th style={{ width: "4rem" }} colSpan={1}>Nhập</th>
                             <th style={{ width: "4rem" }} colSpan={1}>Xuất</th>
@@ -86,6 +91,15 @@ function ImportExportStore() {
                     </tbody>
                 </table>
             </div>
+            <PagninationAdmin
+                totalPages={1}
+                hasNextPage={false}
+                hasPrevPage={false}
+                nextPage={1}
+                prevPage={1}
+                pageIndex={1}
+                gotoPage={(page) => handleLoad(page)}
+            />
         </article>
     );
 }

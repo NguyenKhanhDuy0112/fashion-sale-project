@@ -1,8 +1,13 @@
 import InputSearch from "../../../../../shared/components/InputSearch";
+import PagninationAdmin from "../../../../../shared/components/PaginationAdmin.tsx";
 
 function StoreNotAllow() {
 
     const handleSearchStatistical = (value: string, page: number) => {
+
+    }
+
+    const handleLoad = (data:number) => {
 
     }
 
@@ -70,11 +75,20 @@ function StoreNotAllow() {
                             <td>Cái</td>
                             <td className="text-end">10</td>
                             <td className="text-end">5</td>
-                            
+
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <PagninationAdmin
+                totalPages={1}
+                hasNextPage={false}
+                hasPrevPage={false}
+                nextPage={1}
+                prevPage={1}
+                pageIndex={1}
+                gotoPage={(page) => handleLoad(page)}
+            />
         </article>
     );
 }

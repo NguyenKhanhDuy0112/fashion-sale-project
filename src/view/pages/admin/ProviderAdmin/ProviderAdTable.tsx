@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { AiOutlineEye } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { FiTrash2 } from "react-icons/fi";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 import TableCustom from "../../../../shared/components/TableCustom";
 import { User } from "../../../../shared/interfaces";
 
@@ -21,13 +23,13 @@ function ProviderAdTable(props: Props) {
     }, [data])
 
     return (
-        <TableCustom headers={["#", "Hình", "Tên", "Số điện thoại", "email", "Hành động"]}>
+        <TableCustom headers={["#", "Hình", "Tên", "Số điện thoại", "email", "Chi Tiết", "Hành động"]}>
             {
                 isLoading
                     ?
                     Array.from({ length: 8 }).map((tr, index) => (
                         <tr key={index}>
-                            {Array.from({ length: 6 }).map((td, idx) => (
+                            {Array.from({ length: 7 }).map((td, idx) => (
                                 <td key={idx}><Skeleton /></td>
                             ))}
                         </tr>
@@ -44,6 +46,13 @@ function ProviderAdTable(props: Props) {
                                     <td>{user.name}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.email}</td>
+                                    <td className="">
+                                        <div className="d-flex justify-content-center">
+                                            <Link to={`/admin/customers/${user._id}`} className="cursor-pointer btn-edit">
+                                                <AiOutlineEye size={20} />
+                                            </Link>
+                                        </div>
+                                    </td>
                                     <td >
                                         <div className="d-flex justify-content-center">
                                             <span onClick={() => onEditUser(user._id ? user._id : '')} className="btn-edit cursor-pointer me-1">
@@ -60,7 +69,7 @@ function ProviderAdTable(props: Props) {
                         <tr>
                             <td className="text-center" colSpan={7}>
                                 <div className="d-flex flex-column justify-content-center align-items-center">
-                                    <img style={{width: "200px", height: "200px"}} src="https://frontend.tikicdn.com/_desktop-next/static/img/account/empty-order.png" alt="" />
+                                    <img style={{ width: "200px", height: "200px" }} src="https://frontend.tikicdn.com/_desktop-next/static/img/account/empty-order.png" alt="" />
                                     <p className="mt-2 mb-0">Không có dữ liệu.</p>
                                 </div>
                             </td>
