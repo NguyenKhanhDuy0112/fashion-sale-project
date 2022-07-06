@@ -66,7 +66,7 @@ function FooterClient() {
                             <h5 className="footerClient__title">Về Tiki</h5>
                             <ul className="footerClient__list">
                                 <li className="footerClient__item">
-                                    <Link to="/" className="footerClient__item-link">
+                                    <Link to="/gioi-thieu-ve-tiki" className="footerClient__item-link">
                                         Giới thiệu Tiki
                                     </Link>
                                 </li>

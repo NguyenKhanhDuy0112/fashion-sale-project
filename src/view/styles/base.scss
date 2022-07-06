@@ -237,7 +237,6 @@ li {
     font-size: 0.9rem;
 }
 .modal__body-ad {
-
 }
 
 input[type="date"]::before {
@@ -249,40 +248,36 @@ input[type="date"]:focus::before {
 }
 
 .react-tag-input {
-    
     padding: 0.3rem 0.5rem !important;
     border: 1px solid #ccc !important;
     width: 100% !important;
     outline: none !important;
     line-height: 1.25rem !important;
-    border-radius: 10px; 
+    border-radius: 10px;
 
-    &:focus{
+    &:focus {
         background-color: #fff;
         border-color: #2684ff;
     }
 }
 
-.bg-outside-client{
+.bg-outside-client {
     background-color: $bg-container;
     min-height: 100vh;
 }
 
 .react-tag-input__input {
-
-
-    &::placeholder{
+    &::placeholder {
         font-size: 0.87rem;
-        color: rgb(160,174,192);
+        color: rgb(160, 174, 192);
     }
-
 }
 
-.productAdModal__detail{
+.productAdModal__detail {
     position: relative;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     border-radius: 10px;
-    &-close{
+    &-close {
         position: absolute;
         @include flex-center();
         background-color: $ad-primary-sub;
@@ -293,77 +288,93 @@ input[type="date"]:focus::before {
         height: 25px;
         cursor: pointer;
         border-radius: 50%;
-        transition: all ease .3s;
+        transition: all ease 0.3s;
 
-        &:hover{
+        &:hover {
             background-color: $ad-primary;
             color: white;
         }
-
     }
-
 }
 
 @keyframes fadeIn {
-    from{
+    from {
         opacity: 0;
     }
-    to{
+    to {
         opacity: 1;
     }
 }
 
 @keyframes fadeOut {
-    from{
+    from {
         opacity: 1;
     }
-    to{
+    to {
         opacity: 0;
     }
 }
 
-.border-b-f7{
+.border-b-f7 {
     border-bottom: 1px solid #f7f7f7;
 
-    &.responsive-border{
+    &.responsive-border {
         border-bottom: 1px solid #f7f7f7;
-        @include responsive(xxl-screen){
+        @include responsive(xxl-screen) {
             border-bottom: 0px solid transparent;
         }
     }
 }
 
-.border-r-f7{
+.border-r-f7 {
     border-right: 1px solid #f7f7f7;
 }
 
+.pincode-input-container {
+    .pincode-input-text {
+        padding: 0 !important;
+        margin: 0 5px;
+        text-align: center;
+        border: 1px solid #ccc !important;
+        border-color: transparent transparent #ccc transparent !important;
 
-.pincode-input-container
-{
-  .pincode-input-text
-  {
-    padding:0 !important;
-    margin:0 5px;
-    text-align:center;
-    border: 1px solid #ccc !important;
-    border-color: transparent transparent #ccc  transparent !important;
-    
-    font-size: 2rem;
-    background: transparent;
-    width: 50px;
-    height: 50px;
+        font-size: 2rem;
+        background: transparent;
+        width: 50px;
+        height: 50px;
 
-    &::placeholder{
-        color: #BDBCBC;
+        &::placeholder {
+            color: #bdbcbc;
+        }
     }
-  }
-  .pincode-input-text:focus
-  {
-    outline:none;
-    box-shadow:none;
-    border-color:  transparent transparent $color-blue transparent !important;
-  }
+    .pincode-input-text:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: transparent transparent $color-blue transparent !important;
+    }
 }
 
+.about {
+    & p {
+        font-size: 0.96rem;
+    }
 
+    & h2{
+        font-weight: 600;
+    }
 
+    &-video {
+        &-child {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0px;
+            & iframe {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
