@@ -9,6 +9,7 @@ import OrderAdDetail from "../view/pages/admin/OrderAdDetail"
 import OrderAdmin from "../view/pages/admin/OrderAdmin"
 import ProductAdDetail from "../view/pages/admin/ProductAdDetail"
 import ProductAdmin from "../view/pages/admin/ProductAdmin"
+import ProfileAdmin from "../view/pages/admin/ProfileAdmin"
 import ProviderAdmin from "../view/pages/admin/ProviderAdmin"
 import SellAdmin from "../view/pages/admin/SellAdmin"
 import SettingAdmin from "../view/pages/admin/SettingAdmin"
@@ -34,6 +35,7 @@ const routeAdmin: Route[] = [
     { path: "/coupons", component: <CouponAdmin /> },
     { path: "/setting", component: <SettingAdmin /> },
     { path: "/customers", component: <CustomerAdmin /> },
+    { path: "/customers/:id", component: <ProfileAdmin /> },
     { path: "/providers", component: <ProviderAdmin /> },
     { path: "/statistical", component: <StatisticalAdmin /> },
     { path: "/orders/:id", component: <OrderAdDetail /> },

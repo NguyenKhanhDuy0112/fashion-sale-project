@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { AiOutlineEye } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { FiTrash2 } from "react-icons/fi";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 import TableCustom from "../../../../shared/components/TableCustom";
 import { User } from "../../../../shared/interfaces";
 
@@ -21,12 +23,12 @@ function CustomerAdTable(props: Props) {
     }, [data])
 
     return (
-        <TableCustom headers={["#", "Hình", "Tên", "Số điện thoại", "Ngày tham gia", "email", "Hành động"]}>
+        <TableCustom headers={["#", "Hình", "Tên", "Số điện thoại", "Ngày tham gia", "email", "Chi tiết", "Hành động"]}>
             {isLoading
                 ?
                 Array.from({ length: 8 }).map((tr, index) => (
                     <tr key={index}>
-                        {Array.from({ length: 7 }).map((td, idx) => (
+                        {Array.from({ length: 8 }).map((td, idx) => (
                             <td key={idx}><Skeleton /></td>
                         ))}
                     </tr>
@@ -46,6 +48,13 @@ function CustomerAdTable(props: Props) {
                                 <td>{user.phone}</td>
                                 <td>{user.createdAt ? `${dateJoin.getDate()}/${dateJoin.getMonth() + 1}/${dateJoin.getFullYear()}` : ''}</td>
                                 <td>{user.email}</td>
+                                <td className="">
+                                    <div className="d-flex justify-content-center">
+                                        <Link to={`/admin/customers/${user._id}`} className="cursor-pointer btn-edit">
+                                            <AiOutlineEye size={20} />
+                                        </Link>
+                                    </div>
+                                </td>
                                 <td >
                                     <div className="d-flex justify-content-center">
                                         <span onClick={() => onEditUser(user._id ? user._id : '')} className="btn-edit cursor-pointer me-1">

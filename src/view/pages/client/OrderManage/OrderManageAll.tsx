@@ -76,7 +76,7 @@ function OrderManageAll() {
 
             }
 
-            {!bills &&
+            {!bills && !loading &&
                 <div className="bg-white border-radius-4 p-4">
                     <div className="d-flex flex-column align-items-center">
                         <img style={{ width: "150px" }} src="https://frontend.tikicdn.com/_desktop-next/static/img/account/empty-order.png" alt="" />

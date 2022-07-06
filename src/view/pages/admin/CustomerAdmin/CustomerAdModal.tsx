@@ -36,7 +36,7 @@ function CustomerAdModal({ show, handleClose, user, onLoadData, onModalDelete, s
             handleLoadProvinces()
             user.avatar = [{ dataURL: user.avatar }]
 
-            if (user.address.startsWith('{')) {
+            if (user.address.startsWith('{"p')) {
                 const address = JSON.parse(user.address)
                 handleLoadDistricts(address.province.code)
                 handleLoadVillage(address.province.code, address.district.code)

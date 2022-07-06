@@ -1,0 +1,103 @@
+.profileAdmin {
+    &__header {
+        background-color: #fff;
+        border-radius: 1.75rem;
+
+        box-shadow: 0rem 0.25rem 0.25rem rgb(0, 0, 0, 0.1);
+        &-banner {
+            background-size: cover;
+            background-position: center;
+            min-height: 15.625rem;
+            width: 100%;
+            border-radius: 1.75rem;
+        }
+        &-content {
+            padding: 0.9375rem 1.25rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            @include responsive(xxl-screen){
+                display: flex;
+                flex-direction: row;
+                align-items: none;
+            }
+            &-avatar {
+                width: 6.25rem;
+                height: 6.25rem;
+                position: relative;
+                z-index: 1;
+                margin-top: -3rem;
+                margin-right: 0rem;
+                margin-bottom: 1.5rem;
+
+                @include responsive(xxl-screen){
+                    margin-bottom: 0;
+                    margin-right: 0.625rem;
+                    margin-top: -2.5rem;
+                }
+                & div {
+                    background-size: cover;
+                    background-position: center;
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 50%;
+                }
+            }
+            &-user {
+                display: block;
+
+                @include responsive(xxl-screen){
+                    display: flex;
+                }
+                &-first {
+                    margin-right: 0rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    
+                    @include responsive(xxl-screen){
+                        margin-right: 2rem;
+                        align-items: flex-start;
+                    }
+                }
+                &-second {
+                    margin-top: 2rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    
+                    @include responsive(xxl-screen){
+                        align-items: flex-start;
+                        margin-top: 0rem;
+                    }
+                }
+                &-name {
+                    font-size: 1.1rem;
+                    margin: 0;
+                    color: $ad-primary;
+                }
+                &-phone {
+                    font-size: 0.9rem;
+                    color: #828690;
+                    margin: 0;
+                }
+                &-email {
+                    font-size: 1.1rem;
+                    margin: 0;
+                    color: #46505E;
+                }
+            }
+        }
+    }
+    &__list {
+        background-color: #fff;
+        border-radius: 1.75rem;
+
+        box-shadow: 0rem 0.25rem 0.25rem rgb(0, 0, 0, 0.1);
+
+        &-title{
+            color: $ad-primary;
+            font-size: 1.2rem;
+        }
+    }
+}
