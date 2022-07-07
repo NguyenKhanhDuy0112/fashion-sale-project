@@ -25,17 +25,18 @@ function FollowOrder() {
         if (id) {
             const order = await billsService.findById(id)
             const billDetails: BillDetail[] = await []
-            await order.billDetails.forEach(async (b: any, index: number) => {
-                const productDetail = await productDetailsService.findById(b.productDetail)
-                const product = await productsService.findById(productDetail.product)
-                productDetail.product = await product
-                await billDetails.push({ ...b, productDetail: productDetail })
-                if (index === await order.billDetails.length - 1) {
-                    await setOrder({ ...order, billDetails: billDetails })
-                    setLoading(false)
-                }
-            })
-
+            if (order.billDetails.length > 0) {
+                await order.billDetails.forEach(async (b: any, index: number) => {
+                    const productDetail = await productDetailsService.findById(b.productDetail)
+                    const product = await productsService.findById(productDetail.product)
+                    productDetail.product = await product
+                    await billDetails.push({ ...b, productDetail: productDetail })
+                    if (index === await order.billDetails.length - 1) {
+                        await setOrder({ ...order, billDetails: billDetails })
+                        setLoading(false)
+                    }
+                })
+            }
 
         }
     }

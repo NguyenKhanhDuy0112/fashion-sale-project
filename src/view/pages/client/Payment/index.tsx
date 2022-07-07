@@ -26,12 +26,12 @@ function Payment() {
 
     const handleCalcMoney = useMemo(() => {
         const total = cart.productsChecking.reduce((prev: number, cur: ProductCart) =>
-            prev + (cur.quantity * ((cur.product && cur.product.price) ? (cur.product.price - (cur.product.price * (cur.product.discount ? cur.product.discount / 100 : 0))) : 0)),0
+            prev + (cur.quantity * ((cur.product && cur.product.price) ? (cur.product.price - (cur.product.price * (cur.product.discount ? cur.product.discount / 100 : 0))) : 0)), 0
         )
         return total
     }, [cart.productsChecking])
 
-
+   
     const handleOrder = async () => {
         dispatch(showLoading())
         try {
@@ -43,9 +43,13 @@ function Payment() {
                     user: currentUser._id !== '' ? currentUser._id : ''
                 }
             )
+            const productsChecking = await cart.productsChecking
+        
 
             if (bill) {
-                await cart.productsChecking.forEach(async (pro, index) => {
+                const lengthChecking = await cart.productsChecking.length
+                
+                await productsChecking.forEach(async (pro, index: number) => {
                     await billDetailsService.add(
                         {
                             bill: bill._id,
@@ -54,13 +58,15 @@ function Payment() {
                         }
                     )
 
-                    if (index === await cart.productsChecking.length - 1) {
-                        console.log("Bill: ", bill)
+                    if (index === await lengthChecking - 1) {
+                        console.log("Index: ", index)
+                        console.log("Length: ", lengthChecking - 1)
                         await dispatch(hideLoading())
                         await navigate(`/checkout/payment/success?orderId=${bill._id}`)
-                        await dispatch(deleteProductsByChecking({key: currentUser._id ? currentUser._id : ''}))
+                        await dispatch(deleteProductsByChecking({ key: currentUser._id ? currentUser._id : '' }))
                     }
                 })
+
             }
         }
         catch (err) {
