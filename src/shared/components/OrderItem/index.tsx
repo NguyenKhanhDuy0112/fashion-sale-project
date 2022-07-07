@@ -32,28 +32,30 @@ function OrderItem(props: OrderItemProps) {
     }, [])
 
     const handleLoadBillDetail = async () => {
-        const billDetails = await billsService.getBillDetailsByBillId(bill?._id ? bill._id : '')
-        const billDetailsData: any = await []
-        if (billDetails && billDetails.length > 0) {
-            await billDetails.forEach(async (bdt: any, index: number) => {
-                const productDetail = await productDetailsService.findById(bdt.productDetail)
+        if (bill && bill._id) {
+            const billDetails = await billsService.getBillDetailsByBillId(bill?._id ? bill._id : '')
+            const billDetailsData: any = await []
+            if (billDetails && billDetails.length > 0) {
+                await billDetails.forEach(async (bdt: any, index: number) => {
+                    const productDetail = await productDetailsService.findById(bdt.productDetail)
 
-                const product = await productsService.findById(productDetail.product)
+                    const product = await productsService.findById(productDetail.product)
 
-                productDetail.images = await [productDetail.images[0].image, ...productDetail.images[0].imagesSub]
-                productDetail.color = await productDetail.color.color
-                productDetail.size = await productDetail.size.size
-                productDetail.product = await product
+                    productDetail.images = await [productDetail.images[0].image, ...productDetail.images[0].imagesSub]
+                    productDetail.color = await productDetail.color.color
+                    productDetail.size = await productDetail.size.size
+                    productDetail.product = await product
 
-                await billDetailsData.push({ ...bdt, productDetail: productDetail })
+                    await billDetailsData.push({ ...bdt, productDetail: productDetail })
 
-                if(await index === billDetails.length - 1){
-                    await setBillDetails(billDetailsData)
-                    setLoadingItem(false)
-                }
-            })
+                    if (await index === billDetails.length - 1) {
+                        await setBillDetails(billDetailsData)
+                        setLoadingItem(false)
+                    }
+                })
+            }
         }
-       
+
     }
 
 
@@ -96,7 +98,7 @@ function OrderItem(props: OrderItemProps) {
             </div>
             <div className="orderItem__body py-2">
                 {
-                    (loading && loadingItem) ?
+                    (loadingItem) ?
                         <div className="row">
                             <div className="col-3">
                                 <Skeleton height={80} />
@@ -115,7 +117,7 @@ function OrderItem(props: OrderItemProps) {
                                         style={{ backgroundImage: `url(${bdDt.productDetail.images[0]})` }}
                                     ></div>
                                     <div className="ms-2">
-                                        <Link to = {`/products/${bdDt.productDetail.product.slug}`} className="orderItem__body-title">
+                                        <Link to={`/products/${bdDt.productDetail.product.slug}`} className="orderItem__body-title">
                                             {bdDt.productDetail?.product && bdDt.productDetail?.product.name}
                                         </Link>
                                         <div className="d-flex align-item-center">
@@ -139,7 +141,7 @@ function OrderItem(props: OrderItemProps) {
                         })
                 }
             </div>
-            {!loading && !loadingItem &&
+            {!loadingItem &&
 
                 <div className="orderItem__footer d-flex justify-content-end pt-2">
                     <div className="d-flex flex-column">
@@ -158,7 +160,7 @@ function OrderItem(props: OrderItemProps) {
                             </button>
                             {status !== 0 && status !== 3 &&
                                 <button
-                                    onClick={() => navigate("/order/history/1")}
+                                    onClick={() => navigate(`/order/tracking/${bill ? bill._id : ''}}`)}
                                     className="orderItem__footer-btn ms-1"
                                 >
                                     Theo dõi đơn

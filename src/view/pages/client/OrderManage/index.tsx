@@ -33,6 +33,8 @@ function OrderManage() {
         setTab(orders[0])
     }, [])
 
+    console.log(currentUser)
+
 
     return (
         <>
@@ -78,21 +80,12 @@ function OrderManage() {
                                     </li>
                                 ))}
                             </ul>
-                            <div className={`${tab?.status === 5 ? 'd-block' : 'd-none'}`}>
-                                <OrderManageAll />
-                            </div>
-                            <div className={`${tab?.status === 1 ? 'd-block' : 'd-none'}`}>
-                                <OrderManageDeal />
-                            </div>
-                            <div className={`${tab?.status === 2 ? 'd-block' : 'd-none'}`}>
-                                <OrderManageShipping />
-                            </div>
-                            <div className={`${tab?.status === 3 ? 'd-block' : 'd-none'}`}>
-                                <OrderManageShipped />
-                            </div>
-                            <div className={`${tab?.status === 0 ? 'd-block' : 'd-none'}`}>
-                                <OrderManageCancel />
-                            </div>
+                            {tab?.status === 5 && <OrderManageAll />}
+                            {tab?.status === 1 && <OrderManageDeal />}
+                            {tab?.status === 2 && <OrderManageShipping />}
+                            {tab?.status === 3 && <OrderManageShipped />}
+                            {tab?.status === 0 && <OrderManageCancel />}
+                            
 
                         </div>
                     </div>

@@ -98,4 +98,24 @@
         font-size: 0.9rem;
         color: #4a4a4a;
     }
+
+    &__btn{
+        &-cancel{
+            border: none;
+            outline: none;
+            color: #4A4A4A;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.95rem;
+            background-color: #FDDA3F;
+        }
+        &-follow{
+            font-weight: 600;
+            padding: 7px 15px;
+        }
+    }
+    &__back{
+        font-size: 0.9rem;
+        color: rgb(11,116,229);
+    }
 }

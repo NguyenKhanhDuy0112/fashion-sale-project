@@ -138,7 +138,7 @@ function OrderSuccess() {
                                                 <p className="mb-0 orderSuccess__bill-header-code">
                                                     Mã đơn hàng
                                                 </p>
-                                                <Link to="" className="orderSuccess__bill-header-view">
+                                                <Link to={`/order/history/${bill?._id}`} className="orderSuccess__bill-header-view">
                                                     Xem đơn hàng
                                                 </Link>
                                             </div>

@@ -17,8 +17,9 @@ function OrderManageCancel() {
 
     const handleLoadAllByUser = async () => {
         try {
+            console.log(currentUser._id)
             let bills = await billsService.findByStatusUser(currentUser._id ? currentUser._id : '', 0)
-
+        
             if (bills) {
                 bills = await bills.data
 

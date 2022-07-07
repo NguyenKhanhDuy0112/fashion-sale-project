@@ -13,6 +13,7 @@ import CommentSelled from "../view/pages/client/CommentSelled";
 import Address from "../view/pages/client/Address";
 import OrderSuccess from "../view/pages/client/OrderSuccess";
 import About from "../view/pages/client/About";
+import FollowOrder from "../view/pages/client/FollowOrder";
 
 interface Route {
     path: string,
@@ -24,6 +25,7 @@ const routeClient: Route[] = [
     {path: "/gioi-thieu-ve-tiki", component: <About/>},
     {path:  "/account" , component: <Account />},
     {path: "/order/history", component: <OrderManage/>},
+    {path: "/order/tracking/:id", component: <FollowOrder/>},
     {path: "/order/history/:id", component: <OrderDetail/>},
     {path: "/account/edit", component: <EditAccount/>},
     {path: "/customer/wishlist", component: <Wishlist/>},

@@ -18,8 +18,8 @@ function OrderManageShipped() {
     const handleLoadAllByUser = async () => {
         try {
             let bills = await billsService.findByStatusUser(currentUser._id ? currentUser._id : '', 3)
-
-            if (bills) {
+            
+            if (await bills.data) {
                 bills = await bills.data
 
                 const billData: Bill[] = []
@@ -47,6 +47,9 @@ function OrderManageShipped() {
                 })
 
             }
+            else{
+                await setLoading(false)
+            }
 
         } catch (err) {
             setLoading(false)
@@ -54,7 +57,7 @@ function OrderManageShipped() {
         }
     }
 
-    console.log(bills)
+   
 
     return (
         <article>

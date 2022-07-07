@@ -54,10 +54,11 @@ function Payment() {
                         }
                     )
 
-                    if (index === cart.productsChecking.length - 1) {
-                        dispatch(hideLoading())
-                        navigate(`/checkout/payment/success?orderId=${bill._id}`)
-                        dispatch(deleteProductsByChecking({key: currentUser._id ? currentUser._id : ''}))
+                    if (index === await cart.productsChecking.length - 1) {
+                        console.log("Bill: ", bill)
+                        await dispatch(hideLoading())
+                        await navigate(`/checkout/payment/success?orderId=${bill._id}`)
+                        await dispatch(deleteProductsByChecking({key: currentUser._id ? currentUser._id : ''}))
                     }
                 })
             }
@@ -67,6 +68,8 @@ function Payment() {
             dispatch(showToast({ show: true, text: 'Đặt hàng thất bại', type: 'error', delay: 1500 }))
         }
     }
+
+
 
     return (
         <>

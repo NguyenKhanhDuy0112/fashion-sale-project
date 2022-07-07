@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import Skeleton from "react-loading-skeleton";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import FooterClient from "../../../../layout/client/FooterClient";
 import HeaderClient from "../../../../layout/client/HeaderClient";
 import HeaderMobileTitle from "../../../../layout/client/HeaderMobileTitle";
@@ -17,6 +17,7 @@ function OrderDetail() {
     const [bill, setBill] = useState<Bill>()
     const [loading, setLoading] = useState(true)
     const { id } = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
         handleLoadBill()
@@ -47,7 +48,6 @@ function OrderDetail() {
         }
     }
 
-    console.log("Bill detail: ", bill)
 
     return (
         <>
@@ -82,7 +82,7 @@ function OrderDetail() {
                         </div>
                         <div className="col">
                             <h5 className="editAccount__title mb-4">
-                                {loading ? <Skeleton /> : `Chi tiết đơn hàng #${id} - ${bill?.status === 0 ? 'Hủy' : bill?.status === 1 ? 'Chờ xử lý' : bill?.status === 2 ? 'Đang giao' : 'Giao thành công'}`}
+                                {loading ? <Skeleton /> : `Chi tiết đơn hàng #${id?.slice(0, 6)} - ${bill?.status === 0 ? 'Hủy' : bill?.status === 1 ? 'Chờ xử lý' : bill?.status === 2 ? 'Đang giao' : 'Giao thành công'}`}
                             </h5>
                             <div className="d-flex mb-3 justify-content-end">
                                 <span className="orderDetail__date">
@@ -112,8 +112,8 @@ function OrderDetail() {
                                         <div className="orderDetail__info p-2 border-radius-4">
                                             <p className="mb-0 orderDetail__info-title">Giao Tiết Kiệm</p>
                                             <p className="mb-0 orderDetail__info-title">
-                                                Giao vào 
-                                                {getDayInWeek((bill && bill.shippedDate) ? new Date(bill.shippedDate) : new Date())}, 
+                                                Giao vào
+                                                {getDayInWeek((bill && bill.shippedDate) ? new Date(bill.shippedDate) : new Date())},
                                                 {formatDate((bill && bill.shippedDate) ? new Date(bill.shippedDate) : new Date(), "dd/MM/yyyy")}
                                             </p>
                                             <p className="mb-0 orderDetail__info-title">Miễn phí vận chuyển</p>
@@ -158,10 +158,26 @@ function OrderDetail() {
                                                 {formatCashVND(bill?.totalPrice + "", ".")}đ
                                             </span>
                                         </p>
+                                        <div className="d-flex justify-content-end">
+                                            <button className={`orderDetail__btn-cancel ${bill?.status === 1 ? 'd-block' : 'd-none'}`}>
+                                                Hủy đơn hàng
+                                            </button>
+                                        </div>
                                     </div>}
                             </div>
+
+                            <div className="d-flex align-items-center mt-3">
+                                <Link to="/order/history" className="orderDetail__back">
+                                    {`<< Quay lại đơn hàng của tôi`}
+                                </Link>
+                                <button onClick={() => navigate(`/order/tracking/${bill?._id}`)} className={`orderDetail__btn-cancel orderDetail__btn-follow ms-2 ${bill?.status === 0 ? 'd-none' : 'd-block'}`}>
+                                    Theo dõi đơn hàng
+                                </button>
+                            </div>
                         </div>
+
                     </div>
+
                 </div>
             </section>
 

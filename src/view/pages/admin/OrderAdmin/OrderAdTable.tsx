@@ -24,7 +24,7 @@ function OrderAdTable(props: Props) {
     }, [data])
 
     const handleChangeStatus = async (bill: Bill, value: string) => {
-        await billsService.update(bill._id ? bill._id : '', {...bill, status: +value})
+        await billsService.update(bill._id ? bill._id : '', {...bill, shippedDate: +value === 3 ? new Date() : bill.shippedDate ,status: +value})
         await dispatch(showToast({ show: true, text: "Cập nhật trạng thái thành công", type: "success", delay: 1500 }))
         await onLoadData()
     }

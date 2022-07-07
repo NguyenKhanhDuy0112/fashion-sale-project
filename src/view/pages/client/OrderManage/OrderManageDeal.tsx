@@ -19,7 +19,7 @@ function OrderManageDeal() {
         try {
             let bills = await billsService.findByStatusUser(currentUser._id ? currentUser._id : '', 1)
 
-            if (bills) {
+            if (await bills.data) {
                 bills = await bills.data
 
                 const billData: Bill[] = []
@@ -45,7 +45,9 @@ function OrderManageDeal() {
                         await setLoading(false)
                     }
                 })
-
+            }
+            else{
+                await setLoading(false)
             }
 
         } catch (err) {
