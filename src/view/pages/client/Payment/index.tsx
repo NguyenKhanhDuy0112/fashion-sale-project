@@ -31,7 +31,7 @@ function Payment() {
         return total
     }, [cart.productsChecking])
 
-   
+
     const handleOrder = async () => {
         dispatch(showLoading())
         try {
@@ -44,12 +44,17 @@ function Payment() {
                 }
             )
             const productsChecking = await cart.productsChecking
-        
+
 
             if (bill) {
                 const lengthChecking = await cart.productsChecking.length
-                
+
                 await productsChecking.forEach(async (pro, index: number) => {
+                    console.log("Bill Detail: ", {
+                        bill: bill._id,
+                        quantity: pro.quantity,
+                        productDetail: pro._id
+                    })
                     await billDetailsService.add(
                         {
                             bill: bill._id,
@@ -57,6 +62,8 @@ function Payment() {
                             productDetail: pro._id
                         }
                     )
+                    
+                    console.log("Length: ", lengthChecking)
 
                     if (index === await lengthChecking - 1) {
                         console.log("Index: ", index)
