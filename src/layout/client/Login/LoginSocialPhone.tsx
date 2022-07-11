@@ -72,6 +72,7 @@ function LoginSocialPhone(props: LoginSocialProps) {
             configureCaptcha()
             const phoneNumber = `+84${formik.values.phoneNumber.slice(1, formik.values.phoneNumber.length)}`;
             const appVerifier = window.recaptchaVerifier;
+            console.log(phoneNumber)
             
             signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
                 .then((confirmationResult) => {
