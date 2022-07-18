@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Spinner } from "react-bootstrap";
 import productsService from "../../../../services/productService";
 import ProductItem from "../../../../shared/components/ProductItem";
 import { Pagination, Product, ProductDetail } from "../../../../shared/interfaces";
@@ -6,16 +7,47 @@ import { Pagination, Product, ProductDetail } from "../../../../shared/interface
 function HomeProduct() {
     const [products, setProducts] = useState<Product[]>([])
     const [pagination, setPagination] = useState<Pagination>()
-    const [loading, setLoading] = useState(true)
-    const [loadingMore, setLoadingMore] = useState(false)
+    const [loading, setLoading] = useState<boolean>(true)
+    const [loadingMore, setLoadingMore] = useState<boolean>(false)
+    const list = useRef<any>(null)
+    const [scroll, setScroll] = useState<number>(0)
+    const [sizeWidth, setSizeWidth] = useState<number>(0)
+
+    useEffect(() => {
+        setSizeWidth(window.innerWidth)
+    },[])
 
     useEffect(() => {
         handleLoadProducts()
     }, [])
 
+    useEffect(() => {
+        const handleResize: EventListener = (e: Event) => {
+            const window = e.currentTarget as Window
+            setSizeWidth(window.innerWidth)
+        }
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [sizeWidth])
+
+    useEffect(() => {
+        const handleScroll: EventListener = (e: Event) => {
+            if ((sizeWidth < 1200 || window.innerWidth < 1200) ) {
+                const window = e.currentTarget as Window
+                if (window.scrollY + window.innerHeight >= list.current.clientHeight + list.current.offsetTop) {
+                    setLoadingMore(true);
+                    handleLoadMoreProduct(pagination ? pagination.nextPage : 1)
+                }
+                setScroll(window.scrollY)
+            }
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [scroll, sizeWidth])
+
     const handleLoadProducts = async () => {
         try {
-            const products = await productsService.listPagination(1, 30)
+            const products = await productsService.listPagination(1, (sizeWidth >= 1200 || window.innerWidth >= 1200) ? 30 : 10)
             if (products) {
                 const { data, ...others } = products
                 const newProducts = handleConvertProducts(data)
@@ -31,10 +63,11 @@ function HomeProduct() {
     const handleLoadMoreProduct = async (page: number) => {
         setLoadingMore(true)
         try {
-            const productsMore = await productsService.listPagination(page, 30)
+
+            const productsMore = await productsService.listPagination(page, (sizeWidth >= 1200 || window.innerWidth >= 1200)  ? 30 : 10)
             if (productsMore) {
                 const { data, ...others } = productsMore
-                const newProducts:Product[] = handleConvertProducts(data)
+                const newProducts: Product[] = handleConvertProducts(data)
                 const newProductsData = [...products, ...newProducts]
                 setProducts(newProductsData)
 
@@ -76,7 +109,7 @@ function HomeProduct() {
     return (
         <article className="container-client none">
             <div className="bg-white">
-                <div className="row row-cols-xl-6 row-cols-lg-5 row-cols-2 g-0">
+                <div ref={list} className="row row-cols-xl-6 row-cols-lg-5 row-cols-2 g-0 mb-xl-0 mb-5">
                     {loading ?
                         Array.from({ length: 30 }).map((item: any, index: number) => (
                             <div className="col" key={index}>
@@ -92,9 +125,15 @@ function HomeProduct() {
                         ))
 
                     }
+                    {
+                        loadingMore &&
+                        <div className="d-xl-none d-flex justify-content-center w-100">
+                            <Spinner animation="border" variant="info" />
+                        </div>
+                    }
                 </div>
                 {pagination &&
-                    <div className="d-flex justify-content-center py-3">
+                    <div className="d-xl-flex d-none justify-content-center py-3">
                         <button
                             disabled={!pagination.hasNextPage}
                             onClick={() => handleLoadMoreProduct(pagination.nextPage)}

@@ -11,7 +11,6 @@ import { FiTrash2 } from "react-icons/fi"
 import { useDispatch } from "react-redux";
 import { showToast } from "../../../../modules/toast/toastSlice";
 import ModalAdDelete from "../../../../shared/components/ModalAdDelete";
-
 interface ModalShow {
     show: boolean,
     showModalDelete: boolean

@@ -31,7 +31,9 @@ function Home() {
                 <HomeProduct />
             </div>
             <NavClient />
-            <FooterClient />
+            <div className='d-xl-block d-none'>
+                <FooterClient />
+            </div>
             {currentUser._id !== "" &&
                 <button onClick={() => dispatch(showChat())} className="chat__btn d-xl-block d-none">
                     <span className="chat__btn-icon me-1">
