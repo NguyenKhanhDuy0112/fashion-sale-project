@@ -3,7 +3,7 @@ import useCountdown from "../../hooks/useCountdown";
 
 function Countdown() {
 
-    const timer = useCountdown({endDate: new Date("7/15/2022 23:59")})
+    const timer = useCountdown({endDate: new Date("8/15/2022 23:59")})
 
     useEffect(() => {
 
